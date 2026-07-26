@@ -12,11 +12,15 @@ test("build contains the 53 product shell", async () => {
 
   assert.match(layout, /lang="tr"/i);
   assert.match(layout, /title: "53"/);
-  assert.match(page, /Dostluk baki/);
-  assert.match(page, /Meydan hazırlanıyor/);
+  assert.match(page, /AppSidebar/);
+  assert.match(page, /DashboardView/);
+  assert.match(page, /MatchesView/);
+  assert.match(page, /LeaderboardView/);
   assert.match(page, /\/api\/matches/);
-  assert.match(css, /@media \(max-width: 700px\)/);
+  assert.match(css, /--sidebar-width: 62px/);
+  assert.match(css, /@media \(min-width: 720px\)/);
   assert.ok(serverFiles.includes("index.js"));
-  assert.doesNotMatch(`${layout}\n${page}`, /codex-preview|react-loading-skeleton|Starter Project/i);
+  assert.doesNotMatch(`${layout}\n${page}`, /Dostluk baki|codex-preview|react-loading-skeleton|Starter Project/i);
+  assert.doesNotMatch(page, /<header|<footer/i);
   await access(new URL("../dist/client/", import.meta.url));
 });

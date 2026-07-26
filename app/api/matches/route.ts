@@ -33,7 +33,9 @@ async function readState(db: D1Database): Promise<MatchState> {
     .first<{ data: string; revision: number; updatedAt: string | null }>();
 
   return {
-    matches: validateMatches(JSON.parse(row?.data ?? "[]")),
+    matches: validateMatches(JSON.parse(row?.data ?? "[]"), {
+      allowMissingCivilizations: true,
+    }),
     revision: row?.revision ?? 0,
     updatedAt: row?.updatedAt ?? null,
   };

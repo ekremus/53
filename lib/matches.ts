@@ -1,10 +1,16 @@
+import { civilizationSet, type Civilization } from "./civilizations";
+
 export type Team = "red" | "blue";
+
+export type CivilizationTuple = [Civilization, Civilization, Civilization, Civilization];
 
 export type Match = {
   id: string;
   date: string;
   redTeam: [string, string, string, string];
   blueTeam: [string, string, string, string];
+  redCivilizations: CivilizationTuple;
+  blueCivilizations: CivilizationTuple;
   winner: Team;
 };
 
@@ -47,7 +53,30 @@ function normalizeTeam(value: unknown, label: string) {
   return players as Match["redTeam"];
 }
 
-export function validateMatches(value: unknown): Match[] {
+function normalizeCivilizations(
+  value: unknown,
+  label: string,
+  allowMissingCivilizations: boolean,
+): CivilizationTuple {
+  if (value === undefined && allowMissingCivilizations) {
+    return ["Random", "Random", "Random", "Random"];
+  }
+
+  if (!Array.isArray(value) || value.length !== 4) {
+    throw new Error(`${label} takımında her oyuncu için bir uygarlık seçilmeli.`);
+  }
+
+  return value.map((civilization) => {
+    if (typeof civilization !== "string" || !civilizationSet.has(civilization)) {
+      throw new Error(`${label} takımında geçersiz bir uygarlık var.`);
+    }
+    return civilization as Civilization;
+  }) as CivilizationTuple;
+}
+
+type ValidationOptions = { allowMissingCivilizations?: boolean };
+
+export function validateMatches(value: unknown, options: ValidationOptions = {}): Match[] {
   if (!Array.isArray(value)) throw new Error("Maç listesi geçersiz.");
   if (value.length > 500) throw new Error("En fazla 500 maç saklanabilir.");
 
@@ -73,6 +102,16 @@ export function validateMatches(value: unknown): Match[] {
 
     const redTeam = normalizeTeam(candidate.redTeam, "Kırmızı");
     const blueTeam = normalizeTeam(candidate.blueTeam, "Mavi");
+    const redCivilizations = normalizeCivilizations(
+      candidate.redCivilizations,
+      "Kırmızı",
+      options.allowMissingCivilizations === true,
+    );
+    const blueCivilizations = normalizeCivilizations(
+      candidate.blueCivilizations,
+      "Mavi",
+      options.allowMissingCivilizations === true,
+    );
     const allPlayers = [...redTeam, ...blueTeam].map((name) =>
       name.toLocaleLowerCase("tr-TR"),
     );
@@ -85,8 +124,29 @@ export function validateMatches(value: unknown): Match[] {
       throw new Error(`${index + 1}. maçın kazananını seç.`);
     }
 
-    return { id, date, redTeam, blueTeam, winner: candidate.winner };
+    return {
+      id,
+      date,
+      redTeam,
+      blueTeam,
+      redCivilizations,
+      blueCivilizations,
+      winner: candidate.winner,
+    };
   });
+}
+
+export function playerRoster(matches: Match[]) {
+  const roster = new Map<string, string>();
+  for (const match of matches) {
+    for (const name of [...match.redTeam, ...match.blueTeam]) {
+      const clean = name.trim().replace(/\s+/g, " ");
+      if (!clean) continue;
+      const key = clean.toLocaleLowerCase("tr-TR");
+      if (!roster.has(key)) roster.set(key, clean);
+    }
+  }
+  return [...roster.values()].sort((a, b) => a.localeCompare(b, "tr-TR"));
 }
 
 export async function isEditPasswordValid(value: unknown, expected: string) {

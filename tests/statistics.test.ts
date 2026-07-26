@@ -9,6 +9,8 @@ const matches: Match[] = [
     date: "2026-07-18",
     redTeam: ["Eko", "Can", "Mert", "Ali"],
     blueTeam: ["Bora", "Cem", "Deniz", "Emre"],
+    redCivilizations: ["Turks", "Franks", "Mongols", "Britons"],
+    blueCivilizations: ["Vikings", "Celts", "Spanish", "Japanese"],
     winner: "red",
   },
   {
@@ -16,6 +18,8 @@ const matches: Match[] = [
     date: "2026-07-25",
     redTeam: ["Bora", "Can", "Deniz", "Ali"],
     blueTeam: ["EKO", "Cem", "Mert", "Emre"],
+    redCivilizations: ["Vikings", "Franks", "Spanish", "Britons"],
+    blueCivilizations: ["Turks", "Celts", "Mongols", "Japanese"],
     winner: "blue",
   },
 ];
