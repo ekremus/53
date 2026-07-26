@@ -2,6 +2,8 @@
 
 Haftalık Age of Empires II: Definitive Edition 4v4 maçları için telefon öncelikli ortak maç defteri.
 
+**Canlı adres:** [https://53aoe.vercel.app](https://53aoe.vercel.app)
+
 Uygulama tek bir yatay haftalık matristir: en yeni maç soldadır, eski haftalar sağa doğru devam eder. Cortinyanlar ve Bakracoğulları için dört oyuncu, oyuncuların uygarlıkları, maç tarihi ve kazanan takım tutulur. Takım skorları ile oyuncu istatistikleri otomatik hesaplanır.
 
 ## Ekranlar
