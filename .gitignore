@@ -41,3 +41,5 @@ next-env.d.ts
 /outputs/
 /work/
 /.superpowers/
+/.impeccable/mocks/
+/.impeccable/meydan-surface-brief.md
