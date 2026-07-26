@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 
 const cdpRoot = process.env.CDP_ENDPOINT ?? "http://127.0.0.1:9223";
-const appUrl = process.env.APP_URL ?? "http://127.0.0.1:4173/";
+const appUrl = new URL(process.env.APP_URL ?? "http://127.0.0.1:4173/");
 const outputDirectory = new URL("../.impeccable/qa/", import.meta.url);
 
 async function createTarget(url) {
@@ -39,26 +39,66 @@ function createSession(webSocketUrl) {
 }
 
 async function evaluate(session, expression) {
-  const result = await session.send("Runtime.evaluate", {
-    expression,
-    awaitPromise: true,
-    returnByValue: true,
-  });
-  if (result.exceptionDetails) throw new Error(result.exceptionDetails.text);
+  const result = await session.send("Runtime.evaluate", { expression, awaitPromise: true, returnByValue: true });
+  if (result.exceptionDetails) throw new Error(result.exceptionDetails.exception?.description ?? result.exceptionDetails.text);
   return result.result.value;
 }
 
 async function capture(session, name) {
   const result = await session.send("Page.captureScreenshot", { format: "png", fromSurface: true });
-  await writeFile(new URL(name, outputDirectory), Buffer.from(result.data, "base64"));
+  await writeFile(new URL(`${name}.png`, outputDirectory), Buffer.from(result.data, "base64"));
 }
 
-async function inspectViewport({ width, height, name, states = [] }) {
+async function waitForReady(session) {
+  await evaluate(session, `new Promise((resolve) => {
+    const done = () => !document.querySelector('[aria-busy="true"]');
+    if (done()) return resolve(true);
+    const timer = setInterval(() => { if (done()) { clearInterval(timer); resolve(true); } }, 50);
+    setTimeout(() => { clearInterval(timer); resolve(false); }, 6000);
+  })`);
+  await evaluate(session, `Promise.all([...document.images].map((image) => image.complete ? true : new Promise((resolve) => {
+    image.addEventListener('load', () => resolve(true), { once: true });
+    image.addEventListener('error', () => resolve(false), { once: true });
+  })))`);
+}
+
+async function metrics(session) {
+  return evaluate(session, `(() => {
+    const matrix = document.querySelector('.match-matrix');
+    const rail = document.querySelector('.matrix-rail');
+    const originalScrollLeft = matrix?.scrollLeft ?? 0;
+    if (matrix) matrix.scrollLeft = 0;
+    const railLeftBefore = rail?.getBoundingClientRect().left ?? null;
+    if (matrix) matrix.scrollLeft = Math.min(260, matrix.scrollWidth - matrix.clientWidth);
+    const railLeftAfter = rail?.getBoundingClientRect().left ?? null;
+    if (matrix) matrix.scrollLeft = originalScrollLeft;
+    return {
+      innerWidth,
+      innerHeight,
+      documentScrollWidth: document.documentElement.scrollWidth,
+      documentScrollHeight: document.documentElement.scrollHeight,
+      matrixClientWidth: matrix?.clientWidth ?? null,
+      matrixScrollWidth: matrix?.scrollWidth ?? null,
+      matrixScrollLeft: originalScrollLeft,
+      railLeftBefore,
+      railLeftAfter,
+      matchColumns: document.querySelectorAll('[data-match-column], [data-edit-match]').length,
+      failedImages: [...document.images].filter((image) => !image.complete || image.naturalWidth === 0).map((image) => image.src),
+      openDialogs: [...document.querySelectorAll('dialog[open]')].map((dialog) => dialog.id),
+      runtimeErrors: globalThis.__qaErrors ?? [],
+    };
+  })()`);
+}
+
+async function inspectPage({ route, width, height, name, action }) {
   const target = await createTarget("about:blank");
   const session = createSession(target.webSocketDebuggerUrl);
   await session.ready;
   await session.send("Page.enable");
   await session.send("Runtime.enable");
+  await session.send("Page.addScriptToEvaluateOnNewDocument", {
+    source: `globalThis.__qaErrors = []; addEventListener('error', (event) => __qaErrors.push(event.message)); addEventListener('unhandledrejection', (event) => __qaErrors.push(String(event.reason)));`,
+  });
   await session.send("Emulation.setDeviceMetricsOverride", {
     width,
     height,
@@ -67,93 +107,30 @@ async function inspectViewport({ width, height, name, states = [] }) {
     screenWidth: width,
     screenHeight: height,
   });
-  await session.send("Page.navigate", { url: appUrl });
-  await new Promise((resolve) => setTimeout(resolve, 1400));
-  await evaluate(session, `Promise.all([...document.images].map((image) => image.complete ? true : new Promise((resolve) => {
-    image.addEventListener('load', () => resolve(true), { once: true });
-    image.addEventListener('error', () => resolve(false), { once: true });
-  })))`);
-  const metrics = await evaluate(session, `({
-    innerWidth,
-    innerHeight,
-    scrollWidth: document.documentElement.scrollWidth,
-    scrollHeight: document.documentElement.scrollHeight,
-    title: document.title,
-    matches: document.querySelectorAll('[data-match-id]').length,
-    failedImages: [...document.images].filter((image) => !image.complete || image.naturalWidth === 0).map((image) => image.src),
-  })`);
-  await capture(session, `${name}-home.png`);
-  const stateMetrics = {};
-  for (const state of states) {
-    await evaluate(session, state.expression);
-    await new Promise((resolve) => setTimeout(resolve, 220));
-    stateMetrics[state.name] = await evaluate(session, `({
-      openDialogs: [...document.querySelectorAll('dialog[open]')].map((dialog) => ({
-        id: dialog.id,
-        left: dialog.getBoundingClientRect().left,
-        right: dialog.getBoundingClientRect().right,
-        width: dialog.getBoundingClientRect().width,
-        scrollWidth: dialog.scrollWidth,
-        closeButton: dialog.querySelector('[data-close-dialog]')?.getBoundingClientRect().toJSON(),
-        closeStyle: dialog.querySelector('[data-close-dialog]') ? {
-          display: getComputedStyle(dialog.querySelector('[data-close-dialog]')).display,
-          visibility: getComputedStyle(dialog.querySelector('[data-close-dialog]')).visibility,
-          opacity: getComputedStyle(dialog.querySelector('[data-close-dialog]')).opacity,
-          color: getComputedStyle(dialog.querySelector('[data-close-dialog]')).color,
-          border: getComputedStyle(dialog.querySelector('[data-close-dialog]')).border,
-        } : null,
-        elementAtCloseCenter: document.elementFromPoint(353, 59)?.outerHTML,
-      })),
-    })`);
-    await capture(session, `${name}-${state.name}.png`);
+  await session.send("Page.navigate", { url: new URL(route, appUrl).href });
+  await waitForReady(session);
+  if (action) {
+    await evaluate(session, action);
+    await new Promise((resolve) => setTimeout(resolve, 180));
   }
+  const result = await metrics(session);
+  await capture(session, name);
   session.close();
-  return { ...metrics, states: stateMetrics };
+  return result;
 }
 
 await mkdir(outputDirectory, { recursive: true });
 
-const mobileStates = [
-  {
-    name: "menu",
-    expression: `document.querySelector('#fab').click()`,
-  },
-  {
-    name: "credential",
-    expression: `document.querySelector('[data-fab-action="credential"]').click()`,
-  },
-  {
-    name: "editor",
-    expression: `(async () => {
-      document.querySelector('#credential-dialog')?.close();
-      const state = await fetch('./data/state.json').then((response) => response.json());
-      const module = await import('./lib/editor.js');
-      const model = await import('./lib/model.js');
-      const draft = model.createEmptyMatch(state, '2026-08-02');
-      const ids = state.players.filter((player) => player.active).map((player) => player.id).slice(0, 8);
-      state.teams.forEach((team, teamIndex) => draft.teams[team.id].forEach((slot, index) => { slot.playerId = ids[teamIndex * 4 + index]; }));
-      document.querySelector('[data-match-form-fields]').innerHTML = module.renderMatchForm(draft, state);
-      document.querySelector('#edit-dialog').showModal();
-    })()`,
-  },
-  {
-    name: "players",
-    expression: `(async () => {
-      document.querySelector('#edit-dialog')?.close();
-      const state = await fetch('./data/state.json').then((response) => response.json());
-      const module = await import('./lib/editor.js');
-      document.querySelector('[data-player-manager]').innerHTML = module.renderPlayerManager(state);
-      document.querySelector('#players-dialog').showModal();
-    })()`,
-  },
+const checks = [
+  { route: "/", width: 320, height: 700, name: "public-320" },
+  { route: "/", width: 390, height: 844, name: "public-390" },
+  { route: "/", width: 1440, height: 1000, name: "public-1440" },
+  { route: "/", width: 390, height: 844, name: "public-390-scrolled", action: `document.querySelector('.match-matrix').scrollLeft = 260` },
+  { route: "/edit/", width: 320, height: 700, name: "edit-320" },
+  { route: "/edit/", width: 390, height: 844, name: "edit-390" },
+  { route: "/edit/", width: 390, height: 844, name: "edit-players-390", action: `document.querySelector('[data-open-players]').click()` },
+  { route: "/stats/", width: 390, height: 844, name: "stats-390" },
 ];
 
-const compactStates = mobileStates.filter((state) => state.name === "editor");
-
-const [compact, mobile, desktop] = await Promise.all([
-  inspectViewport({ width: 320, height: 700, name: "compact", states: compactStates }),
-  inspectViewport({ width: 390, height: 844, name: "mobile", states: mobileStates }),
-  inspectViewport({ width: 1440, height: 1000, name: "desktop" }),
-]);
-
-console.log(JSON.stringify({ compact, mobile, desktop }, null, 2));
+const results = await Promise.all(checks.map(async (check) => [check.name, await inspectPage(check)]));
+console.log(JSON.stringify(Object.fromEntries(results), null, 2));

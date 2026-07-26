@@ -2,49 +2,39 @@
 version: 1
 slug: "docs-index-html"
 primary_target: "docs/index.html"
-related_targets: []
+related_targets:
+  - "docs/edit/index.html"
+  - "docs/stats/index.html"
 ---
 
 # Surface
 
 - Target: `docs/index.html`
 - Mode: Operate
-- Scope: Public mobile match ledger plus protected match/player editing dialogs.
+- Scope: Public weekly matrix with matching open editor and separate player standings.
 
 ## Audience and job
 
-Friends open the page on a phone after or between weekly AoE2 DE 4v4 games. Within seconds they need the current Cortinyanlar–Bakracoğulları rivalry, the latest lineup and civilizations, recent results, and player standing. Trusted collaborators need to add a complete match without raw JSON.
+Friends open the site almost entirely on phones during or after a weekly AoE2 DE 4v4. They need to see the current Cortinyanlar–Bakracoğulları score and inspect every player/civilization lineup without learning navigation. Anyone with the link may edit and publish the shared record.
 
 ## Primary task and content
 
-The public task is scan-first: identify the season score, inspect the most recent match, then continue into compact match and player tables. The editing task begins only from the lower-right FAB and uses native form controls with central player identities.
+The public route begins with the named rivalry score and then one horizontal newest-first matrix. A sticky 108 px rail preserves team/slot meaning while 260 px match columns move under the finger. `/edit/` keeps this exact geometry and exposes native selects; `/stats/` contains only derived player standings.
 
 ## Constraints
 
-- No header, footer, sidebar, bottom navigation, marketing copy, runtime backend, third-party script, or embedded secret.
-- Mobile Safari and 320px width are the source of truth.
-- Exact product/team names and the real two-match production data must be preserved.
-- Every match stays exactly 4v4 with one valid civilization per player.
+- Exact product and team names, two seeded matches, ten players, and 53 current civilization assets are preserved.
+- No duplicated latest/recent/archive match views.
+- No password, PIN, GitHub token, login, sidebar, header bar, footer, bottom navigation, or external runtime dependency.
+- Mobile Safari, 320 px width, safe areas, 44 px touch targets, and visible focus are binding.
+- Runtime hosting, API, and private JSON state stay inside one Vercel project; GitHub remains source only.
 
 ## Chosen direction
 
-**Meydan Defteri / Interlocking Tournament Banner.** The approved north star is `.impeccable/mocks/meydan-c-banner.png`, informed by the original `public/og.png`. A compact walnut-and-bronze 53 crest opens directly into one blue/orange rivalry banner. A continuous parchment ledger carries the latest lineup, result chronology, and player ranking. The memorable moment is the timber crest becoming the score banner and then resolving into real data without a navigation break.
+**The Weekly War Ledger.** The supplied Excel matrix controls information architecture; the supplied mobile AoE2 row controls cell hierarchy. Command navy, parchment, bronze rules, full blue/orange team fields, a green winner row, and real civilization crests make the AoE2 atmosphere unmistakable without copying the game interface.
 
-Do not literalize the comp’s giant crest, illustrated placeholder glyphs, full ornamental frame, or raster text. The 53 hero is capped near one-quarter of the first viewport; names, statistics, controls, borders, and tables remain semantic HTML/CSS. Real AoE2 civ PNGs replace invented crests.
-
-## Ingredient inventory
-
-| Ingredient | Implementation medium | Decision |
-| --- | --- | --- |
-| 53 walnut/parchment identity | Existing raster `public/og.png`, cropped responsively | Produce as local `docs/assets/hero-53.png` |
-| Rivalry banner | Semantic HTML/CSS, named team fields | Blue and burnt orange woven-color fields with bronze center seal |
-| Parchment ledger | CSS solid surfaces, borders, restrained shadow | No generated CSS texture or nested cards |
-| Civilization crests | Sourced local PNG assets | Vendor 53 AoE2 Tech Tree icons plus project Random SVG |
-| Match rows and standings | Semantic HTML lists/tables | Real names and statistics only |
-| Floating edit control | Semantic button + CSS | One circular lower-right control; no bottom bar |
-| Edit/player workflows | Native dialog, form, select, input | Keep labels and data as DOM text |
-| Motion | CSS state transition | One menu unfold and dialog sheet transition; reduced-motion fallback |
+The memorable interaction is not a hero: it is the rail staying fixed while complete old weeks continue rightward. The public and editor matrices are the same object in two states.
 
 ## Unresolved decisions
 
-None. The user delegated best-practice decisions and requested uninterrupted completion.
+None. Open editing and Vercel-only runtime were explicitly approved.

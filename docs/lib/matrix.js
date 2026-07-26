@@ -14,9 +14,12 @@ function roster(state) {
 }
 
 function railMarkup(state) {
+  const teamName = (team) => team.id === "cortinyanlar"
+    ? "<span>Cortin</span><span>yanlar</span>"
+    : "<span>Bakraco</span><span>ğulları</span>";
   return `<aside class="matrix-rail" aria-hidden="true">
     <div class="rail-date"><strong>Takım</strong><small>Slot</small></div>
-    ${state.teams.map((team) => `<div class="rail-team rail-team--${escapeHtml(team.tone)}"><strong>${escapeHtml(team.name)}</strong>${[1, 2, 3, 4].map((number) => `<span>P${number}</span>`).join("")}</div>`).join("")}
+    ${state.teams.map((team) => `<div class="rail-team rail-team--${escapeHtml(team.tone)}"><strong>${teamName(team)}</strong>${[1, 2, 3, 4].map((number) => `<span>P${number}</span>`).join("")}</div>`).join("")}
     <div class="rail-winner">Kazanan</div>
   </aside>`;
 }

@@ -4,15 +4,16 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=22.11.0"
+    "node": "22.x"
   },
   "scripts": {
-    "dev": "vercel dev --listen 4173",
+    "dev": "python3 -m http.server ${PORT:-4173} -d docs",
+    "dev:vercel": "vercel dev --listen 4173",
     "dev:static": "python3 -m http.server 4173 -d docs",
     "test": "node --test tests/*.test.mjs",
     "assets:civs": "node scripts/sync-civ-assets.mjs",
     "qa:visual": "node scripts/visual-qa.mjs",
-    "data:seed": "node scripts/seed-vercel-blob.mjs"
+    "data:seed": "node --env-file-if-exists=.env.local scripts/seed-vercel-blob.mjs"
   },
   "dependencies": {
     "@vercel/blob": "2.6.1"

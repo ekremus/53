@@ -1,15 +1,18 @@
-import { BlobPreconditionFailedError, get, put } from "@vercel/blob";
+import { BlobPreconditionFailedError, get, head, put } from "@vercel/blob";
 import { validateState } from "../../docs/lib/model.js";
 
 export const STATE_PATH = "state.json";
 
-export function createBlobStateStore({ getBlob = get, putBlob = put } = {}) {
+export function createBlobStateStore({ getBlob = get, headBlob = head, putBlob = put } = {}) {
   return {
     async read() {
-      const blob = await getBlob(STATE_PATH, { access: "private", useCache: false });
+      const [blob, metadata] = await Promise.all([
+        getBlob(STATE_PATH, { access: "private", useCache: false }),
+        headBlob(STATE_PATH),
+      ]);
       if (!blob?.stream) throw new Error("state.json bulunamadı.");
       const state = validateState(JSON.parse(await new Response(blob.stream).text()));
-      return { state, etag: blob.etag };
+      return { state, etag: metadata.etag };
     },
 
     async write(state, { ifMatch }) {

@@ -158,6 +158,8 @@ a {
 
 .sr-only {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 1px;
   height: 1px;
   padding: 0;
@@ -387,25 +389,27 @@ a {
 
 .rail-team {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 29px;
+  grid-template-columns: minmax(0, 1fr) 24px;
   grid-template-rows: repeat(4, var(--row));
   border-bottom: 1px solid var(--navy-deep);
 }
 
 .rail-team strong {
   display: flex;
+  flex-direction: column;
   grid-row: 1 / 5;
   align-items: center;
+  justify-content: center;
   min-width: 0;
   padding: 8px;
   overflow: hidden;
   font-family: "Alegreya", Georgia, serif;
-  font-size: 0.89rem;
-  line-height: 1.05;
-  overflow-wrap: anywhere;
+  font-size: 0.82rem;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
 }
 
-.rail-team span {
+.rail-team > span {
   display: grid;
   place-items: center;
   border-left: 1px solid rgb(255 255 255 / 28%);
@@ -451,6 +455,9 @@ a {
 .match-column {
   flex: 0 0 var(--week);
   width: var(--week);
+  min-width: var(--week);
+  max-width: var(--week);
+  overflow: hidden;
   scroll-snap-align: start;
   background: var(--paper-light);
   border-right: 1px solid var(--rule-dark);
@@ -703,6 +710,7 @@ a {
 .match-column__date input,
 .matrix-winner--editable select {
   width: 100%;
+  min-width: 0;
   min-height: 28px;
   border: 0;
   border-bottom: 1px solid var(--rule-dark);
@@ -762,7 +770,8 @@ a {
 }
 
 dialog {
-  width: min(100% - 24px, 560px);
+  width: min(calc(100% - 24px), 560px);
+  max-width: calc(100% - 24px);
   max-height: calc(100dvh - 24px);
   padding: 0;
   border: 1px solid var(--gold);
@@ -916,14 +925,15 @@ dialog::backdrop {
 
 .stats-table {
   width: 100%;
-  min-width: 430px;
+  min-width: 0;
+  table-layout: fixed;
   border-collapse: collapse;
   background: var(--paper-light);
 }
 
 .stats-table th,
 .stats-table td {
-  padding: 10px 8px;
+  padding: 10px 5px;
   border-bottom: 1px solid var(--rule);
   text-align: center;
 }
@@ -936,6 +946,28 @@ dialog::backdrop {
 
 .stats-table tbody th {
   text-align: left;
+}
+
+.stats-col-rank {
+  width: 42px;
+}
+
+.stats-col-number {
+  width: 39px;
+}
+
+.stats-col-rate {
+  width: 58px;
+}
+
+.stats-table td,
+.stats-table th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stats-table td {
+  white-space: nowrap;
 }
 
 .stats-table tbody tr:last-child > * {
@@ -972,6 +1004,15 @@ dialog::backdrop {
 
   .tracker-identity {
     padding-inline: 22px;
+  }
+
+  .rail-team strong {
+    flex-direction: row;
+    font-size: 0.89rem;
+  }
+
+  .rail-team {
+    grid-template-columns: minmax(0, 1fr) 29px;
   }
 
   .score-strip {

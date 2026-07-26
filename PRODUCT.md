@@ -20,17 +20,17 @@ Unlike a generic tournament bracket or spreadsheet, this ledger preserves the gr
 
 ## Operating Context
 
-Matches happen weekly and the same roster is reused in changing team combinations. Player names should be selectable after first entry. A participant can be renamed centrally, removed when unused, or made inactive while historical matches remain intact. The repository’s commit history is the audit trail for shared edits.
+Matches happen weekly and the same roster is reused in changing team combinations. Player names should be selectable after first entry. A participant can be renamed centrally, removed when unused, or made inactive while historical matches remain intact. Vercel Blob holds the shared live state; GitHub retains source code and the recovery seed.
 
 ## Capabilities and Constraints
 
-- Public match history, current team totals, recent matches, and player leaderboard.
+- One public newest-first horizontal matrix containing the complete match history, plus current team totals and a separate player leaderboard.
 - Add, edit, and delete complete 4v4 matches.
 - Add, rename, deactivate/reactivate, and conditionally delete players.
 - Select one of the current 53 standard AoE2 DE civilizations or Random for each participant.
-- Fully hosted by GitHub Pages with production data in the same public repository.
-- GitHub repository write permission is the real editor authorization boundary.
-- The shared `53` PIN unlocks an editor’s encrypted device-local GitHub credential; no plaintext credential enters the repository.
+- Static frontend, same-origin state API, and private shared state are fully hosted in one Vercel project.
+- Editing is deliberately open: there is no login, password, PIN, GitHub token, or account requirement.
+- Optimistic ETag writes prevent one editor from silently overwriting a newer publish.
 - Existing production match data must be preserved.
 - No kills, military score, economic score, or other match statistics.
 
@@ -53,11 +53,11 @@ Matches happen weekly and the same roster is reused in changing team combination
 
 ## Product Principles
 
-1. The current rivalry and latest match come before navigation or explanation.
+1. The current rivalry and newest match come before navigation or explanation; every match appears exactly once.
 2. Enter data once, then reuse it through player and civilization selectors.
 3. Preserve history: rename by identity and deactivate referenced players instead of erasing past matches.
 4. Phone interaction is the source of truth; desktop is only a wider arrangement of the same flow.
-5. GitHub remains both the production host and the transparent data audit trail.
+5. Vercel is the entire runtime; GitHub remains the source and recovery history, never an end-user dependency.
 
 ## Accessibility & Inclusion
 
