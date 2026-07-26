@@ -17,7 +17,7 @@ function railMarkup(state) {
   return `<aside class="matrix-rail" aria-hidden="true">
     <div class="rail-date"></div>
     ${state.teams.map((team, index) => `<div class="rail-team rail-team--${index === 0 ? "blue" : "red"}"><strong>${escapeHtml(team.name)}</strong></div>`).join("")}
-    <div class="rail-result"></div>
+    <div class="rail-result"><img class="rail-result__medal" src="./assets/icons/medal.svg" alt="" width="20" height="20"></div>
   </aside>`;
 }
 

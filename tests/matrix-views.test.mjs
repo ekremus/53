@@ -25,6 +25,12 @@ test("keeps only vertical team names in the rail", () => {
   assert.doesNotMatch(html, />Takım<|>Slot<|>P1<|>P2<|>P3<|>P4<|>Kazanan</);
 });
 
+test("shows one local winner medal in the left result rail", () => {
+  const html = renderMatchMatrix(fixture);
+  assert.equal((html.match(/rail-result__medal/g) ?? []).length, 1);
+  assert.match(html, /assets\/icons\/medal\.svg/);
+});
+
 test("renders player names, civilization names, and local crests", () => {
   const html = renderMatchMatrix(fixture);
   assert.match(html, /BuyukEkrem/);

@@ -18,14 +18,17 @@
   </head>
   <body>
     <!--
-      THESIS: One dense weekly record; it refuses titles, instructions, dashboard summaries, and navigation chrome that repeat what the data already says.
-      OWN-WORLD: Merriweather ink on real parchment, square bronze rules, fixed tournament blue and red, vertical team rails, and local civilization crests.
+      THESIS: One dense weekly record with one compact signature; it refuses instructions, dashboard summaries, and navigation chrome that repeat what the data already says.
+      OWN-WORLD: A restrained heraldic wordmark, Merriweather ink on real parchment, square bronze rules, fixed tournament blue and red, vertical team rails, and local civilization crests.
       STORY: Read 2–0, inspect the complete newest lineup, slide right through older weeks, or switch once to standings; the pencil edits only the surface in view.
-      FIRST VIEWPORT: A 44px Maçlar/Sıralama switch and pencil sit above the 52px score and one complete 504px match matrix at 390×844.
+      FIRST VIEWPORT: A 40px signature and 44px Maçlar/Sıralama control sit above the 52px score and one complete 504px match matrix at 390×844.
       FORM: User-pinned single-page ledger, first-ranked horizontal matrix staging, no seed roll; match history and editing share one compact geometry.
     -->
     <main id="app" class="app-shell">
-      <header id="top-control" class="top-control" aria-label="Görünüm ve düzenleme"></header>
+      <header class="brand-header" aria-label="Bu Ecof Empires🏹🪓⚔️">
+        <img class="brand-wordmark" src="./assets/wordmark-ecof.png" alt="Bu Ecof Empires🏹🪓⚔️">
+      </header>
+      <nav id="top-control" class="top-control" aria-label="Görünüm ve düzenleme"></nav>
       <section id="score-strip" class="score-strip" aria-label="Skor" aria-busy="true"></section>
       <section id="surface-root" class="surface-root" aria-live="polite" aria-busy="true"><p class="loading-line">Yükleniyor…</p></section>
     </main>

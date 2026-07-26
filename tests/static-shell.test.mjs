@@ -10,6 +10,10 @@ test("ships one minimal mobile SPA shell", () => {
   assert.match(html, /Bu Ecof Empires🏹🪓⚔️/);
   assert.match(html, /viewport-fit=cover/);
   assert.match(html, /id="top-control"/);
+  assert.match(html, /class="brand-header"/);
+  assert.match(html, /class="brand-wordmark"/);
+  assert.match(html, /src="\.\/assets\/wordmark-ecof\.png"/);
+  assert.match(html, /alt="Bu Ecof Empires🏹🪓⚔️"/);
   assert.match(html, /id="score-strip"/);
   assert.match(html, /id="surface-root"/);
   assert.match(html, /type="module" src="\.\/app\.js"/);
