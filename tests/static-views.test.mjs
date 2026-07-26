@@ -46,7 +46,7 @@ test("renders compact recent results and complete match archive", () => {
 test("renders rank, records, and win rate", () => {
   const html = renderLeaderboard(stats, 8);
   assert.match(html, /100%/);
-  assert.match(html, /<th[^>]*>M<\/th>/);
+  assert.match(html, /<th[^>]*>O<\/th>/);
   assert.match(html, /<th[^>]*>G<\/th>/);
   assert.match(html, /<th[^>]*>%<\/th>/);
   assert.match(renderArchive(state, stats, "players"), /Oyuncu/);

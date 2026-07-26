@@ -1090,7 +1090,7 @@ noscript {
   }
 }
 
-@media (min-width: 380px) {
+@media (min-width: 520px) {
   .editor-slot {
     grid-template-columns: 28px minmax(118px, 1fr) minmax(138px, 1.08fr);
   }

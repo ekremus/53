@@ -44,11 +44,11 @@ Matches happen weekly and the same roster is reused in changing team combination
 
 ## Evidence on Hand
 
-- Existing match at `2026-07-26` with eight real player names in the current production data.
-- Existing calculated statistics logic and validation tests under `lib/` and `tests/`.
-- Generated hero artwork at `public/og.png`.
+- Two existing matches at `2026-07-26` with ten real player identities in the current production data.
+- Calculated statistics logic and validation tests under `docs/lib/` and `tests/`.
+- Generated hero artwork at `docs/assets/hero-53.png`.
 - User-supplied Excel-style tracker screenshot in the task context.
-- Current AoE2 civilization names in `lib/civilizations.ts` and MIT-licensed asset source at `SiegeEngineers/aoe2techtree`.
+- Current AoE2 civilization names in `docs/lib/civilizations.js` and MIT-licensed asset source at `SiegeEngineers/aoe2techtree`.
 - No testimonials, commercial claims, sponsors, or public tournament claims should be fabricated.
 
 ## Product Principles

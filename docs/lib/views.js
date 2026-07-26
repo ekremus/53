@@ -152,7 +152,7 @@ export function renderLeaderboard(stats, limit = 8) {
     <div class="table-scroller">
       <table>
         <thead>
-          <tr><th scope="col">#</th><th scope="col">Oyuncu</th><th scope="col" title="Maç">M</th><th scope="col" title="Galibiyet">G</th><th scope="col" title="Mağlubiyet">M</th><th scope="col">%</th></tr>
+          <tr><th scope="col">#</th><th scope="col">Oyuncu</th><th scope="col" title="Oynanan maç">O</th><th scope="col" title="Galibiyet">G</th><th scope="col" title="Mağlubiyet">M</th><th scope="col">%</th></tr>
         </thead>
         <tbody>
           ${players.map((player) => `<tr>
