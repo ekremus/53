@@ -24,6 +24,8 @@ test("ships every critical local application resource", async () => {
     "../docs/manifest.webmanifest",
     "../docs/data/state.json",
     "../docs/assets/paper.jpg",
+    "../docs/assets/paper-continuous.jpg",
+    "../docs/assets/wordmark-ecof.png",
     "../docs/assets/icon-192.png",
     "../docs/assets/icon-512.png",
     "../docs/assets/civs/random.svg",
@@ -36,10 +38,18 @@ test("ships every critical local application resource", async () => {
     "../docs/assets/icons/x.svg",
     "../docs/assets/icons/plus.svg",
     "../docs/assets/icons/trash.svg",
+    "../docs/assets/icons/medal.svg",
     "../docs/assets/icons/NOTICE.md",
   ]) {
     assert.ok((await stat(new URL(path, import.meta.url))).size > 0, `${path} boş olmamalı`);
   }
+});
+
+test("ships valid wordmark and continuous parchment images", async () => {
+  const wordmark = await readFile(new URL("../docs/assets/wordmark-ecof.png", import.meta.url));
+  const parchment = await readFile(new URL("../docs/assets/paper-continuous.jpg", import.meta.url));
+  assert.deepEqual(wordmark.subarray(0, 8), pngSignature);
+  assert.deepEqual(parchment.subarray(0, 3), Buffer.from([0xff, 0xd8, 0xff]));
 });
 
 test("manifest is a root-scoped standalone Vercel app", async () => {

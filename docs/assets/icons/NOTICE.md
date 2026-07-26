@@ -9,6 +9,7 @@ The interface icons are from [Tabler Icons](https://github.com/tabler/tabler-ico
 - `x.svg`: `icons/outline/x.svg`
 - `plus.svg`: `icons/outline/plus.svg`
 - `trash.svg`: `icons/outline/trash.svg`
+- `medal.svg`: `icons/outline/medal.svg`
 
 License: https://github.com/tabler/tabler-icons/blob/main/LICENSE
 
