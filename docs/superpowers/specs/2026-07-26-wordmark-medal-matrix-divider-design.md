@@ -2,11 +2,12 @@
 
 ## Scope
 
-Refine the existing single-sheet AoE2 SPA with three tightly bounded additions:
+Refine the existing single-sheet AoE2 SPA with four tightly bounded additions:
 
 1. a stronger horizontal separator between Cortinyanlar and Bakracoğulları;
 2. a winner medal in the left rail of every match result row;
-3. a compact branded header using a generated `Bu Ecof Empires` wordmark.
+3. a compact branded header using a generated `Bu Ecof Empires` wordmark;
+4. a continuous parchment background without the current visible repeat cutoff.
 
 The match data model, editing workflow, score strip, standings, navigation, storage API, and open-edit behavior do not change.
 
@@ -43,10 +44,20 @@ The match data model, editing workflow, score strip, standings, navigation, stor
 - No footer, bottom navigation, floating action, hero, card, or secondary header content is introduced.
 - Desktop keeps the same centered, capped single-sheet layout; the wordmark does not grow beyond its mobile-readable intrinsic size.
 
+## Continuous Parchment Background
+
+- Replace the current shallow 1060 × 145px parchment strip with a larger project-local parchment texture derived from the same warm, worn material language.
+- Generate a clean, edge-safe texture without borders, hard bands, vignette, text, crests, objects, or directional lighting that exposes the image boundary.
+- Present it as a viewport-covering background layer that remains continuous while longer surfaces such as Sıralama scroll. Do not stretch the texture into visible distortion and do not allow a 145px repeat seam.
+- Keep the application shell transparent enough that the same parchment remains perceptually continuous above, behind, and below the data surfaces.
+- Apply the same updated texture to the new-player dialog so it remains part of the same material system.
+- Preserve the existing parchment colors and text contrast; this is a continuity repair, not a palette change.
+
 ## Assets
 
 - ImageGen runs in built-in mode with the `logo-brand` use case.
 - Generate the source on a flat chroma-key background, remove the key locally, validate the alpha channel and edges, then save the final project asset as `docs/assets/wordmark-ecof.png`.
+- Generate the replacement texture in a separate built-in ImageGen call, save it as `docs/assets/paper-continuous.jpg`, and keep the original `paper.jpg` until the new asset is visually verified.
 - Add a real Tabler medal asset as `docs/assets/icons/medal.svg` and retain the existing Tabler license notice.
 - Do not hotlink either asset and do not use emoji, CSS art, inline SVG, or a text glyph as the medal.
 
@@ -56,6 +67,7 @@ The match data model, editing workflow, score strip, standings, navigation, stor
 - Run the complete automated suite.
 - Review public matches, editable matches, standings, and player editing at 390 × 844 and 1440 × 900.
 - Confirm the first complete match remains visible at 390 × 844, the divider aligns across rail and week columns, the medal aligns with the result row, and the wordmark remains sharp and legible.
+- Scroll the standings and player editor beyond one viewport on iPhone-sized and desktop viewports; confirm the parchment has no cutoff, hard repeat band, or exposed solid-color block.
 - Confirm all project assets load locally with no failed network requests or console errors.
 - Deploy to Vercel, verify `https://53aoe.vercel.app`, and push the same commit to GitHub.
 
