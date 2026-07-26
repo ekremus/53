@@ -1,0 +1,67 @@
+# Wordmark, Winner Medal, and Team Divider Design
+
+## Scope
+
+Refine the existing single-sheet AoE2 SPA with three tightly bounded additions:
+
+1. a stronger horizontal separator between Cortinyanlar and Bakracoğulları;
+2. a winner medal in the left rail of every match result row;
+3. a compact branded header using a generated `Bu Ecof Empires` wordmark.
+
+The match data model, editing workflow, score strip, standings, navigation, storage API, and open-edit behavior do not change.
+
+## Header and Wordmark
+
+- Add a dedicated brand row above the existing `Maçlar | Sıralama` control row.
+- Keep the brand row visually flat and compact: 40px content height plus the existing top safe-area inset.
+- Generate one project-local PNG wordmark with ImageGen. The visible text must read exactly `Bu Ecof Empires`; the bow, axe, and sword idea is expressed as small illustrated weapon marks rather than unreliable emoji glyph rendering.
+- Use warm parchment and restrained antique-gold lettering on a transparent background so the asset sits cleanly on the existing deep-brown furniture color.
+- The wordmark must be centered, horizontally composed, and legible at roughly 220–250px wide and no more than 30px high on a 390px phone.
+- The image gets an accessible text alternative containing the complete product name `Bu Ecof Empires🏹🪓⚔️`.
+- If the generated spelling is not exact after one targeted regeneration, use the generated weapon emblem beside a live Merriweather text wordmark. Incorrect raster text must never ship.
+- The existing centered view switch and contextual edit/save/cancel actions remain unchanged in the second row.
+
+## Team Divider
+
+- Draw one continuous 3px dark-walnut separator between the fourth Cortinyanlar row and the first Bakracoğulları row.
+- Apply the separator to both the sticky vertical team rail and every match column so it reads as one horizontal rule while the matrix scrolls.
+- Use an inset treatment so the divider does not change the established 54px player rows or the 504px match geometry.
+- Apply it in both public and editable match states.
+
+## Winner Medal
+
+- Place one real local medal icon in the bottom-left rail cell aligned with every match result row.
+- Use a 20px medal from the established Tabler icon family, tinted antique gold on the deep-brown rail.
+- Keep the winning team name and its fixed blue/red result color inside each match column unchanged.
+- Treat the medal as decorative because the adjacent result already communicates the winner in text; use an empty alt attribute.
+- In edit mode the same rail icon remains visible while the winner dropdown and delete action continue to occupy each match column.
+
+## Mobile Geometry
+
+- The new brand row adds at most 40px to the first viewport.
+- At 390 × 844, the public stack remains approximately: 40px brand + 44px controls + 52px score + 504px matrix = 640px, excluding the safe-area inset. The entire newest match must remain visible without vertical scrolling.
+- No footer, bottom navigation, floating action, hero, card, or secondary header content is introduced.
+- Desktop keeps the same centered, capped single-sheet layout; the wordmark does not grow beyond its mobile-readable intrinsic size.
+
+## Assets
+
+- ImageGen runs in built-in mode with the `logo-brand` use case.
+- Generate the source on a flat chroma-key background, remove the key locally, validate the alpha channel and edges, then save the final project asset as `docs/assets/wordmark-ecof.png`.
+- Add a real Tabler medal asset as `docs/assets/icons/medal.svg` and retain the existing Tabler license notice.
+- Do not hotlink either asset and do not use emoji, CSS art, inline SVG, or a text glyph as the medal.
+
+## Verification
+
+- Add static rendering assertions for the brand image, medal asset, and continuous team divider hooks.
+- Run the complete automated suite.
+- Review public matches, editable matches, standings, and player editing at 390 × 844 and 1440 × 900.
+- Confirm the first complete match remains visible at 390 × 844, the divider aligns across rail and week columns, the medal aligns with the result row, and the wordmark remains sharp and legible.
+- Confirm all project assets load locally with no failed network requests or console errors.
+- Deploy to Vercel, verify `https://53aoe.vercel.app`, and push the same commit to GitHub.
+
+## Out of Scope
+
+- No data migration or live match mutation.
+- No score, player, civilization, statistics, or editing changes.
+- No replacement of the fixed blue/red team system.
+- No additional navigation, explanatory copy, ornamental frame, or dashboard content.
