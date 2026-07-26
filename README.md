@@ -6,17 +6,19 @@ Haftalık Age of Empires II: Definitive Edition 4v4 maçları için telefon önc
 
 Uygulama tek bir yatay haftalık matristir: en yeni maç soldadır, eski haftalar sağa doğru devam eder. Cortinyanlar ve Bakracoğulları için dört oyuncu, oyuncuların uygarlıkları, maç tarihi ve kazanan takım tutulur. Takım skorları ile oyuncu istatistikleri otomatik hesaplanır.
 
-## Ekranlar
+## Görünümler
 
-- `/` — bütün maçları bir kez gösteren ortak defter;
-- `/edit/` — şifresiz, tokensız ve herkese açık düzenleme;
-- `/stats/` — oyuncu sıralaması, galibiyet, mağlubiyet ve kazanma oranı.
+- `/` — bütün maçları bir kez gösteren ortak matris;
+- `/?view=standings` — oyuncu sıralaması, galibiyet, mağlubiyet ve kazanma oranı;
+- kalem düğmesi — açık görünümü yerinde düzenler; maçlarda yalnız maç alanları, sıralamada yalnız oyuncular değişir.
+
+Eski `/edit/` ve `/stats/` bağlantıları aynı tek sayfalı uygulamadaki ilgili görünüme yönlenir.
 
 Oyuncu bir kez eklenir ve sonraki maçlarda listeden seçilir. Hiç kullanılmamış oyuncu silinir; geçmiş maçta kullanılan oyuncu ise kayıtları bozmamak için pasif yapılır.
 
 ## Mimari
 
-HTML, CSS ve tarayıcı ES modülleri `docs/` klasöründedir. `api/state.js`, aynı Vercel projesindeki private Blob deposunda bulunan sabit `state.json` dosyasını okur ve yazar. Tarayıcı Blob anahtarını görmez. Yazma işlemleri ETag ve `If-Match` ile çakışma kontrolü yapar; başka biri önce yayınladıysa eski veri sessizce ezilmez.
+HTML, CSS ve tarayıcı ES modülleri `docs/` klasöründedir. `api/state.js`, aynı Vercel projesindeki private Blob deposunda bulunan sabit `state.json` dosyasını okur ve yazar. Tarayıcı Blob anahtarını görmez. Paylaşımlı editör basit, bilinçli bir son-yazan-kazanır modeli kullanır; eski revizyon uyarısı yoktur.
 
 GitHub yalnızca kaynak kod ve geri dönüş geçmişidir. Çalışma zamanında GitHub tokenı, PIN, kullanıcı hesabı, Cloudflare ya da harici veritabanı yoktur. Açık editör bilinçli bir ürün kararıdır: linki bilen herkes ortak veriyi değiştirebilir.
 
@@ -58,4 +60,4 @@ Vercel Hobby planı bu küçük uygulama için yeterlidir. Tek private Blob dosy
 
 ## Varlık lisansları
 
-Uygarlık PNG’leri MIT lisanslı [Siege Engineers AoE2 Tech Tree](https://github.com/SiegeEngineers/aoe2techtree) projesinden yerel olarak vendored edilmiştir; bildirim `docs/assets/civs/NOTICE.md` içindedir. Alegreya ve Alegreya Sans fontları SIL Open Font License altındadır. `53` görselleri ve `random.svg` bu repoya aittir.
+Uygarlık PNG’leri MIT lisanslı [Siege Engineers AoE2 Tech Tree](https://github.com/SiegeEngineers/aoe2techtree) projesinden yerel olarak vendored edilmiştir; bildirim `docs/assets/civs/NOTICE.md` içindedir. Merriweather fontu SIL Open Font License altındadır. Tabler tabanlı arayüz ikonlarının bildirimi `docs/assets/icons/NOTICE.md` içindedir; `random.svg` bu repoya aittir.

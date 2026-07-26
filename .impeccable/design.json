@@ -1,103 +1,144 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-26T12:35:00.000Z",
-  "title": "Design System: Bu Ecof Empires — 53",
+  "generatedAt": "2026-07-26T13:58:42Z",
+  "title": "Design System: Bu Ecof Empires🏹🪓⚔️",
   "extensions": {
     "colorMeta": {
-      "command-navy": { "role": "primary", "displayName": "Command Navy", "canonical": "#202936", "tonalRamp": ["#151c26", "#202936", "#2c3746"] },
-      "parchment": { "role": "neutral", "displayName": "Meydan Parchment", "canonical": "#f3e1bf", "tonalRamp": ["#e5cda3", "#f3e1bf", "#faedcf"] },
-      "cortinyan-blue": { "role": "secondary", "displayName": "Cortinyan Blue", "canonical": "#3f73bd", "tonalRamp": ["#244d86", "#3f73bd", "#dce8f6"] },
-      "bakraco-orange": { "role": "secondary", "displayName": "Bakraco Orange", "canonical": "#cf6e2d", "tonalRamp": ["#8f3e17", "#cf6e2d", "#f4dfcb"] },
-      "winner-green": { "role": "tertiary", "displayName": "Winner Green", "canonical": "#3f8b59", "tonalRamp": ["#214d31", "#3f8b59", "#d9eadc"] }
+      "parchment": { "role": "neutral", "displayName": "Weathered Parchment", "canonical": "#c7a86f", "tonalRamp": ["#281f10", "#493a1f", "#6e5831", "#927745", "#b3955e", "#c7a86f", "#dfc795", "#f5e8cb"] },
+      "parchment-light": { "role": "neutral", "displayName": "Raised Parchment", "canonical": "#d8bd88", "tonalRamp": ["#2c2312", "#504021", "#765f35", "#9c804b", "#bea163", "#d8bd88", "#e8d4aa", "#f8edda"] },
+      "parchment-deep": { "role": "neutral", "displayName": "Deep Parchment", "canonical": "#b18f58", "tonalRamp": ["#261b0c", "#453319", "#684e28", "#8c6c3c", "#b18f58", "#c5ab7b", "#dbc9a5", "#f2e9d8"] },
+      "ink": { "role": "neutral", "displayName": "Charred Ink", "canonical": "#171009", "tonalRamp": ["#0b0704", "#171009", "#322416", "#503b27", "#715a43", "#9b8169", "#c8b2a0", "#eee3da"] },
+      "ink-muted": { "role": "neutral", "displayName": "Brown Ink", "canonical": "#4d3617", "tonalRamp": ["#180e04", "#2f1e08", "#4d3617", "#6d522a", "#92733f", "#b59665", "#d5be91", "#f1e8d4"] },
+      "rule": { "role": "neutral", "displayName": "Walnut Rule", "canonical": "#3b2814", "tonalRamp": ["#140b03", "#291909", "#3b2814", "#5c4326", "#7e6240", "#a18765", "#c9b39a", "#eee4d8"] },
+      "bronze": { "role": "secondary", "displayName": "Meydan Bronze", "canonical": "#8a6935", "tonalRamp": ["#211503", "#3e2b09", "#5e4618", "#7a5d2a", "#8a6935", "#af8f57", "#ceb889", "#ede3ce"] },
+      "furniture": { "role": "secondary", "displayName": "Brown Furniture", "canonical": "#72604a", "tonalRamp": ["#1d1710", "#352b20", "#514332", "#72604a", "#93806a", "#b4a28d", "#d4c6b6", "#f0e9e1"] },
+      "furniture-deep": { "role": "secondary", "displayName": "Deep Brown Furniture", "canonical": "#3c3022", "tonalRamp": ["#15100b", "#261e14", "#3c3022", "#584938", "#776553", "#9c8874", "#c4b5a5", "#eae2da"] },
+      "cortinyan-blue": { "role": "primary", "displayName": "Cortinyan Field Blue", "canonical": "#2b6f9d", "tonalRamp": ["#071d2c", "#0e3852", "#175577", "#2b6f9d", "#4d8fba", "#79b1d0", "#add3e6", "#e2f0f7"] },
+      "cortinyan-blue-deep": { "role": "primary", "displayName": "Cortinyan Deep Blue", "canonical": "#174766", "tonalRamp": ["#071620", "#0c2a3c", "#174766", "#28627f", "#4b839e", "#76a9bf", "#aed0dc", "#e4f0f3"] },
+      "cortinyan-blue-soft": { "role": "primary", "displayName": "Cortinyan Soft Blue", "canonical": "rgb(43 111 157 / 16%)", "tonalRamp": ["#0b2231", "#143f59", "#205f85", "#3f7fa8", "#68a0c2", "#94c0d8", "#c2deea", "#eaf4f8"] },
+      "bakracogullari-red": { "role": "primary", "displayName": "Bakracoğulları Field Red", "canonical": "#a33a2c", "tonalRamp": ["#2a0906", "#4e140f", "#75241b", "#a33a2c", "#c4594b", "#d98679", "#eab6ae", "#f7e6e3"] },
+      "bakracogullari-red-deep": { "role": "primary", "displayName": "Bakracoğulları Deep Red", "canonical": "#6f2018", "tonalRamp": ["#220604", "#40100c", "#6f2018", "#8b382e", "#aa5c51", "#c7867d", "#e0b6b0", "#f4e5e2"] },
+      "bakracogullari-red-soft": { "role": "primary", "displayName": "Bakracoğulları Soft Red", "canonical": "rgb(163 58 44 / 14%)", "tonalRamp": ["#2c0c08", "#521914", "#782b22", "#a14638", "#c06758", "#d89286", "#e9bdb6", "#f7e8e5"] },
+      "danger": { "role": "tertiary", "displayName": "Destructive Oxblood", "canonical": "#742218", "tonalRamp": ["#230604", "#42100b", "#611a13", "#742218", "#9a3d32", "#bd685e", "#d99d96", "#f1d9d5"] },
+      "focus": { "role": "tertiary", "displayName": "Focus Parchment", "canonical": "#f0d699", "tonalRamp": ["#302405", "#59440f", "#816522", "#aa893e", "#d0ae67", "#f0d699", "#f6e4ba", "#fcf4df"] }
     },
     "typographyMeta": {
-      "display": { "displayName": "Ledger Display", "purpose": "Exact product name and concentrated identity only." },
-      "headline": { "displayName": "Ledger Headline", "purpose": "Maç Defteri, Sıralama, and route hierarchy." },
-      "body": { "displayName": "Operational Body", "purpose": "Players, civilizations, controls, and statistics." },
-      "label": { "displayName": "Compact State Label", "purpose": "Route state and short supporting labels." }
+      "display": { "displayName": "Score Display", "purpose": "The two fixed team win totals only." },
+      "title": { "displayName": "Control Title", "purpose": "View switch, team rails, player names, and compact actions." },
+      "body": { "displayName": "Ledger Body", "purpose": "Default interface, table, and form copy." },
+      "label": { "displayName": "Micro Label", "purpose": "Civilization labels and inline editor controls." }
     },
     "shadows": [
-      { "name": "seal-lift", "value": "0 8px 22px rgb(0 0 0 / 34%)", "purpose": "Fixed 53 and publish actions." },
-      { "name": "menu-lift", "value": "0 8px 24px rgb(0 0 0 / 32%)", "purpose": "Temporary action menu." },
-      { "name": "dialog-lift", "value": "0 14px 42px rgb(0 0 0 / 42%)", "purpose": "Player and confirmation dialogs." },
-      { "name": "rail-separation", "value": "5px 0 12px rgb(38 24 15 / 16%)", "purpose": "Separates the pinned rail from moving week columns." }
+      { "name": "dialog-lift", "value": "10px 14px 34px rgb(0 0 0 / 42%)", "purpose": "The new-player dialog only." },
+      { "name": "notice-lift", "value": "5px 7px 16px rgb(0 0 0 / 32%)", "purpose": "Temporary status notices only." },
+      { "name": "selected-inset", "value": "inset 0 2px 0 #efe0b3, inset 0 -2px 0 #8a6935", "purpose": "Marks the active half of the view switch." }
     ],
     "motion": [
-      { "name": "reduced-motion", "value": "0.01ms linear", "purpose": "Collapses transitions and scrolling motion when requested." }
+      { "name": "native-matrix-scroll", "value": "direct touch scroll with x mandatory snap", "purpose": "The only intentional movement; old match columns continue horizontally." },
+      { "name": "reduced-motion", "value": "0.01ms linear", "purpose": "Disables smooth scrolling and collapses incidental animation or transition duration." }
     ],
     "breakpoints": [
-      { "name": "phone-canonical", "value": "320px" },
-      { "name": "primary-phone", "value": "390px" },
-      { "name": "desktop-ledger", "value": "920px" },
-      { "name": "document-cap", "value": "1440px" }
+      { "name": "minimum-supported", "value": "320px" },
+      { "name": "primary-phone-acceptance", "value": "390px" },
+      { "name": "desktop-rail", "value": "920px" },
+      { "name": "application-cap", "value": "1440px" }
     ]
   },
   "components": [
     {
-      "name": "Action Seal",
+      "name": "View Switch",
+      "kind": "nav",
+      "refersTo": "view-switch",
+      "description": "The centered two-option control that is the app's entire visible navigation.",
+      "html": "<div class=\"ds-switch\" role=\"tablist\" aria-label=\"Görünüm\"><button class=\"ds-switch-option ds-switch-active\" role=\"tab\" aria-selected=\"true\">Maçlar</button><button class=\"ds-switch-option\" role=\"tab\" aria-selected=\"false\">Sıralama</button></div>",
+      "css": ".ds-switch { width: 196px; height: 34px; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; border: 1px solid #a88b55; border-radius: 4px; background: #493c2b; } .ds-switch-option { min-height: 32px; padding: 0 10px; border: 0; border-right: 1px solid #a88b55; background: transparent; color: #f6e6bd; font: 700 13px/1.15 Merriweather, Georgia, serif; } .ds-switch-option:last-child { border-right: 0; } .ds-switch-option:hover { background: #5b4a34; } .ds-switch-option:focus-visible { outline: 3px solid #f0d699; outline-offset: -3px; } .ds-switch-option:active, .ds-switch-active { background: #d8bd88; color: #171009; box-shadow: inset 0 2px 0 #efe0b3, inset 0 -2px 0 #8a6935; }"
+    },
+    {
+      "name": "Contextual Edit Action",
       "kind": "button",
-      "refersTo": "action-seal",
-      "description": "The single lower-corner 53 control that reveals route actions.",
-      "html": "<button class=\"ds-action-seal\" type=\"button\" aria-label=\"İşlem menüsünü aç\"><span aria-hidden=\"true\">53</span></button>",
-      "css": ".ds-action-seal { width: 58px; height: 58px; display: grid; place-items: center; padding: 0; border: 2px solid #c79a45; border-radius: 50%; background: #151c26; color: #ebca7c; box-shadow: 0 8px 22px rgb(0 0 0 / 34%); font: 800 1.3rem/1 Alegreya, Georgia, serif; } .ds-action-seal:hover { background: #2c3746; } .ds-action-seal:focus-visible { outline: 3px solid #2a82c7; outline-offset: 2px; }"
+      "refersTo": "contextual-action",
+      "description": "The right-track pencil that becomes save and cancel only while editing the selected view.",
+      "html": "<button class=\"ds-icon-action\" type=\"button\" aria-label=\"Düzenle\"><img src=\"./assets/icons/pencil.svg\" alt=\"\" width=\"20\" height=\"20\"></button>",
+      "css": ".ds-icon-action { width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-left: 1px solid rgb(221 192 126 / 28%); border-radius: 0; background: #3c3022; color: #f6e6bd; } .ds-icon-action img { display: block; filter: invert(93%) sepia(24%) saturate(530%) hue-rotate(347deg) brightness(105%); } .ds-icon-action:hover, .ds-icon-action:active { background: #5b4a34; } .ds-icon-action:focus-visible { outline: 3px solid #f0d699; outline-offset: -3px; }"
     },
     {
-      "name": "Rivalry Score",
+      "name": "Fixed Rivalry Score",
       "kind": "custom",
-      "description": "Named blue-versus-orange team totals with the total match count centered.",
-      "html": "<div class=\"ds-score\"><div class=\"ds-score-blue\"><span>Cortinyanlar</span><strong>2</strong></div><div class=\"ds-score-center\"><span>VS</span><strong>2</strong><small>maç</small></div><div class=\"ds-score-orange\"><span>Bakracoğulları</span><strong>0</strong></div></div>",
-      "css": ".ds-score { min-height: 88px; display: grid; grid-template-columns: minmax(0,1fr) 72px minmax(0,1fr); color: #fff; font-family: 'Alegreya Sans', system-ui, sans-serif; } .ds-score > div { display: grid; place-content: center; justify-items: center; } .ds-score-blue { background: #244d86; } .ds-score-orange { background: #8f3e17; } .ds-score-center { background: #151c26; color: #ebca7c; border-inline: 1px solid #c79a45; } .ds-score span { font-weight: 700; } .ds-score strong { font: 700 2.55rem/.9 Alegreya, Georgia, serif; } .ds-score-center strong { font-size: 1.9rem; color: #fff; }"
+      "description": "A 52px blue-dash-red strip that presents only the two team win totals.",
+      "html": "<div class=\"ds-score\" aria-label=\"Cortinyanlar 2, Bakracoğulları 0\"><strong class=\"ds-score-blue\">2</strong><span aria-hidden=\"true\">–</span><strong class=\"ds-score-red\">0</strong></div>",
+      "css": ".ds-score { height: 52px; display: grid; grid-template-columns: minmax(0,1fr) 24px minmax(0,1fr); color: #fff8e7; font-family: Merriweather, Georgia, serif; } .ds-score strong, .ds-score span { display: grid; place-items: center; } .ds-score strong { font-size: 32px; line-height: 1; text-shadow: 0 1px 0 rgb(0 0 0 / 45%); } .ds-score span { background: #3c3022; color: #f3d99b; font-size: 19px; font-weight: 700; } .ds-score-blue { background: #174766; } .ds-score-red { background: #6f2018; }"
     },
     {
-      "name": "Weekly Matrix Player",
+      "name": "Weekly Matrix Slice",
       "kind": "custom",
-      "refersTo": "matrix-player",
-      "description": "The canonical crest, player, and civilization hierarchy inside a 64px team row.",
-      "html": "<div class=\"ds-player\"><img src=\"assets/civs/huns.png\" alt=\"\" width=\"42\" height=\"42\"><span><strong>BuyukEkrem</strong><small>Huns</small></span></div>",
-      "css": ".ds-player { min-height: 64px; display: grid; grid-template-columns: 46px minmax(0,1fr); align-items: center; gap: 10px; padding: 7px 11px; border-bottom: 1px solid #c7ad82; background: #dce8f6; color: #26180f; font-family: 'Alegreya Sans', system-ui, sans-serif; } .ds-player img { width: 42px; height: 42px; object-fit: contain; } .ds-player strong, .ds-player small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ds-player strong { font-size: 1.05rem; line-height: 1.05; } .ds-player small { margin-top: 3px; color: #725d48; font-size: .78rem; }"
+      "description": "The signature 44px vertical team rail beside one 232px newest-first match column.",
+      "html": "<div class=\"ds-matrix\"><aside class=\"ds-rail\" aria-label=\"Takımlar\"><i></i><strong class=\"ds-rail-blue\">Cortinyanlar</strong><strong class=\"ds-rail-red\">Bakracoğulları</strong><i></i></aside><article class=\"ds-week\"><time>26 Tem 2026</time><div class=\"ds-player\"><img src=\"./assets/civs/random.svg\" alt=\"\" width=\"38\" height=\"38\"><span><b>BuyukEkrem</b><small>Random</small></span></div><div class=\"ds-player\"><img src=\"./assets/civs/huns.png\" alt=\"\" width=\"38\" height=\"38\"><span><b>Emre</b><small>Huns</small></span></div><strong class=\"ds-result\">Cortinyanlar</strong></article></div>",
+      "css": ".ds-matrix { display: flex; width: 276px; color: #171009; font-family: Merriweather, Georgia, serif; } .ds-rail { width: 44px; flex: 0 0 44px; display: grid; grid-template-rows: 34px 108px 108px 38px; background: #3c3022; } .ds-rail i { border-block: 1px solid #3b2814; } .ds-rail strong { display: grid; place-items: center; overflow: hidden; color: #fff8e8; font-size: 13px; text-shadow: 0 1px 0 rgb(0 0 0 / 50%); writing-mode: vertical-rl; transform: rotate(180deg); } .ds-rail-blue { background: #174766; } .ds-rail-red { background: #6f2018; } .ds-week { width: 232px; border-right: 1px solid #3b2814; background: #c7a86f; } .ds-week time { height: 34px; display: grid; place-items: center; background: #72604a; color: #fff8e7; font-size: 12px; font-weight: 700; } .ds-player { height: 54px; display: grid; grid-template-columns: 38px minmax(0,1fr); align-items: center; gap: 7px; padding: 4px 7px; border-bottom: 1px solid rgb(59 40 20 / 54%); background: rgb(229 205 157 / 55%); } .ds-player img { width: 38px; height: 38px; object-fit: contain; } .ds-player span, .ds-player b, .ds-player small { min-width: 0; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ds-player b { font-size: 13px; line-height: 1.15; } .ds-player small { color: #4d3617; font-size: 10.5px; line-height: 1.15; } .ds-result { height: 38px; display: grid; place-items: center; background: #174766; color: #fff8e7; font-size: 11px; }"
     },
     {
-      "name": "Inline Matrix Selects",
+      "name": "Inline Match Selects",
       "kind": "input",
-      "refersTo": "input-inline",
-      "description": "Two native controls replace public copy without changing the player row geometry.",
-      "html": "<div class=\"ds-edit-player\"><img src=\"assets/civs/random.svg\" alt=\"\" width=\"42\" height=\"42\"><select><option>Emre</option></select><select><option>Random</option></select></div>",
-      "css": ".ds-edit-player { min-height: 64px; display: grid; grid-template-columns: 42px minmax(0,1fr); grid-template-rows: 1fr 1fr; align-items: center; gap: 2px 9px; padding: 4px 11px; background: #dce8f6; } .ds-edit-player img { grid-row: 1 / 3; width: 42px; height: 42px; } .ds-edit-player select { width: 100%; min-width: 0; min-height: 28px; border: 0; border-bottom: 1px solid #86673b; border-radius: 0; background: transparent; color: #26180f; font: 400 .82rem/1.2 'Alegreya Sans', system-ui, sans-serif; } .ds-edit-player select:focus-visible { outline: 3px solid #2a82c7; outline-offset: 2px; }"
+      "refersTo": "inline-select",
+      "description": "Two stacked native selectors replace public copy inside the unchanged 54px player row.",
+      "html": "<div class=\"ds-edit-player\"><img src=\"./assets/civs/random.svg\" alt=\"\" width=\"34\" height=\"34\"><select aria-label=\"Oyuncu\"><option>Emre</option></select><select aria-label=\"Uygarlık\"><option>Random</option></select></div>",
+      "css": ".ds-edit-player { width: 232px; height: 54px; display: grid; grid-template-columns: 34px minmax(0,1fr); grid-template-rows: 23px 23px; align-items: center; gap: 0 6px; padding: 3px 6px; background: rgb(229 205 157 / 55%); } .ds-edit-player img { grid-row: 1 / 3; width: 34px; height: 34px; object-fit: contain; } .ds-edit-player select { width: 100%; min-width: 0; border: 0; border-bottom: 1px solid rgb(59 40 20 / 68%); border-radius: 0; background: transparent; color: #171009; font: 400 10.5px/1 Merriweather, Georgia, serif; } .ds-edit-player select:hover { background: rgb(216 189 136 / 42%); } .ds-edit-player select:focus-visible { outline: 3px solid #f0d699; outline-offset: -3px; }"
     },
     {
       "name": "Standings Table",
       "kind": "custom",
-      "description": "Fixed rank/player/O/G/M/% columns that remain complete on a 390px phone.",
-      "html": "<table class=\"ds-stats\"><thead><tr><th>#</th><th>Oyuncu</th><th>O</th><th>G</th><th>M</th><th>%</th></tr></thead><tbody><tr><td>1</td><th>Alman General</th><td>2</td><td>2</td><td>0</td><td><strong>100%</strong></td></tr></tbody></table>",
-      "css": ".ds-stats { width: 360px; table-layout: fixed; border-collapse: collapse; background: #faedcf; color: #26180f; font: 400 17px/1.35 'Alegreya Sans', system-ui, sans-serif; } .ds-stats th, .ds-stats td { height: 44px; padding: 8px 5px; border-bottom: 1px solid #c7ad82; text-align: center; } .ds-stats thead th { background: #202936; color: #fff; font-size: .78rem; } .ds-stats tbody th { text-align: left; }"
+      "description": "The complete rank/player/O/G/M/% table that survives intact at 320px.",
+      "html": "<table class=\"ds-stats\"><thead><tr><th>#</th><th>Oyuncu</th><th>O</th><th>G</th><th>M</th><th>%</th></tr></thead><tbody><tr><td>1</td><th>Alman General</th><td>2</td><td>2</td><td>0</td><td><b>100%</b></td></tr><tr><td>2</td><th>BuyukEkrem</th><td>2</td><td>2</td><td>0</td><td><b>100%</b></td></tr></tbody></table>",
+      "css": ".ds-stats { width: 390px; max-width: 100%; table-layout: fixed; border-collapse: collapse; background: rgb(216 189 136 / 72%); color: #171009; font: 400 12px/1.3 Merriweather, Georgia, serif; } .ds-stats thead { background: #3c3022; color: #fff3d6; } .ds-stats th, .ds-stats td { height: 44px; padding: 0 7px; border-bottom: 1px solid rgb(59 40 20 / 56%); text-align: center; } .ds-stats th:first-child, .ds-stats td:first-child { width: 38px; } .ds-stats th:nth-child(2), .ds-stats td:nth-child(2) { overflow: hidden; text-align: left; text-overflow: ellipsis; white-space: nowrap; } .ds-stats th:nth-child(n+3):not(:last-child), .ds-stats td:nth-child(n+3):not(:last-child) { width: 36px; } .ds-stats th:last-child, .ds-stats td:last-child { width: 54px; } .ds-stats tbody tr:nth-child(even) { background: rgb(177 143 88 / 28%); }"
+    },
+    {
+      "name": "New Player Dialog",
+      "kind": "custom",
+      "refersTo": "dialog",
+      "description": "The only custom modal: a square parchment name form with one dark heading.",
+      "html": "<section class=\"ds-dialog\" role=\"dialog\" aria-labelledby=\"ds-dialog-title\"><div class=\"ds-dialog-heading\"><strong id=\"ds-dialog-title\">Yeni oyuncu</strong><button aria-label=\"Kapat\"><img src=\"./assets/icons/x.svg\" alt=\"\" width=\"20\" height=\"20\"></button></div><label>İsim</label><div class=\"ds-dialog-form\"><input value=\"\"><button>Ekle</button></div></section>",
+      "css": ".ds-dialog { width: min(calc(100% - 24px), 440px); display: grid; gap: 9px; padding: 12px; border: 1px solid #3b2814; border-radius: 0; background: #c7a86f; color: #171009; box-shadow: 10px 14px 34px rgb(0 0 0 / 42%); font: 400 14px/1.3 Merriweather, Georgia, serif; } .ds-dialog-heading { min-height: 44px; display: flex; align-items: center; justify-content: space-between; margin: -12px -12px 0; padding-left: 12px; background: #3c3022; color: #fff3d6; } .ds-dialog-heading button, .ds-dialog-form button { min-width: 44px; min-height: 44px; border: 0; border-left: 1px solid rgb(59 40 20 / 48%); border-radius: 0; background: #3c3022; color: #fff3d6; font-weight: 700; } .ds-dialog-heading img { display: block; margin: auto; filter: invert(93%) sepia(24%) saturate(530%) hue-rotate(347deg) brightness(105%); } .ds-dialog-form { display: grid; grid-template-columns: minmax(0,1fr) auto; } .ds-dialog-form input { min-width: 0; min-height: 44px; padding: 0 10px; border: 0; border-radius: 0; background: rgb(239 219 177 / 76%); color: #171009; } .ds-dialog button:hover { background: #5b4a34; } .ds-dialog button:focus-visible, .ds-dialog input:focus-visible { outline: 3px solid #f0d699; outline-offset: -3px; }"
     }
   ],
   "narrative": {
-    "northStar": "The Weekly War Ledger",
-    "overview": "One continuous, hand-kept competitive record translated into a fast phone interface: compact command band, named rivalry score, and a parchment matrix that carries every real match exactly once.",
+    "northStar": "The Single-Sheet Meydan Ledger",
+    "overview": "The product is one compact, hand-kept AoE2 competition sheet translated directly to a phone. Brown furniture frames a real parchment surface; a fixed blue–red score and one horizontally moving 4v4 matrix carry the entire match story. The result should feel like an old tournament ledger that happens to be fast, touchable, and precise. The interface removes product theater and dashboard hierarchy. There is no visible product title, introductory copy, hero, sidebar, footer, floating menu, bottom navigation, archive surface, or repeated version of the match data. The only top-row content is the centered `Maçlar | Sıralama` switch and its contextual pencil or save/cancel actions. The exact product name `Bu Ecof Empires🏹🪓⚔️` remains in document metadata and durable documentation. The exact team names `Cortinyanlar` and `Bakracoğulları` remain visible in the matrix rails and editing controls.",
     "keyCharacteristics": [
-      "Newest match at the left edge of one horizontally scrolling matrix.",
-      "Square flat data geometry structured by bronze rules.",
-      "Full-field named team colors and real local civilization crests.",
-      "One 53 action seal and one explicit publish action in the editor."
+      "one newest-first horizontal match matrix, with every match represented once;",
+      "a complete 4v4 match visible inside the first 390 × 844 viewport;",
+      "fixed Cortinyanlar blue and Bakracoğulları red, paired with vertical named rails;",
+      "Merriweather over a real local parchment texture with brown furniture and thin bronze rules;",
+      "contextual editing that changes only the currently selected surface."
     ],
     "rules": [
-      { "name": "Named Rivalry", "body": "Team color is always paired with the exact team name or winner word.", "section": "colors" },
-      { "name": "Continuous Matrix", "body": "Every match appears once; older weeks continue to the right.", "section": "layout" },
-      { "name": "Flat Until Elevated", "body": "Only seals, menus, notices, dialogs, and the desktop document edge lift.", "section": "elevation" },
-      { "name": "Seal Exception", "body": "Circular geometry belongs only to the 53 identity and concentrated action.", "section": "shapes" }
+      { "name": "The Fixed Rivalry Rule", "body": "Cortinyanlar stays blue and Bakracoğulları stays red. Do not swap, theme, randomize, or introduce a third team color.", "section": "colors" },
+      { "name": "The Named Rail Rule", "body": "Team color never carries identity by itself: the exact team names remain legible in the vertical rails, winner value, or accessible score labels.", "section": "colors" },
+      { "name": "The Bronze Is Structure Rule", "body": "Bronze draws boundaries and selection detail; it never becomes a gradient, glow, or decorative wash.", "section": "colors" },
+      { "name": "The One-Voice Rule", "body": "Do not reintroduce Alegreya, a sans-serif UI family, blackletter, novelty runes, an icon font, or monospace display copy.", "section": "typography" },
+      { "name": "The Data Before Display Rule", "body": "No visible product heading or decorative headline precedes the score. Typography exists to make controls and match data clearer.", "section": "typography" },
+      { "name": "The One Scroll Owner Rule", "body": "The document stays viewport-bound in public match view; only the match matrix owns horizontal movement.", "section": "layout" },
+      { "name": "The Show It Once Rule", "body": "Every match appears once, newest first. Do not split history into latest, recent, and archive variants.", "section": "layout" },
+      { "name": "The Phone Is Canonical Rule", "body": "Any new state must preserve the complete first match at 390 × 844 before wider behavior is considered.", "section": "layout" },
+      { "name": "The Flat Record Rule", "body": "If a surface remains in document flow, separate it with tone or a 1px rule. Elevation belongs only to temporary overlays.", "section": "elevation" },
+      { "name": "The Segmented Exception Rule", "body": "A small radius may bind a single mutually exclusive control; it does not license rounded containers elsewhere.", "section": "shapes" }
     ],
     "dos": [
-      "Do preserve the 108px sticky rail and 260px week columns on phones.",
-      "Do keep player name and civilization visible in every public cell.",
-      "Do use same-origin open editing with explicit publish and conflict feedback.",
-      "Do verify 320px, 390px, and 1440px without document overflow."
+      "**Do** keep the top row limited to the centered `Maçlar | Sıralama` switch and contextual edit actions.",
+      "**Do** preserve the 44/232/34/54/38px phone matrix geometry and verify the first complete match at 390 × 844.",
+      "**Do** keep Cortinyanlar blue and Bakracoğulları red, with exact names visible or available to assistive technology.",
+      "**Do** show every match once, newest first, in the one horizontal matrix.",
+      "**Do** keep `# / Oyuncu / O / G / M / %` intact at every supported width.",
+      "**Do** preserve 44px touch targets, visible focus, reduced motion, native scrolling, and top safe-area padding.",
+      "**Do** use and license local parchment, Merriweather, interface icons, and civilization crests."
     ],
     "donts": [
-      "Don't split matches into latest, recent, and archive surfaces.",
-      "Don't switch the matrix to cards on narrow screens.",
-      "Don't add persistent sidebar, header bar, footer, or bottom navigation.",
-      "Don't add PINs, user tokens, gradients, glass, or decorative medieval frames."
+      "**Don't** add a visible product title, header copy, hero, footer, sidebar, floating menu, bottom navigation, or dashboard cards.",
+      "**Don't** duplicate match data as latest, recent, archive, highlights, or summaries.",
+      "**Don't** add P1–P4 labels, repeated team headings, or a second horizontal scroll owner.",
+      "**Don't** switch the matrix to cards or hide player civilizations on narrow screens.",
+      "**Don't** bring back orange, green, or configurable team colors; the rivalry is fixed blue and red.",
+      "**Don't** add gradients, glass, decorative glows, giant crests, full ornamental frames, or texture overlays beyond the real parchment asset.",
+      "**Don't** add a floating save control, persistent bottom action, PIN, login, user token, or stale-conflict warning.",
+      "**Don't** introduce another font, hotlinked asset, emoji action icon, or rasterized interface text."
     ]
   }
 }

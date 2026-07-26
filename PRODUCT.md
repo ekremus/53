@@ -24,13 +24,13 @@ Matches happen weekly and the same roster is reused in changing team combination
 
 ## Capabilities and Constraints
 
-- One public newest-first horizontal matrix containing the complete match history, plus current team totals and a separate player leaderboard.
+- One public newest-first horizontal matrix containing the complete match history, plus a player leaderboard reached from the same two-option top control.
 - Add, edit, and delete complete 4v4 matches.
 - Add, rename, deactivate/reactivate, and conditionally delete players.
 - Select one of the current 53 standard AoE2 DE civilizations or Random for each participant.
 - Static frontend, same-origin state API, and private shared state are fully hosted in one Vercel project.
 - Editing is deliberately open: there is no login, password, PIN, GitHub token, or account requirement.
-- Optimistic ETag writes prevent one editor from silently overwriting a newer publish.
+- Shared writes use deliberate last-write-wins behavior so any friend can save without stale-publish errors.
 - Existing production match data must be preserved.
 - No kills, military score, economic score, or other match statistics.
 
@@ -38,7 +38,7 @@ Matches happen weekly and the same roster is reused in changing team combination
 
 - Exact product name: `Bu Ecof Empires🏹🪓⚔️`.
 - Exact team names: `Cortinyanlar` and `Bakracoğulları`.
-- The previously generated `53` walnut, parchment, bronze, blue, and red hero artwork is a binding identity asset.
+- Merriweather typography, real parchment texture, restrained bronze furniture, and fixed blue/red rivalry colors form the binding visual language.
 - Age of Empires II atmosphere should be unmistakable without copying the game’s interface.
 - The supplied Excel tracker remains a workflow and information-density reference, not a visual template.
 
@@ -46,7 +46,7 @@ Matches happen weekly and the same roster is reused in changing team combination
 
 - Two existing matches at `2026-07-26` with ten real player identities in the current production data.
 - Calculated statistics logic and validation tests under `docs/lib/` and `tests/`.
-- Generated hero artwork at `docs/assets/hero-53.png`.
+- Local parchment, font, icon, and civilization assets under `docs/assets/`.
 - User-supplied Excel-style tracker screenshot in the task context.
 - Current AoE2 civilization names in `docs/lib/civilizations.js` and MIT-licensed asset source at `SiegeEngineers/aoe2techtree`.
 - No testimonials, commercial claims, sponsors, or public tournament claims should be fabricated.
