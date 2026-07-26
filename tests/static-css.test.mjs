@@ -4,11 +4,13 @@ import test from "node:test";
 
 const css = await readFile(new URL("../docs/styles.css", import.meta.url), "utf8");
 
-test("covers iPhone safe areas and stable viewport sizing", () => {
+test("covers iPhone safe areas and owns horizontal overflow inside the matrix", () => {
   assert.match(css, /env\(safe-area-inset-top\)/);
   assert.match(css, /env\(safe-area-inset-bottom\)/);
   assert.match(css, /100dvh/);
-  assert.match(css, /overflow-x:\s*clip/);
+  assert.match(css, /\.match-matrix[\s\S]*overflow-x:\s*auto/);
+  assert.match(css, /\.matrix-rail[\s\S]*position:\s*sticky/);
+  assert.match(css, /scroll-snap-type:\s*x\s+mandatory/);
 });
 
 test("ships visible focus, touch targets, and reduced motion", () => {
@@ -17,9 +19,11 @@ test("ships visible focus, touch targets, and reduced motion", () => {
   assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
 });
 
-test("is mobile first with a bounded desktop enhancement", () => {
-  assert.match(css, /@media\s*\(min-width:\s*720px\)/);
-  assert.match(css, /--content-max:\s*1040px/);
+test("is mobile first with one bounded desktop enhancement", () => {
+  assert.match(css, /@media\s*\(min-width:\s*920px\)/);
+  assert.match(css, /width:\s*min\(100%,\s*1440px\)/);
+  assert.match(css, /--rail:\s*108px/);
+  assert.match(css, /--week:\s*260px/);
 });
 
 test("avoids rejected generic visual patterns", () => {

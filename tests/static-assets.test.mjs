@@ -16,6 +16,11 @@ test("vendors a valid PNG for every supported civilization", async () => {
 test("ships every critical local application resource", async () => {
   for (const path of [
     "../docs/app.js",
+    "../docs/edit.js",
+    "../docs/stats.js",
+    "../docs/edit/index.html",
+    "../docs/stats/index.html",
+    "../docs/lib/state-api.js",
     "../docs/styles.css",
     "../docs/manifest.webmanifest",
     "../docs/data/state.json",
@@ -30,11 +35,11 @@ test("ships every critical local application resource", async () => {
   }
 });
 
-test("manifest is a scoped standalone GitHub Pages app", async () => {
+test("manifest is a root-scoped standalone Vercel app", async () => {
   const manifest = JSON.parse(await readFile(new URL("../docs/manifest.webmanifest", import.meta.url), "utf8"));
   assert.equal(manifest.short_name, "53");
-  assert.equal(manifest.start_url, "./");
-  assert.equal(manifest.scope, "./");
+  assert.equal(manifest.start_url, "/");
+  assert.equal(manifest.scope, "/");
   assert.equal(manifest.display, "standalone");
   assert.equal(manifest.icons.length, 2);
 });

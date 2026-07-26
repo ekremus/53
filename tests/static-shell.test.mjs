@@ -3,50 +3,46 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const html = await readFile(new URL("../docs/index.html", import.meta.url), "utf8");
+const editHtml = await readFile(new URL("../docs/edit/index.html", import.meta.url), "utf8");
+const statsHtml = await readFile(new URL("../docs/stats/index.html", import.meta.url), "utf8");
 
-test("ships the exact identity and both meydan teams", () => {
+test("ships the exact identity and mobile Vercel shell", () => {
   assert.match(html, /Bu Ecof Empires🏹🪓⚔️/);
   assert.match(html, /Cortinyanlar/);
   assert.match(html, /Bakracoğulları/);
-});
-
-test("is a local mobile-first GitHub Pages application", () => {
   assert.match(html, /viewport-fit=cover/);
   assert.match(html, /href="\.\/styles\.css"/);
   assert.match(html, /type="module" src="\.\/app\.js"/);
-  assert.match(html, /href="\.\/manifest\.webmanifest"/);
-  assert.doesNotMatch(html, /http-equiv=["']refresh/i);
-  assert.doesNotMatch(html, /chatgpt\.site|fabled-clove/i);
-  assert.doesNotMatch(html, /<script[^>]+src=["']https?:/i);
+  assert.doesNotMatch(html, /chatgpt\.site|fabled-clove|github\.io/i);
 });
 
-test("exposes the complete semantic application surface", () => {
-  for (const id of [
-    "app",
-    "scoreboard",
-    "latest-match",
-    "recent-matches",
-    "leaderboard",
-    "fab",
-    "fab-menu",
-    "archive-dialog",
-    "edit-dialog",
-    "players-dialog",
-    "credential-dialog",
-    "notice-region",
-  ]) {
-    assert.match(html, new RegExp(`id=["']${id}["']`));
-  }
+test("exposes one match system without repeated dashboard sections", () => {
+  assert.match(html, /id="score-strip"/);
+  assert.match(html, /id="matrix-root"/);
+  assert.match(html, /href="\.\/edit\/"/);
+  assert.match(html, /href="\.\/stats\/"/);
+  assert.doesNotMatch(html, /Son maç|Son maçlar|Tümü|archive-dialog|credential-dialog/);
+  assert.doesNotMatch(html, /<header|<footer|sidebar|bottom-nav/i);
 });
 
-test("avoids app chrome the user rejected", () => {
-  assert.doesNotMatch(html, /<header\b|<footer\b|<aside\b/i);
-  assert.doesNotMatch(html, /sidebar|bottom-nav|bottom navigation/i);
+test("ships open edit and separate statistics routes", () => {
+  assert.match(editHtml, /id="editor-matrix-root"/);
+  assert.match(editHtml, /data-publish/);
+  assert.match(editHtml, /data-add-match/);
+  assert.match(editHtml, /data-open-players/);
+  assert.match(editHtml, /href="\.\.\/"/);
+  assert.doesNotMatch(editHtml, /token|password|PIN|credential/i);
+
+  assert.match(statsHtml, /id="stats-root"/);
+  assert.match(statsHtml, /\.\.\/stats\.js/);
+  assert.doesNotMatch(statsHtml, /matrix-player|data-match-column/);
 });
 
 test("keeps scripts and styles CSP-safe", () => {
-  assert.match(html, /Content-Security-Policy/);
-  assert.doesNotMatch(html, /\son\w+\s*=/i);
-  assert.doesNotMatch(html, /<style\b/i);
-  assert.equal((html.match(/<script\b/g) ?? []).length, 1);
+  for (const source of [html, editHtml, statsHtml]) {
+    assert.match(source, /Content-Security-Policy/);
+    assert.doesNotMatch(source, /\son\w+\s*=/i);
+    assert.doesNotMatch(source, /<style\b/i);
+    assert.equal((source.match(/<script\b/g) ?? []).length, 1);
+  }
 });

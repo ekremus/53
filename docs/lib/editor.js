@@ -1,4 +1,3 @@
-import { CIVILIZATION_OPTIONS, civilizationAssetName } from "./civilizations.js";
 import {
   activeRoster,
   createEmptyMatch,
@@ -30,76 +29,6 @@ export function validateMatchDraft(draft, state) {
   return validateState(candidate).matches.find((match) => match.id === draft.id);
 }
 
-function renderPlayerOptions(state, currentPlayerId, selectedElsewhere) {
-  const current = state.players.find((player) => player.id === currentPlayerId);
-  const choices = activeRoster(state);
-  if (current && !current.active && !choices.some((player) => player.id === current.id)) choices.push(current);
-  const options = choices
-    .sort((a, b) => a.name.localeCompare(b.name, "tr-TR"))
-    .map((player) => {
-      const selected = player.id === currentPlayerId;
-      const disabled = !selected && selectedElsewhere.has(player.id);
-      return `<option value="${escapeHtml(player.id)}"${disabled ? " disabled" : ""}${selected ? " selected" : ""}>${escapeHtml(player.name)}${player.active ? "" : " (pasif)"}</option>`;
-    }).join("");
-  return `<option value="">Oyuncu seç</option>${options}<option value="__new__">＋ Yeni oyuncu</option>`;
-}
-
-function renderCivilizationOptions(current) {
-  return CIVILIZATION_OPTIONS.map((civilization) => `<option value="${escapeHtml(civilization)}"${civilization === current ? " selected" : ""}>${escapeHtml(civilization)}</option>`).join("");
-}
-
-function renderTeamFields(team, draft, state, allSelected) {
-  return `
-    <fieldset class="team-editor team-editor--${escapeHtml(team.tone)}">
-      <legend>${escapeHtml(team.name)}</legend>
-      <div class="team-editor__slots">
-        ${draft.teams[team.id].map((slot, index) => {
-          const selectedElsewhere = new Set(allSelected.filter((playerId) => playerId !== slot.playerId));
-          return `<div class="editor-slot" data-team-slot="${escapeHtml(team.id)}:${index}">
-            <span class="editor-slot__number">P${index + 1}</span>
-            <label>
-              <span class="sr-only">${escapeHtml(team.name)} ${index + 1}. oyuncu</span>
-              <select name="${escapeHtml(team.id)}-${index}-player" data-player-select="${escapeHtml(team.id)}:${index}" required>
-                ${renderPlayerOptions(state, slot.playerId, selectedElsewhere)}
-              </select>
-            </label>
-            <label class="civilization-field">
-              <img src="./assets/civs/${civilizationAssetName(slot.civilization)}" alt="" width="44" height="44" data-civilization-preview>
-              <span class="sr-only">${escapeHtml(team.name)} ${index + 1}. uygarlık</span>
-              <select name="${escapeHtml(team.id)}-${index}-civilization" data-civilization-select="${escapeHtml(team.id)}:${index}" required>
-                ${renderCivilizationOptions(slot.civilization)}
-              </select>
-            </label>
-          </div>`;
-        }).join("")}
-      </div>
-    </fieldset>
-  `;
-}
-
-export function renderMatchForm(draft, state) {
-  const selected = allSelectedPlayerIds(draft);
-  return `
-    <input type="hidden" name="match-id" value="${escapeHtml(draft.id)}">
-    <label class="date-field">
-      <span>Maç tarihi</span>
-      <input name="date" type="date" value="${escapeHtml(draft.date)}" required>
-    </label>
-    <div class="match-editor-grid">
-      ${state.teams.map((team) => renderTeamFields(team, draft, state, selected)).join("")}
-    </div>
-    <fieldset class="winner-field">
-      <legend>Kazanan takım</legend>
-      <div class="winner-options">
-        ${state.teams.map((team) => `<label class="winner-option winner-option--${escapeHtml(team.tone)}">
-          <input type="radio" name="winner" value="${escapeHtml(team.id)}"${draft.winner === team.id ? " checked" : ""} required>
-          <span>${escapeHtml(team.name)}</span>
-        </label>`).join("")}
-      </div>
-    </fieldset>
-  `;
-}
-
 function playerUsage(state, playerId) {
   return state.matches.reduce((count, match) => count + Object.values(match.teams).flat().filter((slot) => slot.playerId === playerId).length, 0);
 }
@@ -107,124 +36,94 @@ function playerUsage(state, playerId) {
 export function renderPlayerManager(state) {
   const players = [...state.players].sort((a, b) => Number(b.active) - Number(a.active) || a.name.localeCompare(b.name, "tr-TR"));
   if (!players.length) return `<div class="empty-state"><strong>Henüz oyuncu yok</strong></div>`;
-  return `<div class="player-manager">
-    ${players.map((player) => {
-      const usage = playerUsage(state, player.id);
-      return `<div class="player-row ${player.active ? "" : "is-passive"}" data-player-id="${escapeHtml(player.id)}">
-        <div class="player-row__identity">
-          <input type="text" value="${escapeHtml(player.name)}" maxlength="40" aria-label="${escapeHtml(player.name)} adını değiştir" data-player-name="${escapeHtml(player.id)}"${player.active ? "" : " disabled"}>
-          <span>${usage} maç${player.active ? "" : " · pasif"}</span>
-        </div>
-        <div class="player-row__actions">
-          ${player.active ? `<button type="button" data-player-rename="${escapeHtml(player.id)}">Kaydet</button>
-            <button class="danger-action" type="button" data-player-remove="${escapeHtml(player.id)}" title="${usage ? "Geçmişte kullanıldığı için pasif yapılır" : "Kalıcı olarak silinir"}">${usage ? "Pasif yap" : "Sil"}</button>` : `<button type="button" data-player-reactivate="${escapeHtml(player.id)}">Tekrar etkinleştir</button>`}
-        </div>
-      </div>`;
-    }).join("")}
-  </div>`;
+  return `<div class="player-manager">${players.map((player) => {
+    const usage = playerUsage(state, player.id);
+    return `<div class="player-row${player.active ? "" : " is-passive"}" data-player-id="${escapeHtml(player.id)}">
+      <div class="player-row__identity"><input type="text" value="${escapeHtml(player.name)}" maxlength="40" aria-label="${escapeHtml(player.name)} adını değiştir" data-player-name="${escapeHtml(player.id)}"${player.active ? "" : " disabled"}><span>${usage} maç${player.active ? "" : " · pasif"}</span></div>
+      <div class="player-row__actions">${player.active ? `<button type="button" data-player-rename="${escapeHtml(player.id)}">Kaydet</button><button class="danger-action" type="button" data-player-remove="${escapeHtml(player.id)}">${usage ? "Pasif yap" : "Sil"}</button>` : `<button type="button" data-player-reactivate="${escapeHtml(player.id)}">Etkinleştir</button>`}</div>
+    </div>`;
+  }).join("")}</div>`;
 }
 
-export function createEditorController({
-  state,
-  baseSha = null,
-  github,
-  render = () => {},
-  notify = () => {},
-  now = () => new Date(),
-} = {}) {
-  let currentState = validateState(state);
-  let sha = baseSha;
-  let token = null;
+function prefilledMatch(state, date) {
+  const empty = createEmptyMatch(state, date);
+  const latest = [...state.matches].sort((a, b) => b.date.localeCompare(a.date))[0];
+  if (latest) {
+    empty.teams = clone(latest.teams);
+    empty.winner = latest.winner;
+    for (const slot of Object.values(empty.teams).flat()) slot.civilization = "Random";
+    return empty;
+  }
+  const players = activeRoster(state).slice(0, 8);
+  if (players.length < 8) throw new Error("Yeni maç için en az sekiz etkin oyuncu gerekli.");
+  state.teams.forEach((team, teamIndex) => {
+    empty.teams[team.id].forEach((slot, slotIndex) => {
+      slot.playerId = players[teamIndex * 4 + slotIndex].id;
+    });
+  });
+  return empty;
+}
 
-  function requireConnection() {
-    if (!token) throw new Error("Düzenleme kilitli. Önce 53 PIN’i ile aç.");
+export function createDraftController({ state, etag, client, render = () => {}, notify = () => {} } = {}) {
+  let baseline = validateState(state);
+  let draft = clone(baseline);
+  let currentEtag = etag;
+  let publishing = false;
+
+  function update(mutator) {
+    draft = validateState(mutator(clone(draft)));
+    render(draft);
+    return clone(draft);
   }
 
-  async function connect(nextToken) {
-    if (typeof nextToken !== "string" || !nextToken) throw new Error("GitHub bağlantısı gerekli.");
-    await github.verifyRepositoryAccess(nextToken);
-    const remote = await github.readRemoteState(nextToken);
-    currentState = validateState(remote.state);
-    sha = remote.sha;
-    token = nextToken;
-    render(currentState);
-    notify("Düzenleme açıldı.", "success");
-    return currentState;
-  }
-
-  function lock() {
-    token = null;
-    notify("Düzenleme kilitlendi.", "success");
-  }
-
-  async function saveMutation(mutator, message) {
-    requireConnection();
-    const remote = await github.readRemoteState(token);
-    if (sha && remote.sha !== sha) {
-      throw new Error("Veri başka biri tarafından güncellendi. Sayfayı yenileyip tekrar dene.");
+  async function publish() {
+    if (publishing) return null;
+    publishing = true;
+    try {
+      const result = await client.write(validateState(draft), currentEtag);
+      baseline = validateState(result.state);
+      draft = clone(baseline);
+      currentEtag = result.etag;
+      render(draft);
+      notify("Değişiklikler yayınlandı.", "success");
+      return clone(draft);
+    } finally {
+      publishing = false;
     }
-    let next = validateState(mutator(clone(currentState)));
-    next.revision = remote.state.revision + 1;
-    next.updatedAt = now().toISOString();
-    next = validateState(next);
-    const result = await github.commitRemoteState({ token, state: next, sha: remote.sha, message });
-    if (!result?.sha) throw new Error("GitHub yeni dosya sürümünü döndürmedi. Sayfayı yenile.");
-    currentState = next;
-    sha = result.sha;
-    render(currentState);
-    notify("Değişiklik GitHub’a kaydedildi.", "success");
-    return currentState;
-  }
-
-  async function saveMatch(draft) {
-    const match = validateMatchDraft(draft, currentState);
-    const exists = currentState.matches.some((candidate) => candidate.id === match.id);
-    return saveMutation((next) => {
-      const index = next.matches.findIndex((candidate) => candidate.id === match.id);
-      if (index === -1) next.matches.push(match);
-      else next.matches[index] = match;
-      return next;
-    }, `data: ${exists ? "update" : "add"} match ${match.date}`);
-  }
-
-  async function deleteMatch(matchId) {
-    if (!currentState.matches.some((match) => match.id === matchId)) throw new Error("Maç bulunamadı.");
-    return saveMutation((next) => {
-      next.matches = next.matches.filter((match) => match.id !== matchId);
-      return next;
-    }, "data: delete match");
-  }
-
-  async function addPlayer(name) {
-    return saveMutation((next) => upsertPlayer(next, { name }), "data: update players");
-  }
-
-  async function renamePlayer(playerId, name) {
-    return saveMutation((next) => upsertPlayer(next, { id: playerId, name }), "data: update players");
-  }
-
-  async function removePlayer(playerId) {
-    return saveMutation((next) => removeOrDeactivatePlayer(next, playerId), "data: update players");
-  }
-
-  async function reactivatePlayer(playerId) {
-    const player = currentState.players.find((candidate) => candidate.id === playerId);
-    if (!player) throw new Error("Oyuncu bulunamadı.");
-    return saveMutation((next) => upsertPlayer(next, { id: playerId, name: player.name, active: true }), "data: update players");
   }
 
   return {
-    connect,
-    lock,
-    isUnlocked: () => Boolean(token),
-    getState: () => clone(currentState),
-    getSnapshot: () => ({ connected: Boolean(token), sha }),
-    createMatch: (date) => createEmptyMatch(currentState, date),
-    saveMatch,
-    deleteMatch,
-    addPlayer,
-    renamePlayer,
-    removePlayer,
-    reactivatePlayer,
+    getState: () => clone(draft),
+    getSnapshot: () => ({
+      state: clone(draft),
+      etag: currentEtag,
+      dirty: JSON.stringify(draft) !== JSON.stringify(baseline),
+      publishing,
+    }),
+    reset: () => {
+      draft = clone(baseline);
+      render(draft);
+    },
+    createMatch: (date) => prefilledMatch(draft, date),
+    saveMatch: (match) => update((next) => {
+      const valid = validateMatchDraft(match, next);
+      const index = next.matches.findIndex((candidate) => candidate.id === valid.id);
+      if (index === -1) next.matches.push(valid);
+      else next.matches[index] = valid;
+      return next;
+    }),
+    deleteMatch: (id) => update((next) => ({
+      ...next,
+      matches: next.matches.filter((match) => match.id !== id),
+    })),
+    addPlayer: (name) => update((next) => upsertPlayer(next, { name })),
+    renamePlayer: (id, name) => update((next) => upsertPlayer(next, { id, name })),
+    removePlayer: (id) => update((next) => removeOrDeactivatePlayer(next, id)),
+    reactivatePlayer: (id) => update((next) => {
+      const player = next.players.find((candidate) => candidate.id === id);
+      if (!player) throw new Error("Oyuncu bulunamadı.");
+      return upsertPlayer(next, { id, name: player.name, active: true });
+    }),
+    publish,
   };
 }

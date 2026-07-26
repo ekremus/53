@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-    <meta name="theme-color" content="#16100c">
-    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#202936">
+    <meta name="color-scheme" content="light">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="53">
     <meta name="description" content="Haftalık Age of Empires II 4v4 maç defteri.">
     <meta property="og:title" content="Bu Ecof Empires🏹🪓⚔️">
     <meta property="og:description" content="Cortinyanlar ve Bakracoğulları haftalık maç defteri.">
-    <meta property="og:image" content="https://ekremus.github.io/53/assets/hero-53.png">
+    <meta property="og:image" content="/assets/hero-53.png">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="tr_TR">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; connect-src 'self' https://api.github.com; script-src 'self'; style-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; connect-src 'self'; script-src 'self'; style-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'">
     <title>Bu Ecof Empires🏹🪓⚔️</title>
     <link rel="icon" href="./assets/icon-192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="./assets/icon-192.png">
@@ -22,191 +22,34 @@
     <link rel="stylesheet" href="./styles.css">
     <script type="module" src="./app.js"></script>
   </head>
-  <body>
+  <body data-page="public">
     <!--
-      DIRECTION CONTRACT
-      THESIS: One continuous AoE2 meydan ledger; the crest resolves into a blue/orange rivalry banner and then real match data.
-      OWN-WORLD: Walnut identity art, warm parchment, bronze rules, named team fields, and local civilization crests. No generic dashboard chrome.
-      STORY: 53 identity → season score → latest 4v4 sheet → recent results → player ranking.
-      FIRST VIEWPORT: The compact crest, exact product name, and complete rivalry score are visible before the ledger continues.
-      FORM: user-pinned/no-roll; approved north star .impeccable/mocks/meydan-c-banner.png, interpreted as semantic HTML and restrained CSS.
+      THESIS: One continuous weekly war ledger; it refuses the repeated dashboard-card summary.
+      OWN-WORLD: Ink-navy table furniture, sun-warmed parchment cells, bronze rules, solid team banners, and real local civilization crests.
+      STORY: See the rivalry score, read every weekly lineup once, then slide right into older battles.
+      FIRST VIEWPORT: Compact 53 identity and the score sit directly above the newest match column; editing waits in one lower-right seal.
+      FORM: User-pinned weekly matrix, first-ranked horizontal ledger staging, no roll; Excel chronology translated into a touch-first AoE2 record book.
     -->
-    <main id="app">
-      <section class="identity-scene" aria-labelledby="product-title">
-        <img class="identity-art" src="./assets/hero-53.png" alt="53, Bu Ecof Empires arması" width="1536" height="1024" fetchpriority="high">
-        <div class="identity-copy">
-          <p class="eyebrow">Haftalık 4v4 meydanı</p>
-          <h1 id="product-title">Bu Ecof Empires🏹🪓⚔️</h1>
+    <main id="app" class="app-shell">
+      <section class="tracker-head" aria-labelledby="product-title">
+        <div class="tracker-identity">
+          <span class="identity-mark" aria-hidden="true">53</span>
+          <div><p>Haftalık 4v4</p><h1 id="product-title">Bu Ecof Empires🏹🪓⚔️</h1></div>
         </div>
+        <div id="score-strip" class="score-strip" aria-label="Meydan skoru" aria-busy="true"></div>
       </section>
-
-      <section id="scoreboard" class="scoreboard" aria-label="Meydan skoru" aria-busy="true">
-        <div class="score-team score-team--blue">
-          <span>Cortinyanlar</span>
-          <strong data-score="cortinyanlar">—</strong>
-        </div>
-        <div class="score-seal" aria-label="Toplam maç">
-          <span>VS</span>
-          <strong data-total-matches>—</strong>
-          <small>maç</small>
-        </div>
-        <div class="score-team score-team--orange">
-          <span>Bakracoğulları</span>
-          <strong data-score="bakracogullari">—</strong>
-        </div>
+      <section class="matrix-stage" aria-labelledby="matrix-title">
+        <div class="matrix-title-row"><h2 id="matrix-title">Maç Defteri</h2><p>Eski haftalar sağda</p></div>
+        <div id="matrix-root" aria-busy="true"><p class="loading-line">Meydan kaydı açılıyor…</p></div>
       </section>
-
-      <div class="ledger" aria-live="polite">
-        <section class="ledger-section latest-section" aria-labelledby="latest-title">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Meydan kaydı</p>
-              <h2 id="latest-title">Son maç</h2>
-            </div>
-          </div>
-          <div id="latest-match" class="latest-match" aria-busy="true">
-            <p class="loading-line">Kayıt açılıyor…</p>
-          </div>
-        </section>
-
-        <section class="ledger-section" aria-labelledby="recent-title">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Kronoloji</p>
-              <h2 id="recent-title">Son maçlar</h2>
-            </div>
-            <button class="text-action" type="button" data-open-archive="matches">Tümü</button>
-          </div>
-          <div id="recent-matches" class="result-list" aria-busy="true">
-            <p class="loading-line">Sonuçlar hazırlanıyor…</p>
-          </div>
-        </section>
-
-        <section class="ledger-section" aria-labelledby="leaderboard-title">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Oyuncu istatistikleri</p>
-              <h2 id="leaderboard-title">Sıralama</h2>
-            </div>
-            <button class="text-action" type="button" data-open-archive="players">Tümü</button>
-          </div>
-          <div id="leaderboard" class="ranking-table" aria-busy="true">
-            <p class="loading-line">Sıralama hazırlanıyor…</p>
-          </div>
-        </section>
-      </div>
     </main>
 
+    <nav id="action-menu" class="action-menu" aria-label="Sayfa işlemleri" hidden>
+      <a href="./edit/">Düzenle</a>
+      <a href="./stats/">Sıralama</a>
+    </nav>
+    <button class="action-seal" type="button" aria-controls="action-menu" aria-expanded="false" aria-label="İşlem menüsünü aç"><span aria-hidden="true">53</span></button>
     <div id="notice-region" class="notice-region" aria-live="assertive" aria-atomic="true"></div>
-
-    <div id="fab-menu" class="fab-menu" hidden>
-      <button type="button" data-fab-action="new-match">
-        <span class="fab-menu__icon" aria-hidden="true">⚔</span>
-        <span>Yeni maç</span>
-      </button>
-      <button type="button" data-fab-action="players">
-        <span class="fab-menu__icon" aria-hidden="true">♟</span>
-        <span>Oyuncular</span>
-      </button>
-      <button type="button" data-fab-action="credential">
-        <span class="fab-menu__icon" aria-hidden="true">⌘</span>
-        <span data-credential-action-label>GitHub bağlantısı</span>
-      </button>
-    </div>
-    <button id="fab" class="fab" type="button" aria-controls="fab-menu" aria-expanded="false" aria-label="Düzenle">
-      <span aria-hidden="true">＋</span>
-    </button>
-
-    <dialog id="archive-dialog" class="sheet-dialog">
-      <div class="sheet-surface">
-        <div class="sheet-heading">
-          <div>
-            <p class="eyebrow">Meydan arşivi</p>
-            <h2 data-archive-title>Tüm maçlar</h2>
-          </div>
-          <button class="icon-button" type="button" data-close-dialog aria-label="Kapat">×</button>
-        </div>
-        <div data-archive-content></div>
-      </div>
-    </dialog>
-
-    <dialog id="edit-dialog" class="sheet-dialog sheet-dialog--editor">
-      <div class="sheet-surface">
-        <div class="sheet-heading">
-          <div>
-            <p class="eyebrow">Maç kaydı</p>
-            <h2 data-edit-title>Yeni maç</h2>
-          </div>
-          <button class="icon-button" type="button" data-close-dialog aria-label="Kapat">×</button>
-        </div>
-        <form id="match-form" class="match-form" novalidate>
-          <div data-match-form-fields></div>
-          <div class="form-actions">
-            <button class="danger-action" type="button" data-delete-match hidden>Maçı sil</button>
-            <button class="primary-action" type="submit">Kaydet</button>
-          </div>
-        </form>
-      </div>
-    </dialog>
-
-    <dialog id="players-dialog" class="sheet-dialog">
-      <div class="sheet-surface">
-        <div class="sheet-heading">
-          <div>
-            <p class="eyebrow">Kadrolar</p>
-            <h2>Oyuncular</h2>
-          </div>
-          <button class="icon-button" type="button" data-close-dialog aria-label="Kapat">×</button>
-        </div>
-        <form id="new-player-form" class="new-player-form" novalidate>
-          <label for="new-player-name">Yeni oyuncu</label>
-          <div class="inline-form">
-            <input id="new-player-name" name="name" type="text" maxlength="40" autocomplete="off" required placeholder="Oyuncu adı">
-            <button class="primary-action" type="submit">Ekle</button>
-          </div>
-        </form>
-        <div data-player-manager></div>
-      </div>
-    </dialog>
-
-    <dialog id="credential-dialog" class="sheet-dialog sheet-dialog--compact">
-      <div class="sheet-surface">
-        <div class="sheet-heading">
-          <div>
-            <p class="eyebrow">Yetkili düzenleme</p>
-            <h2 data-credential-title>GitHub bağlantısı</h2>
-          </div>
-          <button class="icon-button" type="button" data-close-dialog aria-label="Kapat">×</button>
-        </div>
-        <p class="credential-copy" data-credential-copy>Bu cihazı bir kez GitHub reposuna bağla. Token yalnızca bu cihazda şifreli saklanır.</p>
-        <form id="credential-form" class="credential-form" novalidate>
-          <label data-token-field>
-            <span>Fine-grained GitHub token</span>
-            <input name="token" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="GitHub tokenını yapıştır">
-          </label>
-          <label>
-            <span>PIN</span>
-            <input name="pin" type="password" inputmode="numeric" autocomplete="off" maxlength="8" required placeholder="53">
-          </label>
-          <p class="field-help" data-token-help>Token için yalnızca <strong>ekremus/53</strong> reposunda Contents: Read and write izni yeterli.</p>
-          <button class="primary-action primary-action--wide" type="submit">Bağlan ve aç</button>
-          <button class="text-action text-action--center" type="button" data-forget-credential hidden>Bu cihazdaki bağlantıyı sil</button>
-        </form>
-      </div>
-    </dialog>
-
-    <dialog id="confirm-dialog" class="confirm-dialog">
-      <form method="dialog" class="confirm-surface">
-        <p class="eyebrow">Onay</p>
-        <h2 data-confirm-title>Emin misin?</h2>
-        <p data-confirm-copy>Bu işlem geri alınamaz.</p>
-        <div class="confirm-actions">
-          <button value="cancel">Vazgeç</button>
-          <button class="danger-action" value="confirm">Evet, devam et</button>
-        </div>
-      </form>
-    </dialog>
-
     <noscript>Maç defterini görmek için JavaScript’i etkinleştir.</noscript>
   </body>
 </html>

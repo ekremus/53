@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#202936">
+    <meta name="color-scheme" content="light">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; connect-src 'self'; script-src 'self'; style-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'">
+    <title>Düzenle · Bu Ecof Empires🏹🪓⚔️</title>
+    <link rel="icon" href="../assets/icon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../assets/icon-192.png">
+    <link rel="stylesheet" href="../styles.css">
+    <script type="module" src="../edit.js"></script>
+  </head>
+  <body data-page="edit">
+    <main id="app" class="app-shell">
+      <section class="tracker-head" aria-labelledby="product-title">
+        <div class="tracker-identity">
+          <span class="identity-mark" aria-hidden="true">53</span>
+          <div><p class="edit-status">Düzenleme · herkese açık</p><h1 id="product-title">Bu Ecof Empires🏹🪓⚔️</h1></div>
+        </div>
+        <div id="score-strip" class="score-strip" aria-label="Meydan skoru" aria-busy="true"></div>
+      </section>
+      <section class="matrix-stage" aria-labelledby="matrix-title">
+        <div class="matrix-title-row"><h2 id="matrix-title">Maç Defteri</h2><p>Alanlara dokunarak değiştir</p></div>
+        <div id="editor-matrix-root" aria-busy="true"><p class="loading-line">Düzenleme alanı açılıyor…</p></div>
+      </section>
+    </main>
+
+    <nav id="action-menu" class="action-menu action-menu--left" aria-label="Düzenleme işlemleri" hidden>
+      <button type="button" data-add-match>Maç ekle</button>
+      <button type="button" data-open-players>Oyuncular</button>
+      <a href="../">Görüntüle</a>
+      <a href="../stats/">Sıralama</a>
+    </nav>
+    <button class="action-seal action-seal--left" type="button" aria-controls="action-menu" aria-expanded="false" aria-label="İşlem menüsünü aç"><span aria-hidden="true">53</span></button>
+    <button class="publish-seal" type="button" data-publish>Yayınla</button>
+
+    <dialog id="players-dialog">
+      <div class="dialog-surface">
+        <div class="dialog-heading"><h2>Oyuncular</h2><button type="button" data-close-dialog>Kapat</button></div>
+        <form id="new-player-form" class="new-player-form" novalidate>
+          <label for="new-player-name">Yeni oyuncu</label>
+          <div class="inline-form"><input id="new-player-name" name="name" type="text" maxlength="40" autocomplete="off" required><button type="submit">Ekle</button></div>
+        </form>
+        <div data-player-manager></div>
+      </div>
+    </dialog>
+
+    <dialog id="confirm-dialog">
+      <div class="dialog-surface">
+        <div class="dialog-heading"><h2 data-confirm-title>Maçı sil?</h2></div>
+        <p class="confirm-copy" data-confirm-copy>Bu kayıt taslaktan kaldırılacak.</p>
+        <div class="dialog-actions"><button type="button" data-confirm-cancel>Vazgeç</button><button class="danger-action" type="button" data-confirm-accept>Sil</button></div>
+      </div>
+    </dialog>
+    <div id="notice-region" class="notice-region" aria-live="assertive" aria-atomic="true"></div>
+  </body>
+</html>
