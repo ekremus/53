@@ -25,8 +25,27 @@ test("ships one blue-red parchment token system", () => {
   for (const token of ["--paper", "--ink", "--rule", "--bronze", "--blue", "--red"]) {
     assert.match(css, new RegExp(`${token}:`));
   }
-  assert.match(css, /background-image:\s*url\("\.\/assets\/paper\.jpg"\)/);
+  assert.match(css, /background-image:\s*url\("\.\/assets\/paper-continuous\.jpg"\)/);
   assert.doesNotMatch(css, /--orange|score-versus|action-seal|tracker-identity|winner-green/i);
+});
+
+test("adds a compact brand row without breaking the first viewport", () => {
+  assert.match(css, /--brand-row:\s*40px/);
+  assert.match(css, /\.brand-header[\s\S]*height:\s*calc\(var\(--brand-row\) \+ env\(safe-area-inset-top\)\)/);
+  assert.match(css, /\.brand-wordmark[\s\S]*max-height:\s*30px/);
+});
+
+test("draws one inset walnut boundary between the teams", () => {
+  assert.match(css, /--team-divider:\s*#5c4326/);
+  assert.match(css, /\.rail-team--blue[\s\S]*inset 0 -3px 0 var\(--team-divider\)/);
+  assert.match(css, /\.matrix-team--blue[\s\S]*inset 0 -3px 0 var\(--team-divider\)/);
+});
+
+test("keeps parchment continuous behind long surfaces", () => {
+  assert.match(css, /paper-continuous\.jpg/);
+  assert.match(css, /body::before[\s\S]*position:\s*fixed/);
+  assert.match(css, /body::before[\s\S]*background-size:\s*cover/);
+  assert.doesNotMatch(css, /background-image:\s*url\("\.\/assets\/paper\.jpg"\)/);
 });
 
 test("ships visible focus, touch targets, and reduced motion", () => {

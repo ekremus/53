@@ -52,7 +52,9 @@
   --red-deep: #6f2018;
   --red-soft: rgb(163 58 44 / 14%);
   --danger: #742218;
+  --team-divider: #5c4326;
   --touch: 44px;
+  --brand-row: 40px;
   --rail: 44px;
   --week: 232px;
   --date-row: 34px;
@@ -71,10 +73,10 @@ html {
   min-width: 320px;
   min-height: 100%;
   background-color: var(--paper);
-  background-image: url("./assets/paper.jpg");
 }
 
 body {
+  position: relative;
   min-width: 320px;
   min-height: 100dvh;
   margin: 0;
@@ -82,8 +84,22 @@ body {
   background-color: transparent;
   color: var(--ink);
   font: 400 14px/1.3 "Merriweather", Georgia, "Times New Roman", serif;
+  isolation: isolate;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--paper);
+  background-image: url("./assets/paper-continuous.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  content: "";
+  pointer-events: none;
 }
 
 body[data-view="matches"]:not([data-editing]) {
@@ -142,12 +158,30 @@ select {
   background-color: rgb(199 168 111 / 22%);
 }
 
+.brand-header {
+  display: grid;
+  width: 100%;
+  height: calc(var(--brand-row) + env(safe-area-inset-top));
+  padding-top: env(safe-area-inset-top);
+  place-items: center;
+  overflow: hidden;
+  background: var(--furniture-deep);
+}
+
+.brand-wordmark {
+  display: block;
+  width: auto;
+  max-width: min(250px, calc(100vw - 32px));
+  height: auto;
+  max-height: 30px;
+  object-fit: contain;
+}
+
 .top-control {
   display: grid;
   grid-template-columns: 88px minmax(0, 196px) 88px;
   justify-content: center;
-  min-height: calc(var(--touch) + env(safe-area-inset-top));
-  padding-top: env(safe-area-inset-top);
+  min-height: var(--touch);
   background: var(--furniture-deep);
   border-bottom: 1px solid #160f09;
 }
@@ -315,7 +349,16 @@ select {
 }
 
 .rail-result {
+  display: grid;
+  place-items: center;
   border-top: 1px solid var(--rule);
+}
+
+.rail-result__medal {
+  display: block;
+  width: 20px;
+  height: 20px;
+  filter: invert(70%) sepia(54%) saturate(623%) hue-rotate(2deg) brightness(91%);
 }
 
 .rail-team {
@@ -329,6 +372,7 @@ select {
 
 .rail-team--blue {
   background: var(--blue-deep);
+  box-shadow: inset 0 -3px 0 var(--team-divider);
 }
 
 .rail-team--red {
@@ -384,7 +428,20 @@ select {
 }
 
 .matrix-team--blue {
+  position: relative;
   background-color: var(--blue-soft);
+  box-shadow: inset 0 -3px 0 var(--team-divider);
+}
+
+.matrix-team--blue::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--team-divider);
+  content: "";
+  pointer-events: none;
 }
 
 .matrix-team--red {
@@ -708,7 +765,7 @@ dialog {
   border: 1px solid var(--rule);
   border-radius: 0;
   background-color: var(--paper);
-  background-image: url("./assets/paper.jpg");
+  background-image: url("./assets/paper-continuous.jpg");
   color: var(--ink);
   box-shadow: 10px 14px 34px rgb(0 0 0 / 42%);
 }
@@ -741,7 +798,7 @@ dialog::backdrop {
 
 .notice-region {
   position: fixed;
-  top: calc(env(safe-area-inset-top) + 50px);
+  top: calc(env(safe-area-inset-top) + var(--brand-row) + var(--touch) + 6px);
   right: 10px;
   left: 10px;
   z-index: 30;
