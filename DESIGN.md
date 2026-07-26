@@ -8,6 +8,7 @@ colors:
   ink: "#171009"
   ink-muted: "#4d3617"
   rule: "#3b2814"
+  team-divider: "#5c4326"
   bronze: "#8a6935"
   furniture: "#72604a"
   furniture-deep: "#3c3022"
@@ -52,6 +53,10 @@ spacing:
   xl: "12px"
   xxl: "13px"
 components:
+  brand-signature:
+    backgroundColor: "{colors.furniture-deep}"
+    rounded: "{rounded.square}"
+    height: "40px"
   view-switch:
     backgroundColor: "#493c2b"
     textColor: "#f6e6bd"
@@ -108,9 +113,9 @@ components:
 
 **Creative North Star: "The Single-Sheet Meydan Ledger"**
 
-The product is one compact, hand-kept AoE2 competition sheet translated directly to a phone. Brown furniture frames a real parchment surface; a fixed blue–red score and one horizontally moving 4v4 matrix carry the entire match story. The result should feel like an old tournament ledger that happens to be fast, touchable, and precise.
+The product is one compact, hand-kept AoE2 competition sheet translated directly to a phone. Brown furniture frames a seamless parchment surface; one compact heraldic signature, a fixed blue–red score, and one horizontally moving 4v4 matrix carry the entire match story. The result should feel like an old tournament ledger that happens to be fast, touchable, and precise.
 
-The interface removes product theater and dashboard hierarchy. There is no visible product title, introductory copy, hero, sidebar, footer, floating menu, bottom navigation, archive surface, or repeated version of the match data. The only top-row content is the centered `Maçlar | Sıralama` switch and its contextual pencil or save/cancel actions.
+The interface removes product theater and dashboard hierarchy. A 40px generated `Bu Ecof Empires` signature is the only branding; there is no introductory copy, hero, sidebar, footer, floating menu, bottom navigation, archive surface, or repeated version of the match data. The next row contains only the centered `Maçlar | Sıralama` switch and its contextual pencil or save/cancel actions.
 
 The exact product name `Bu Ecof Empires🏹🪓⚔️` remains in document metadata and durable documentation. The exact team names `Cortinyanlar` and `Bakracoğulları` remain visible in the matrix rails and editing controls.
 
@@ -118,8 +123,9 @@ The exact product name `Bu Ecof Empires🏹🪓⚔️` remains in document metad
 
 - one newest-first horizontal match matrix, with every match represented once;
 - a complete 4v4 match visible inside the first 390 × 844 viewport;
+- one compact generated wordmark above the controls, never a promotional header;
 - fixed Cortinyanlar blue and Bakracoğulları red, paired with vertical named rails;
-- Merriweather over a real local parchment texture with brown furniture and thin bronze rules;
+- Merriweather over a continuous local parchment texture with brown furniture, thin bronze rules, and a walnut team divider;
 - contextual editing that changes only the currently selected surface.
 
 ## Colors
@@ -133,8 +139,9 @@ The palette is a materially restrained tournament set: parchment owns the page, 
 
 ### Secondary
 
-- **Meydan Bronze**: Restrained structural accent for rules, scrollbars, and the selected segmented control.
+- **Meydan Bronze**: Restrained structural accent for rules, scrollbars, the selected segmented control, and the winner medal.
 - **Brown Furniture**: Mid brown supports date headers and editing tools; deep brown holds the top control, score dash, table heading, and action buttons.
+- **Walnut Team Divider**: A fixed 3px `#5c4326` inset line separates the two four-player team blocks without changing row geometry.
 
 ### Tertiary
 
@@ -173,19 +180,19 @@ Dates and table headers use compact 12–13px bold text. Statistics use tabular 
 
 **The One-Voice Rule.** Do not reintroduce Alegreya, a sans-serif UI family, blackletter, novelty runes, an icon font, or monospace display copy.
 
-**The Data Before Display Rule.** No visible product heading or decorative headline precedes the score. Typography exists to make controls and match data clearer.
+**The Signature Exception Rule.** The generated wordmark may precede controls in one 40px row. It cannot gain subtitle copy, promotional scale, extra chrome, or a second title.
 
 ## Layout
 
-Phone geometry is canonical. The top control is a three-column row—88px, 196px, 88px—so the segmented switch stays mathematically centered at 390px while contextual actions occupy the right track. The row is at least 44px high plus the top safe-area inset. The score beneath it is 52px high.
+Phone geometry is canonical. A 40px brand row owns the top safe-area inset, then the top control uses three columns—88px, 196px, 88px—so the segmented switch stays mathematically centered at 390px while contextual actions occupy the right track. The control row is exactly one 44px touch track. The score beneath it is 52px high.
 
-The match surface is one horizontal scroll owner. A sticky 44px rail remains at the left while newest-first 232px match columns move under the finger and snap to the rail edge. Each column uses a 34px date row, four 54px Cortinyanlar players, four 54px Bakracoğulları players, and a 38px result row: 504px total. There are no P1–P4 labels, repeated team headers, result cards, or duplicate recent/archive sections. At 390 × 844, the complete first match ends around 601px, leaving it visible without vertical scrolling.
+The match surface is one horizontal scroll owner. A sticky 44px rail remains at the left while newest-first 232px match columns move under the finger and snap to the rail edge. Each column uses a 34px date row, four 54px Cortinyanlar players, four 54px Bakracoğulları players, and a 38px result row: 504px total. There are no P1–P4 labels, repeated team headers, result cards, or duplicate recent/archive sections. At 390 × 844, the 40px signature, 44px control, 52px score, and complete 504px match occupy 640px before the safe area.
 
 Public match view locks document-level vertical overflow because the complete matrix already fits. The matrix alone may scroll horizontally. Editing adds a 44px toolbar and raises the result row to 44px while preserving the same column and player geometry. Standings replace the matrix in the same surface area; they are not a second page shell.
 
 At the only CSS breakpoint, 920px, the sticky rail grows to 48px while match columns remain 232px. The application caps at 1440px and gains only a thin outer rule; content order and component grammar do not change. The minimum supported width is 320px, and 390px is the primary visual acceptance viewport.
 
-Top safe-area padding protects the view switch. Notices begin below that inset and the control row. There is no fixed bottom control, so the browser home-indicator area remains visually open.
+Top safe-area padding belongs to the signature row. Notices begin below the signature and control rows. There is no fixed bottom control, so the browser home-indicator area remains visually open.
 
 **The One Scroll Owner Rule.** The document stays viewport-bound in public match view; only the match matrix owns horizontal movement.
 
@@ -202,6 +209,7 @@ The ledger is flat. Real parchment texture, opaque furniture fields, alternating
 - **Dialog lift** (`10px 14px 34px rgb(0 0 0 / 42%)`): The new-player dialog only.
 - **Notice lift** (`5px 7px 16px rgb(0 0 0 / 32%)`): Temporary save, success, and error notices only.
 - **Selected inset** (`inset 0 2px 0 #efe0b3, inset 0 -2px 0 var(--bronze)`): The active half of the two-option switch.
+- **Team divider inset** (`inset 0 -3px 0 #5c4326`): The fixed boundary after the Cortinyanlar block; it is structural, not elevation.
 
 Small text shadows on dark score, rail, date, and result fields preserve contrast; they are not decorative glow.
 
@@ -217,6 +225,10 @@ There are no circular action seals, pills, floating buttons, rounded cards, or o
 
 ## Components
 
+### Brand Signature
+
+The first row is a 40px deep-brown field plus the device top safe-area inset. A generated transparent `Bu Ecof Empires` wordmark is centered within it, capped at 250px wide and 30px high. The image contains the bow, axe, and sword as small secondary marks. Its accessible label retains the exact product name `Bu Ecof Empires🏹🪓⚔️`.
+
 ### Top View Control
 
 The control row contains only a 196 × 34px `Maçlar | Sıralama` segmented switch centered independently of the actions. Each option is at least 32px high inside a 44px touch row. The active option uses raised parchment, ink, and a restrained bronze inset. The inactive option stays dark brown with light parchment text.
@@ -229,9 +241,9 @@ The score is a fixed 52px three-part strip: flexible deep-blue total, 24px deep-
 
 ### Weekly Match Matrix
 
-The sticky rail is 44px on phones. Its two named team sections each span exactly four player rows and set the names vertically with bottom-to-top reading. Blank rail cells align with the 34px date and 38px result rows. Slot labels are prohibited.
+The sticky rail is 44px on phones. Its two named team sections each span exactly four player rows and set the names vertically with bottom-to-top reading. The date rail cell is blank; the 38px result rail cell centers one 20px gold-filtered local medal. Slot labels are prohibited.
 
-Each 232px match column contains a centered date, eight player cells, and one named winner result. A public player cell uses a 38px local civilization crest, a 13px bold player name, and a 10.5px muted civilization name. Alternating translucent parchment rows keep dense lineups scannable; thin rules carry all separation. The result row uses the winning team's deep color plus the exact winning team name.
+Each 232px match column contains a centered date, eight player cells, and one named winner result. A public player cell uses a 38px local civilization crest, a 13px bold player name, and a 10.5px muted civilization name. Alternating translucent parchment rows keep dense lineups scannable; thin rules carry row separation. A 3px walnut line runs across the rail and match column between the fourth blue player and first red player. The result row uses the winning team's deep color plus the exact winning team name.
 
 ### Contextual Match Editor
 
@@ -247,7 +259,7 @@ Edit mode replaces standings with the player manager in the same surface. A 52px
 
 ### Dialog and Notices
 
-The only custom modal surface is the square, texture-backed new-player dialog, capped at 440px and inset 12px from the phone viewport. It uses one walnut perimeter rule, a deep-brown heading, a 44px close action, and a flat inline name form. Closing or canceling clears the pending matrix selection.
+The only custom modal surface is the square, continuous-texture-backed new-player dialog, capped at 440px and inset 12px from the phone viewport. It uses one walnut perimeter rule, a deep-brown heading, a 44px close action, and a flat inline name form. Closing or canceling clears the pending matrix selection.
 
 Destructive confirmations use the platform confirmation flow. Temporary notices sit below the safe-area-aware top control, announce status through the live region, and disappear after a short interval.
 
@@ -259,13 +271,13 @@ All interactive targets are at least 44px in their containing row. Keyboard focu
 
 ### Asset Policy
 
-Merriweather, `paper.jpg`, Tabler interface SVGs, the random shield, and all current AoE2 civilization crests are repository-local. Keep `docs/assets/icons/NOTICE.md` and `docs/assets/civs/NOTICE.md` with those assets. Never hotlink the tech tree, replace civilization crests with emoji, or render interface labels into raster art.
+Merriweather, `paper-continuous.jpg`, the generated transparent wordmark, Tabler interface SVGs including `medal.svg`, the random shield, and all current AoE2 civilization crests are repository-local. Keep `docs/assets/icons/NOTICE.md` and `docs/assets/civs/NOTICE.md` with those assets. Never hotlink the tech tree, replace civilization crests with emoji, or render variable interface labels into raster art.
 
 ## Do's and Don'ts
 
 ### Do:
 
-- **Do** keep the top row limited to the centered `Maçlar | Sıralama` switch and contextual edit actions.
+- **Do** keep branding limited to the 40px generated signature and keep the next row limited to the centered `Maçlar | Sıralama` switch and contextual edit actions.
 - **Do** preserve the 44/232/34/54/38px phone matrix geometry and verify the first complete match at 390 × 844.
 - **Do** keep Cortinyanlar blue and Bakracoğulları red, with exact names visible or available to assistive technology.
 - **Do** show every match once, newest first, in the one horizontal matrix.
@@ -275,7 +287,7 @@ Merriweather, `paper.jpg`, Tabler interface SVGs, the random shield, and all cur
 
 ### Don't:
 
-- **Don't** add a visible product title, header copy, hero, footer, sidebar, floating menu, bottom navigation, or dashboard cards.
+- **Don't** expand the signature into a promotional header, subtitle, hero, footer, sidebar, floating menu, bottom navigation, or dashboard cards.
 - **Don't** duplicate match data as latest, recent, archive, highlights, or summaries.
 - **Don't** add P1–P4 labels, repeated team headings, or a second horizontal scroll owner.
 - **Don't** switch the matrix to cards or hide player civilizations on narrow screens.

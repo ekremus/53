@@ -10,6 +10,7 @@
       "ink": { "role": "neutral", "displayName": "Charred Ink", "canonical": "#171009", "tonalRamp": ["#0b0704", "#171009", "#322416", "#503b27", "#715a43", "#9b8169", "#c8b2a0", "#eee3da"] },
       "ink-muted": { "role": "neutral", "displayName": "Brown Ink", "canonical": "#4d3617", "tonalRamp": ["#180e04", "#2f1e08", "#4d3617", "#6d522a", "#92733f", "#b59665", "#d5be91", "#f1e8d4"] },
       "rule": { "role": "neutral", "displayName": "Walnut Rule", "canonical": "#3b2814", "tonalRamp": ["#140b03", "#291909", "#3b2814", "#5c4326", "#7e6240", "#a18765", "#c9b39a", "#eee4d8"] },
+      "team-divider": { "role": "secondary", "displayName": "Walnut Team Divider", "canonical": "#5c4326", "tonalRamp": ["#140b03", "#291909", "#3b2814", "#5c4326", "#7e6240", "#a18765", "#c9b39a", "#eee4d8"] },
       "bronze": { "role": "secondary", "displayName": "Meydan Bronze", "canonical": "#8a6935", "tonalRamp": ["#211503", "#3e2b09", "#5e4618", "#7a5d2a", "#8a6935", "#af8f57", "#ceb889", "#ede3ce"] },
       "furniture": { "role": "secondary", "displayName": "Brown Furniture", "canonical": "#72604a", "tonalRamp": ["#1d1710", "#352b20", "#514332", "#72604a", "#93806a", "#b4a28d", "#d4c6b6", "#f0e9e1"] },
       "furniture-deep": { "role": "secondary", "displayName": "Deep Brown Furniture", "canonical": "#3c3022", "tonalRamp": ["#15100b", "#261e14", "#3c3022", "#584938", "#776553", "#9c8874", "#c4b5a5", "#eae2da"] },
@@ -31,7 +32,8 @@
     "shadows": [
       { "name": "dialog-lift", "value": "10px 14px 34px rgb(0 0 0 / 42%)", "purpose": "The new-player dialog only." },
       { "name": "notice-lift", "value": "5px 7px 16px rgb(0 0 0 / 32%)", "purpose": "Temporary status notices only." },
-      { "name": "selected-inset", "value": "inset 0 2px 0 #efe0b3, inset 0 -2px 0 #8a6935", "purpose": "Marks the active half of the view switch." }
+      { "name": "selected-inset", "value": "inset 0 2px 0 #efe0b3, inset 0 -2px 0 #8a6935", "purpose": "Marks the active half of the view switch." },
+      { "name": "team-divider-inset", "value": "inset 0 -3px 0 #5c4326", "purpose": "Separates the fixed blue and red four-player blocks without changing geometry." }
     ],
     "motion": [
       { "name": "native-matrix-scroll", "value": "direct touch scroll with x mandatory snap", "purpose": "The only intentional movement; old match columns continue horizontally." },
@@ -45,6 +47,13 @@
     ]
   },
   "components": [
+    {
+      "name": "Brand Signature",
+      "kind": "custom",
+      "description": "The only product branding: a generated transparent wordmark in one compact 40px row.",
+      "html": "<header class=\"ds-brand\" aria-label=\"Bu Ecof Empires🏹🪓⚔️\"><img src=\"./assets/wordmark-ecof.png\" alt=\"Bu Ecof Empires🏹🪓⚔️\"></header>",
+      "css": ".ds-brand { width: 390px; max-width: 100%; height: 40px; display: grid; place-items: center; overflow: hidden; background: #3c3022; } .ds-brand img { width: auto; max-width: min(250px, calc(100vw - 32px)); height: auto; max-height: 30px; object-fit: contain; }"
+    },
     {
       "name": "View Switch",
       "kind": "nav",
@@ -71,9 +80,9 @@
     {
       "name": "Weekly Matrix Slice",
       "kind": "custom",
-      "description": "The signature 44px vertical team rail beside one 232px newest-first match column.",
-      "html": "<div class=\"ds-matrix\"><aside class=\"ds-rail\" aria-label=\"Takımlar\"><i></i><strong class=\"ds-rail-blue\">Cortinyanlar</strong><strong class=\"ds-rail-red\">Bakracoğulları</strong><i></i></aside><article class=\"ds-week\"><time>26 Tem 2026</time><div class=\"ds-player\"><img src=\"./assets/civs/random.svg\" alt=\"\" width=\"38\" height=\"38\"><span><b>BuyukEkrem</b><small>Random</small></span></div><div class=\"ds-player\"><img src=\"./assets/civs/huns.png\" alt=\"\" width=\"38\" height=\"38\"><span><b>Emre</b><small>Huns</small></span></div><strong class=\"ds-result\">Cortinyanlar</strong></article></div>",
-      "css": ".ds-matrix { display: flex; width: 276px; color: #171009; font-family: Merriweather, Georgia, serif; } .ds-rail { width: 44px; flex: 0 0 44px; display: grid; grid-template-rows: 34px 108px 108px 38px; background: #3c3022; } .ds-rail i { border-block: 1px solid #3b2814; } .ds-rail strong { display: grid; place-items: center; overflow: hidden; color: #fff8e8; font-size: 13px; text-shadow: 0 1px 0 rgb(0 0 0 / 50%); writing-mode: vertical-rl; transform: rotate(180deg); } .ds-rail-blue { background: #174766; } .ds-rail-red { background: #6f2018; } .ds-week { width: 232px; border-right: 1px solid #3b2814; background: #c7a86f; } .ds-week time { height: 34px; display: grid; place-items: center; background: #72604a; color: #fff8e7; font-size: 12px; font-weight: 700; } .ds-player { height: 54px; display: grid; grid-template-columns: 38px minmax(0,1fr); align-items: center; gap: 7px; padding: 4px 7px; border-bottom: 1px solid rgb(59 40 20 / 54%); background: rgb(229 205 157 / 55%); } .ds-player img { width: 38px; height: 38px; object-fit: contain; } .ds-player span, .ds-player b, .ds-player small { min-width: 0; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ds-player b { font-size: 13px; line-height: 1.15; } .ds-player small { color: #4d3617; font-size: 10.5px; line-height: 1.15; } .ds-result { height: 38px; display: grid; place-items: center; background: #174766; color: #fff8e7; font-size: 11px; }"
+      "description": "The signature 44px vertical team rail, 3px walnut team boundary, and medal beside one 232px newest-first match column.",
+      "html": "<div class=\"ds-matrix\"><aside class=\"ds-rail\" aria-label=\"Takımlar\"><i></i><strong class=\"ds-rail-blue\">Cortinyanlar</strong><strong class=\"ds-rail-red\">Bakracoğulları</strong><i class=\"ds-rail-result\"><img src=\"./assets/icons/medal.svg\" alt=\"\" width=\"20\" height=\"20\"></i></aside><article class=\"ds-week\"><time>26 Tem 2026</time><div class=\"ds-team-blue\"><div class=\"ds-player\"><img src=\"./assets/civs/random.svg\" alt=\"\" width=\"38\" height=\"38\"><span><b>BuyukEkrem</b><small>Random</small></span></div><div class=\"ds-player\"><img src=\"./assets/civs/huns.png\" alt=\"\" width=\"38\" height=\"38\"><span><b>Emre</b><small>Huns</small></span></div></div><strong class=\"ds-result\">Cortinyanlar</strong></article></div>",
+      "css": ".ds-matrix { display: flex; width: 276px; color: #171009; font-family: Merriweather, Georgia, serif; } .ds-rail { width: 44px; flex: 0 0 44px; display: grid; grid-template-rows: 34px 108px 108px 38px; background: #3c3022; } .ds-rail i { border-block: 1px solid #3b2814; } .ds-rail strong { display: grid; place-items: center; overflow: hidden; color: #fff8e8; font-size: 13px; text-shadow: 0 1px 0 rgb(0 0 0 / 50%); writing-mode: vertical-rl; transform: rotate(180deg); } .ds-rail-blue { background: #174766; box-shadow: inset 0 -3px 0 #5c4326; } .ds-rail-red { background: #6f2018; } .ds-rail-result { display: grid; place-items: center; } .ds-rail-result img { width: 20px; height: 20px; filter: invert(70%) sepia(54%) saturate(623%) hue-rotate(2deg) brightness(91%); } .ds-week { width: 232px; border-right: 1px solid #3b2814; background: #c7a86f; } .ds-week time { height: 34px; display: grid; place-items: center; background: #72604a; color: #fff8e7; font-size: 12px; font-weight: 700; } .ds-team-blue { box-shadow: inset 0 -3px 0 #5c4326; } .ds-player { height: 54px; display: grid; grid-template-columns: 38px minmax(0,1fr); align-items: center; gap: 7px; padding: 4px 7px; border-bottom: 1px solid rgb(59 40 20 / 54%); background: rgb(229 205 157 / 55%); } .ds-player img { width: 38px; height: 38px; object-fit: contain; } .ds-player span, .ds-player b, .ds-player small { min-width: 0; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ds-player b { font-size: 13px; line-height: 1.15; } .ds-player small { color: #4d3617; font-size: 10.5px; line-height: 1.15; } .ds-result { height: 38px; display: grid; place-items: center; background: #174766; color: #fff8e7; font-size: 11px; }"
     },
     {
       "name": "Inline Match Selects",
@@ -101,12 +110,13 @@
   ],
   "narrative": {
     "northStar": "The Single-Sheet Meydan Ledger",
-    "overview": "The product is one compact, hand-kept AoE2 competition sheet translated directly to a phone. Brown furniture frames a real parchment surface; a fixed blue–red score and one horizontally moving 4v4 matrix carry the entire match story. The result should feel like an old tournament ledger that happens to be fast, touchable, and precise. The interface removes product theater and dashboard hierarchy. There is no visible product title, introductory copy, hero, sidebar, footer, floating menu, bottom navigation, archive surface, or repeated version of the match data. The only top-row content is the centered `Maçlar | Sıralama` switch and its contextual pencil or save/cancel actions. The exact product name `Bu Ecof Empires🏹🪓⚔️` remains in document metadata and durable documentation. The exact team names `Cortinyanlar` and `Bakracoğulları` remain visible in the matrix rails and editing controls.",
+    "overview": "The product is one compact, hand-kept AoE2 competition sheet translated directly to a phone. Brown furniture frames a continuous parchment surface; one compact heraldic signature, a fixed blue–red score, and one horizontally moving 4v4 matrix carry the entire match story. The interface removes product theater and dashboard hierarchy. A 40px generated `Bu Ecof Empires` signature is the only branding; there is no introductory copy, hero, sidebar, footer, floating menu, bottom navigation, archive surface, or repeated match data. The next row contains only the centered `Maçlar | Sıralama` switch and contextual actions. The exact team names `Cortinyanlar` and `Bakracoğulları` remain visible in the matrix rails and editing controls.",
     "keyCharacteristics": [
       "one newest-first horizontal match matrix, with every match represented once;",
       "a complete 4v4 match visible inside the first 390 × 844 viewport;",
+      "one compact generated wordmark above the controls, never a promotional header;",
       "fixed Cortinyanlar blue and Bakracoğulları red, paired with vertical named rails;",
-      "Merriweather over a real local parchment texture with brown furniture and thin bronze rules;",
+      "Merriweather over a continuous local parchment texture with brown furniture, thin bronze rules, a walnut team divider, and one winner medal;",
       "contextual editing that changes only the currently selected surface."
     ],
     "rules": [
@@ -114,7 +124,7 @@
       { "name": "The Named Rail Rule", "body": "Team color never carries identity by itself: the exact team names remain legible in the vertical rails, winner value, or accessible score labels.", "section": "colors" },
       { "name": "The Bronze Is Structure Rule", "body": "Bronze draws boundaries and selection detail; it never becomes a gradient, glow, or decorative wash.", "section": "colors" },
       { "name": "The One-Voice Rule", "body": "Do not reintroduce Alegreya, a sans-serif UI family, blackletter, novelty runes, an icon font, or monospace display copy.", "section": "typography" },
-      { "name": "The Data Before Display Rule", "body": "No visible product heading or decorative headline precedes the score. Typography exists to make controls and match data clearer.", "section": "typography" },
+      { "name": "The Signature Exception Rule", "body": "The generated wordmark may precede controls in one 40px row. It cannot gain subtitle copy, promotional scale, extra chrome, or a second title.", "section": "typography" },
       { "name": "The One Scroll Owner Rule", "body": "The document stays viewport-bound in public match view; only the match matrix owns horizontal movement.", "section": "layout" },
       { "name": "The Show It Once Rule", "body": "Every match appears once, newest first. Do not split history into latest, recent, and archive variants.", "section": "layout" },
       { "name": "The Phone Is Canonical Rule", "body": "Any new state must preserve the complete first match at 390 × 844 before wider behavior is considered.", "section": "layout" },
@@ -122,7 +132,7 @@
       { "name": "The Segmented Exception Rule", "body": "A small radius may bind a single mutually exclusive control; it does not license rounded containers elsewhere.", "section": "shapes" }
     ],
     "dos": [
-      "**Do** keep the top row limited to the centered `Maçlar | Sıralama` switch and contextual edit actions.",
+      "**Do** keep branding limited to the 40px generated signature and keep the next row limited to the centered `Maçlar | Sıralama` switch and contextual edit actions.",
       "**Do** preserve the 44/232/34/54/38px phone matrix geometry and verify the first complete match at 390 × 844.",
       "**Do** keep Cortinyanlar blue and Bakracoğulları red, with exact names visible or available to assistive technology.",
       "**Do** show every match once, newest first, in the one horizontal matrix.",
@@ -131,7 +141,7 @@
       "**Do** use and license local parchment, Merriweather, interface icons, and civilization crests."
     ],
     "donts": [
-      "**Don't** add a visible product title, header copy, hero, footer, sidebar, floating menu, bottom navigation, or dashboard cards.",
+      "**Don't** expand the signature into a promotional header, subtitle, hero, footer, sidebar, floating menu, bottom navigation, or dashboard cards.",
       "**Don't** duplicate match data as latest, recent, archive, highlights, or summaries.",
       "**Don't** add P1–P4 labels, repeated team headings, or a second horizontal scroll owner.",
       "**Don't** switch the matrix to cards or hide player civilizations on narrow screens.",
