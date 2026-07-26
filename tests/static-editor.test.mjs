@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { createEmptyMatch, validateState } from "../docs/lib/model.js";
 import { renderPlayerManager, validateMatchDraft } from "../docs/lib/editor.js";
-import { parseSlotKey } from "../docs/edit.js";
+import { parseSlotKey } from "../docs/app.js";
 
 const fixture = validateState(JSON.parse(await readFile(new URL("../docs/data/state.json", import.meta.url), "utf8")));
 

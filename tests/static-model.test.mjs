@@ -28,6 +28,7 @@ test("validates and structurally clones the production state", () => {
   assert.notEqual(state, fixtureState);
   assert.equal(state.matches.length, 2);
   assert.deepEqual(state.teams.map((team) => team.name), ["Cortinyanlar", "Bakracoğulları"]);
+  assert.deepEqual(state.teams.map((team) => team.tone), ["blue", "red"]);
   assert.equal(state.revision, 3);
 });
 

@@ -6,36 +6,24 @@ const html = await readFile(new URL("../docs/index.html", import.meta.url), "utf
 const editHtml = await readFile(new URL("../docs/edit/index.html", import.meta.url), "utf8");
 const statsHtml = await readFile(new URL("../docs/stats/index.html", import.meta.url), "utf8");
 
-test("ships the exact identity and mobile Vercel shell", () => {
+test("ships one minimal mobile SPA shell", () => {
   assert.match(html, /Bu Ecof Empires🏹🪓⚔️/);
-  assert.match(html, /Cortinyanlar/);
-  assert.match(html, /Bakracoğulları/);
   assert.match(html, /viewport-fit=cover/);
-  assert.match(html, /href="\.\/styles\.css"/);
-  assert.match(html, /type="module" src="\.\/app\.js"/);
-  assert.doesNotMatch(html, /chatgpt\.site|fabled-clove|github\.io/i);
-});
-
-test("exposes one match system without repeated dashboard sections", () => {
+  assert.match(html, /id="top-control"/);
   assert.match(html, /id="score-strip"/);
-  assert.match(html, /id="matrix-root"/);
-  assert.match(html, /href="\.\/edit\/"/);
-  assert.match(html, /href="\.\/stats\/"/);
-  assert.doesNotMatch(html, /Son maç|Son maçlar|Tümü|archive-dialog|credential-dialog/);
-  assert.doesNotMatch(html, /<header|<footer|sidebar|bottom-nav/i);
+  assert.match(html, /id="surface-root"/);
+  assert.match(html, /type="module" src="\.\/app\.js"/);
+  assert.doesNotMatch(html, /tracker-identity|matrix-title-row|action-menu|action-seal|publish-seal/);
+  assert.doesNotMatch(html, /Haftalık 4v4|Maç Defteri|Eski haftalar sağda|Alanlara dokunarak değiştir/);
 });
 
-test("ships open edit and separate statistics routes", () => {
-  assert.match(editHtml, /id="editor-matrix-root"/);
-  assert.match(editHtml, /data-publish/);
-  assert.match(editHtml, /data-add-match/);
-  assert.match(editHtml, /data-open-players/);
-  assert.match(editHtml, /href="\.\.\/"/);
-  assert.doesNotMatch(editHtml, /token|password|PIN|credential/i);
-
-  assert.match(statsHtml, /id="stats-root"/);
-  assert.match(statsHtml, /\.\.\/stats\.js/);
-  assert.doesNotMatch(statsHtml, /matrix-player|data-match-column/);
+test("keeps legacy routes as SPA redirects", () => {
+  assert.match(editHtml, /data-legacy-target="matches-edit"/);
+  assert.match(statsHtml, /data-legacy-target="standings"/);
+  for (const source of [editHtml, statsHtml]) {
+    assert.match(source, /\.\.\/legacy\.js/);
+    assert.doesNotMatch(source, /editor-matrix-root|stats-root|data-publish|data-open-players/);
+  }
 });
 
 test("keeps scripts and styles CSP-safe", () => {

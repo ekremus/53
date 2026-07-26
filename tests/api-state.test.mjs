@@ -20,11 +20,11 @@ function memoryStore(initial = fixture, etag = '"revision-3"') {
   };
 }
 
-test("GET returns validated state and an ETag", async () => {
+test("GET returns validated state without a browser concurrency header", async () => {
   const handle = createStateHandler({ store: memoryStore() });
   const response = await handle({ method: "GET", headers: {}, body: "" });
   assert.equal(response.status, 200);
-  assert.equal(response.headers.ETag, '"revision-3"');
+  assert.equal(response.headers.ETag, undefined);
   assert.equal(response.body.state.matches.length, 2);
 });
 

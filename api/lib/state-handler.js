@@ -28,10 +28,7 @@ export function createStateHandler({
     try {
       if (method === "GET") {
         const current = await store.read();
-        return reply(200, { state: validateState(current.state) }, {
-          ETag: current.etag,
-          "Cache-Control": "no-store",
-        });
+        return reply(200, { state: validateState(current.state) }, { "Cache-Control": "no-store" });
       }
 
       if (method !== "PUT") {
@@ -49,9 +46,8 @@ export function createStateHandler({
       submitted.revision = current.state.revision + 1;
       submitted.updatedAt = now().toISOString();
       const next = validateState(submitted);
-      const written = await store.write(next);
+      await store.write(next);
       return reply(200, { state: next }, {
-        ETag: written.etag,
         "Cache-Control": "no-store",
       });
     } catch (error) {

@@ -88,8 +88,9 @@ export function validateState(value) {
   const teams = value.teams.map((team, index) => {
     if (!team || typeof team !== "object") throw new Error(`${index + 1}. takım geçersiz.`);
     if (team.id !== TEAM_IDS[index] || team.name !== TEAM_NAMES[index]) throw new Error("Takım adları değiştirilemez.");
-    if (team.tone !== "blue" && team.tone !== "orange") throw new Error(`${team.name} renk tonu geçersiz.`);
-    return { id: team.id, name: team.name, tone: team.tone };
+    const acceptedTone = index === 0 ? team.tone === "blue" : team.tone === "red" || team.tone === "orange";
+    if (!acceptedTone) throw new Error(`${team.name} renk tonu geçersiz.`);
+    return { id: team.id, name: team.name, tone: index === 0 ? "blue" : "red" };
   });
   if (!Array.isArray(value.players)) throw new Error("Oyuncu listesi geçersiz.");
   const players = value.players.map(normalizePlayer);

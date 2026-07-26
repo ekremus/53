@@ -33,13 +33,14 @@ function playerUsage(state, playerId) {
   return state.matches.reduce((count, match) => count + Object.values(match.teams).flat().filter((slot) => slot.playerId === playerId).length, 0);
 }
 
-export function renderPlayerManager(state) {
+export function renderPlayerManager(state, { includeAdd = false } = {}) {
   const players = [...state.players].sort((a, b) => Number(b.active) - Number(a.active) || a.name.localeCompare(b.name, "tr-TR"));
-  if (!players.length) return `<div class="empty-state"><strong>Henüz oyuncu yok</strong></div>`;
-  return `<div class="player-manager">${players.map((player) => {
+  const add = includeAdd ? `<form class="player-add" data-add-player-form novalidate><label class="sr-only" for="new-player-name">Yeni oyuncu</label><input id="new-player-name" name="name" type="text" maxlength="40" autocomplete="off" placeholder="Yeni oyuncu" required><button type="submit"><img src="./assets/icons/plus.svg" alt="" width="18" height="18"><span>Ekle</span></button></form>` : "";
+  if (!players.length) return `<div class="player-manager">${add}</div>`;
+  return `<div class="player-manager">${add}${players.map((player) => {
     const usage = playerUsage(state, player.id);
     return `<div class="player-row${player.active ? "" : " is-passive"}" data-player-id="${escapeHtml(player.id)}">
-      <div class="player-row__identity"><input type="text" value="${escapeHtml(player.name)}" maxlength="40" aria-label="${escapeHtml(player.name)} adını değiştir" data-player-name="${escapeHtml(player.id)}"${player.active ? "" : " disabled"}><span>${usage} maç${player.active ? "" : " · pasif"}</span></div>
+      <div class="player-row__identity"><input type="text" value="${escapeHtml(player.name)}" maxlength="40" aria-label="${escapeHtml(player.name)} adını değiştir" data-player-name="${escapeHtml(player.id)}"${player.active ? "" : " disabled"}>${player.active ? "" : "<span>Pasif</span>"}</div>
       <div class="player-row__actions">${player.active ? `<button type="button" data-player-rename="${escapeHtml(player.id)}">Kaydet</button><button class="danger-action" type="button" data-player-remove="${escapeHtml(player.id)}">${usage ? "Pasif yap" : "Sil"}</button>` : `<button type="button" data-player-reactivate="${escapeHtml(player.id)}">Etkinleştir</button>`}</div>
     </div>`;
   }).join("")}</div>`;

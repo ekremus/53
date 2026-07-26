@@ -16,20 +16,27 @@ test("vendors a valid PNG for every supported civilization", async () => {
 test("ships every critical local application resource", async () => {
   for (const path of [
     "../docs/app.js",
-    "../docs/edit.js",
-    "../docs/stats.js",
+    "../docs/legacy.js",
     "../docs/edit/index.html",
     "../docs/stats/index.html",
     "../docs/lib/state-api.js",
     "../docs/styles.css",
     "../docs/manifest.webmanifest",
     "../docs/data/state.json",
-    "../docs/assets/hero-53.png",
+    "../docs/assets/paper.jpg",
     "../docs/assets/icon-192.png",
     "../docs/assets/icon-512.png",
     "../docs/assets/civs/random.svg",
-    "../docs/assets/fonts/alegreya-700.woff2",
-    "../docs/assets/fonts/alegreya-sans-400.woff2",
+    "../docs/assets/fonts/merriweather-latin-400.woff2",
+    "../docs/assets/fonts/merriweather-latin-ext-400.woff2",
+    "../docs/assets/fonts/merriweather-latin-700.woff2",
+    "../docs/assets/fonts/merriweather-latin-ext-700.woff2",
+    "../docs/assets/icons/pencil.svg",
+    "../docs/assets/icons/check.svg",
+    "../docs/assets/icons/x.svg",
+    "../docs/assets/icons/plus.svg",
+    "../docs/assets/icons/trash.svg",
+    "../docs/assets/icons/NOTICE.md",
   ]) {
     assert.ok((await stat(new URL(path, import.meta.url))).size > 0, `${path} boş olmamalı`);
   }

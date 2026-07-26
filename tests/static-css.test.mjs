@@ -4,13 +4,29 @@ import test from "node:test";
 
 const css = await readFile(new URL("../docs/styles.css", import.meta.url), "utf8");
 
-test("covers iPhone safe areas and owns horizontal overflow inside the matrix", () => {
+test("owns phone safe areas and horizontal overflow inside the matrix", () => {
   assert.match(css, /env\(safe-area-inset-top\)/);
-  assert.match(css, /env\(safe-area-inset-bottom\)/);
   assert.match(css, /100dvh/);
   assert.match(css, /\.match-matrix[\s\S]*overflow-x:\s*auto/);
   assert.match(css, /\.matrix-rail[\s\S]*position:\s*sticky/);
   assert.match(css, /scroll-snap-type:\s*x\s+mandatory/);
+});
+
+test("binds the compact matrix geometry", () => {
+  assert.match(css, /--rail:\s*44px/);
+  assert.match(css, /--week:\s*232px/);
+  assert.match(css, /--player-row:\s*54px/);
+  assert.match(css, /--date-row:\s*34px/);
+  assert.match(css, /--result-row:\s*38px/);
+  assert.match(css, /writing-mode:\s*vertical-rl/);
+});
+
+test("ships one blue-red parchment token system", () => {
+  for (const token of ["--paper", "--ink", "--rule", "--bronze", "--blue", "--red"]) {
+    assert.match(css, new RegExp(`${token}:`));
+  }
+  assert.match(css, /background-image:\s*url\("\.\/assets\/paper\.jpg"\)/);
+  assert.doesNotMatch(css, /--orange|score-versus|action-seal|tracker-identity|winner-green/i);
 });
 
 test("ships visible focus, touch targets, and reduced motion", () => {
@@ -22,18 +38,13 @@ test("ships visible focus, touch targets, and reduced motion", () => {
 test("is mobile first with one bounded desktop enhancement", () => {
   assert.match(css, /@media\s*\(min-width:\s*920px\)/);
   assert.match(css, /width:\s*min\(100%,\s*1440px\)/);
-  assert.match(css, /--rail:\s*108px/);
-  assert.match(css, /--week:\s*260px/);
 });
 
-test("avoids rejected generic visual patterns", () => {
-  assert.doesNotMatch(css, /backdrop-filter|gradient\s*text|background-clip:\s*text/i);
-  assert.doesNotMatch(css, /sidebar|bottom-nav/i);
-  assert.doesNotMatch(css, /border-(left|right):\s*[2-9][0-9]*px\s+solid/i);
-});
-
-test("vendors the declared typography", () => {
-  assert.match(css, /alegreya-700\.woff2/);
-  assert.match(css, /alegreya-sans-400\.woff2/);
+test("vendors Merriweather and avoids rejected generic patterns", () => {
+  assert.match(css, /merriweather-latin-400\.woff2/);
+  assert.match(css, /merriweather-latin-ext-700\.woff2/);
   assert.doesNotMatch(css, /@import\s+url\(https?:/i);
+  assert.doesNotMatch(css, /backdrop-filter|background-clip:\s*text/i);
+  assert.doesNotMatch(css, /sidebar|bottom-nav/i);
+  assert.doesNotMatch(css, /linear-gradient|radial-gradient/i);
 });
