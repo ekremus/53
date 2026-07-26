@@ -240,10 +240,10 @@ export default function Home() {
   return (
     <main id="top">
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="AoE2 Weekly ana sayfa">
+        <a className="brand" href="#top" aria-label="53 ana sayfa">
           <span className="brand-seal" aria-hidden="true">II</span>
           <span>
-            <strong>AoE2 Weekly</strong>
+            <strong>53</strong>
             <small>Haftalık 4v4 kayıtları</small>
           </span>
         </a>
@@ -481,7 +481,7 @@ export default function Home() {
       </section>
 
       <footer>
-        <span>AoE2 Weekly</span>
+        <span>53</span>
         <p>Arkadaşlık için oynanır. Skor için kaydedilir.</p>
         <a href="#top">Yukarı dön ↑</a>
       </footer>

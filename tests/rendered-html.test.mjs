@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
-test("build contains the AoE2 Weekly product shell", async () => {
+test("build contains the 53 product shell", async () => {
   const [layout, page, css, serverFiles] = await Promise.all([
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
@@ -11,7 +11,7 @@ test("build contains the AoE2 Weekly product shell", async () => {
   ]);
 
   assert.match(layout, /lang="tr"/i);
-  assert.match(layout, /AoE2 Weekly — Haftalık 4v4 Maçları/);
+  assert.match(layout, /title: "53"/);
   assert.match(page, /Dostluk baki/);
   assert.match(page, /Meydan hazırlanıyor/);
   assert.match(page, /\/api\/matches/);
