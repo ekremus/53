@@ -12,12 +12,7 @@ function memoryStore(initial = fixture, etag = '"revision-3"') {
     async read() {
       return { state: structuredClone(state), etag: currentEtag };
     },
-    async write(next, { ifMatch }) {
-      if (ifMatch !== currentEtag) {
-        const error = new Error("precondition");
-        error.code = "BLOB_PRECONDITION_FAILED";
-        throw error;
-      }
+    async write(next) {
       state = structuredClone(next);
       currentEtag = `"revision-${next.revision}"`;
       return { state: structuredClone(state), etag: currentEtag };
@@ -48,18 +43,26 @@ test("PUT increments revision and stamps server time", async () => {
   assert.equal(response.body.state.updatedAt, "2026-08-02T20:53:00.000Z");
 });
 
-test("PUT rejects stale, invalid, and oversized payloads", async () => {
-  const handle = createStateHandler({ store: memoryStore(), maxBytes: 128 * 1024 });
-  const stale = await handle({
+test("PUT accepts a valid stale client and applies last-write-wins", async () => {
+  const stale = structuredClone(fixture);
+  stale.revision = 1;
+  stale.matches[0].teams.cortinyanlar[0].civilization = "Armenians";
+  const handle = createStateHandler({ store: memoryStore() });
+  const response = await handle({
     method: "PUT",
-    headers: { "content-type": "application/json", "if-match": '"old"' },
-    body: JSON.stringify(fixture),
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(stale),
   });
-  assert.equal(stale.status, 409);
+  assert.equal(response.status, 200);
+  assert.equal(response.body.state.revision, fixture.revision + 1);
+  assert.equal(response.body.state.matches[0].teams.cortinyanlar[0].civilization, "Armenians");
+});
 
+test("PUT rejects invalid and oversized payloads", async () => {
+  const handle = createStateHandler({ store: memoryStore(), maxBytes: 128 * 1024 });
   const invalid = await handle({
     method: "PUT",
-    headers: { "content-type": "application/json", "if-match": '"revision-3"' },
+    headers: { "content-type": "application/json" },
     body: "{}",
   });
   assert.equal(invalid.status, 422);

@@ -2,26 +2,24 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createStateClient } from "../docs/lib/state-api.js";
 
-test("reads state and captures the ETag", async () => {
+test("reads state without requiring a browser concurrency token", async () => {
   const client = createStateClient({ fetchImplementation: async () => new Response(
     JSON.stringify({ state: { revision: 3 } }),
-    { status: 200, headers: { ETag: '"r3"', "Content-Type": "application/json" } },
+    { status: 200, headers: { "Content-Type": "application/json" } },
   ) });
-  assert.deepEqual(await client.read(), { state: { revision: 3 }, etag: '"r3"' });
+  assert.deepEqual(await client.read(), { state: { revision: 3 } });
 });
 
-test("publishes JSON with If-Match and maps 409", async () => {
+test("publishes complete JSON without a browser concurrency token", async () => {
   let request;
-  const success = createStateClient({ fetchImplementation: async (url, options) => {
+  const client = createStateClient({ fetchImplementation: async (url, options) => {
     request = { url, options };
-    return new Response(JSON.stringify({ state: { revision: 4 } }), { status: 200, headers: { ETag: '"r4"' } });
+    return new Response(JSON.stringify({ state: { revision: 4 } }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } });
-  await success.write({ revision: 3 }, '"r3"');
-  assert.equal(request.options.headers["If-Match"], '"r3"');
+  await client.write({ revision: 3 });
   assert.equal(request.options.method, "PUT");
-
-  const stale = createStateClient({ fetchImplementation: async () => new Response(
-    JSON.stringify({ error: "Veri başka biri tarafından güncellendi." }), { status: 409 },
-  ) });
-  await assert.rejects(() => stale.write({ revision: 3 }, '"r3"'), /başka biri/);
+  assert.equal(request.options.headers["If-Match"], undefined);
 });

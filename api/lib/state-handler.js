@@ -45,28 +45,16 @@ export function createStateHandler({
       }
 
       const current = await store.read();
-      const ifMatch = header(headers, "if-match");
-      if (!ifMatch || ifMatch !== current.etag) {
-        return reply(409, { error: "Veri başka biri tarafından güncellendi." }, { ETag: current.etag });
-      }
-
       const submitted = validateState(JSON.parse(body));
-      if (submitted.revision !== current.state.revision) {
-        return reply(409, { error: "Veri başka biri tarafından güncellendi." }, { ETag: current.etag });
-      }
-
       submitted.revision = current.state.revision + 1;
       submitted.updatedAt = now().toISOString();
       const next = validateState(submitted);
-      const written = await store.write(next, { ifMatch: current.etag });
+      const written = await store.write(next);
       return reply(200, { state: next }, {
         ETag: written.etag,
         "Cache-Control": "no-store",
       });
     } catch (error) {
-      if (error?.code === "BLOB_PRECONDITION_FAILED") {
-        return reply(409, { error: "Veri başka biri tarafından güncellendi." });
-      }
       if (error instanceof SyntaxError) return reply(400, { error: "JSON okunamadı." });
       if (isValidationError(error)) return reply(422, { error: error.message });
       return reply(503, { error: "Maç kayıtlarına şu anda ulaşılamıyor." });

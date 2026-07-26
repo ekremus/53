@@ -10,16 +10,14 @@ export function createStateClient({
       error.status = response.status;
       throw error;
     }
-    const etag = response.headers.get("ETag");
-    if (!etag) throw new Error("Veri sürümü alınamadı.");
-    return { state: payload.state, etag };
+    return { state: payload.state };
   }
 
   return {
     read: () => request(),
-    write: (state, etag) => request({
+    write: (state) => request({
       method: "PUT",
-      headers: { "Content-Type": "application/json", "If-Match": etag },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(state),
     }),
   };

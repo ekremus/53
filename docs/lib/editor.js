@@ -64,10 +64,9 @@ function prefilledMatch(state, date) {
   return empty;
 }
 
-export function createDraftController({ state, etag, client, render = () => {}, notify = () => {} } = {}) {
+export function createDraftController({ state, client, render = () => {}, notify = () => {} } = {}) {
   let baseline = validateState(state);
   let draft = clone(baseline);
-  let currentEtag = etag;
   let publishing = false;
 
   function update(mutator) {
@@ -80,12 +79,11 @@ export function createDraftController({ state, etag, client, render = () => {}, 
     if (publishing) return null;
     publishing = true;
     try {
-      const result = await client.write(validateState(draft), currentEtag);
+      const result = await client.write(validateState(draft));
       baseline = validateState(result.state);
       draft = clone(baseline);
-      currentEtag = result.etag;
       render(draft);
-      notify("Değişiklikler yayınlandı.", "success");
+      notify("Kaydedildi", "success");
       return clone(draft);
     } finally {
       publishing = false;
@@ -96,7 +94,6 @@ export function createDraftController({ state, etag, client, render = () => {}, 
     getState: () => clone(draft),
     getSnapshot: () => ({
       state: clone(draft),
-      etag: currentEtag,
       dirty: JSON.stringify(draft) !== JSON.stringify(baseline),
       publishing,
     }),
