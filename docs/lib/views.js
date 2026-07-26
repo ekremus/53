@@ -46,7 +46,7 @@ function resultWord(match, teamId) {
 
 function renderCivIcon(civilization, size = "regular") {
   const safeName = civilizationSet.has(civilization) ? civilization : "Random";
-  return `<img class="civ-icon civ-icon--${size}" src="./assets/civs/${safeCivAsset(safeName)}" alt="" width="48" height="48" loading="lazy"><span class="civ-name">${escapeHtml(safeName)}</span>`;
+  return `<img class="civ-icon civ-icon--${size}" src="./assets/civs/${safeCivAsset(safeName)}" alt="" width="48" height="48"><span class="civ-name">${escapeHtml(safeName)}</span>`;
 }
 
 export function renderScoreboard(state, stats) {
