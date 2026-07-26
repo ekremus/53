@@ -14,13 +14,10 @@ function roster(state) {
 }
 
 function railMarkup(state) {
-  const teamName = (team) => team.id === "cortinyanlar"
-    ? "<span>Cortin</span><span>yanlar</span>"
-    : "<span>Bakraco</span><span>ğulları</span>";
   return `<aside class="matrix-rail" aria-hidden="true">
-    <div class="rail-date"><strong>Takım</strong><small>Slot</small></div>
-    ${state.teams.map((team) => `<div class="rail-team rail-team--${escapeHtml(team.tone)}"><strong>${teamName(team)}</strong>${[1, 2, 3, 4].map((number) => `<span>P${number}</span>`).join("")}</div>`).join("")}
-    <div class="rail-winner">Kazanan</div>
+    <div class="rail-date"></div>
+    ${state.teams.map((team, index) => `<div class="rail-team rail-team--${index === 0 ? "blue" : "red"}"><strong>${escapeHtml(team.name)}</strong></div>`).join("")}
+    <div class="rail-result"></div>
   </aside>`;
 }
 
@@ -34,10 +31,11 @@ function publicPlayerCell(players, slot, teamId, index) {
 
 function publicMatchColumn(state, match, players) {
   const winner = state.teams.find((team) => team.id === match.winner);
+  const winnerIndex = state.teams.findIndex((team) => team.id === match.winner);
   return `<article class="match-column" data-match-column="${escapeHtml(match.id)}">
     <div class="match-column__date"><time datetime="${escapeHtml(match.date)}" data-iso-date="${escapeHtml(match.date)}">${escapeHtml(formatMatchDate(match.date))}</time></div>
-    ${state.teams.map((team) => `<section class="matrix-team matrix-team--${escapeHtml(team.tone)}" aria-label="${escapeHtml(team.name)}">${match.teams[team.id].map((slot, index) => publicPlayerCell(players, slot, team.id, index)).join("")}</section>`).join("")}
-    <div class="matrix-winner matrix-winner--${escapeHtml(winner?.tone ?? "blue")}"><span>Kazanan</span><strong>${escapeHtml(winner?.name ?? "")}</strong></div>
+    ${state.teams.map((team, index) => `<section class="matrix-team matrix-team--${index === 0 ? "blue" : "red"}" aria-label="${escapeHtml(team.name)}">${match.teams[team.id].map((slot, slotIndex) => publicPlayerCell(players, slot, team.id, slotIndex)).join("")}</section>`).join("")}
+    <div class="matrix-result matrix-result--${winnerIndex === 0 ? "blue" : "red"}"><strong>${escapeHtml(winner?.name ?? "")}</strong></div>
   </article>`;
 }
 
@@ -70,7 +68,7 @@ function editableMatchColumn(state, match) {
   const selected = Object.values(match.teams).flat().map((slot) => slot.playerId).filter(Boolean);
   return `<article class="match-column match-column--editable" data-edit-match="${escapeHtml(match.id)}">
     <div class="match-column__date"><input type="date" value="${escapeHtml(match.date)}" data-match-date="${escapeHtml(match.id)}" aria-label="Maç tarihi"></div>
-    ${state.teams.map((team) => `<section class="matrix-team matrix-team--${escapeHtml(team.tone)}" aria-label="${escapeHtml(team.name)}">${match.teams[team.id].map((slot, index) => {
+    ${state.teams.map((team, teamIndex) => `<section class="matrix-team matrix-team--${teamIndex === 0 ? "blue" : "red"}" aria-label="${escapeHtml(team.name)}">${match.teams[team.id].map((slot, index) => {
       const key = `${match.id}:${team.id}:${index}`;
       const selectedElsewhere = new Set(selected.filter((playerId) => playerId !== slot.playerId));
       return `<div class="matrix-player matrix-player--editable" data-edit-slot="${escapeHtml(key)}">
@@ -79,12 +77,13 @@ function editableMatchColumn(state, match) {
         <label><span class="sr-only">Uygarlık</span><select data-civilization-select="${escapeHtml(key)}">${civilizationOptions(slot.civilization)}</select></label>
       </div>`;
     }).join("")}</section>`).join("")}
-    <div class="matrix-winner matrix-winner--editable"><label><span>Kazanan</span><select data-winner-select="${escapeHtml(match.id)}">${state.teams.map((team) => `<option value="${escapeHtml(team.id)}"${match.winner === team.id ? " selected" : ""}>${escapeHtml(team.name)}</option>`).join("")}</select></label><button type="button" data-delete-match="${escapeHtml(match.id)}">Maçı sil</button></div>
+    <div class="matrix-result matrix-result--editable"><label><span class="sr-only">Kazanan</span><select data-winner-select="${escapeHtml(match.id)}">${state.teams.map((team) => `<option value="${escapeHtml(team.id)}"${match.winner === team.id ? " selected" : ""}>${escapeHtml(team.name)}</option>`).join("")}</select></label><button class="icon-button icon-button--danger" type="button" data-delete-match="${escapeHtml(match.id)}" aria-label="Maçı sil"><img src="./assets/icons/trash.svg" alt="" width="18" height="18"></button></div>
   </article>`;
 }
 
 export function renderEditableMatrix(state) {
   const matches = orderedMatches(state);
-  if (!matches.length) return `<div class="matrix-empty"><strong>Henüz maç yok</strong><span>İlk maçı menüden ekle.</span></div>`;
-  return `<div class="match-matrix match-matrix--editable" role="region" tabindex="0" aria-label="Düzenlenebilir haftalık maçlar">${railMarkup(state)}<div class="matrix-weeks">${matches.map((match) => editableMatchColumn(state, match)).join("")}</div></div>`;
+  const addAction = `<button class="add-action" type="button" data-add-match><img src="./assets/icons/plus.svg" alt="" width="18" height="18"><span>Maç ekle</span></button>`;
+  if (!matches.length) return `<div class="matrix-empty">${addAction}</div>`;
+  return `<div class="edit-toolbar">${addAction}</div><div class="match-matrix match-matrix--editable" role="region" tabindex="0" aria-label="Düzenlenebilir maçlar">${railMarkup(state)}<div class="matrix-weeks">${matches.map((match) => editableMatchColumn(state, match)).join("")}</div></div>`;
 }
