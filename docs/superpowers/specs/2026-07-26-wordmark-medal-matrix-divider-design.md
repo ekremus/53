@@ -2,14 +2,23 @@
 
 ## Scope
 
-Refine the existing single-sheet AoE2 SPA with four tightly bounded additions:
+Refine the existing single-sheet AoE2 SPA with five tightly bounded additions:
 
 1. a stronger horizontal separator between Cortinyanlar and Bakracoğulları;
 2. a winner medal in the left rail of every match result row;
 3. a compact branded header using a generated `Bu Ecof Empires` wordmark;
-4. a continuous parchment background without the current visible repeat cutoff.
+4. a continuous parchment background without the current visible repeat cutoff;
+5. explicit crawler and search-index opt-out on every route.
 
 The match data model, editing workflow, score strip, standings, navigation, storage API, and open-edit behavior do not change.
+
+## Search Visibility
+
+- Keep the application publicly reachable by direct URL but explicitly opt every route out of search indexing.
+- Add `noindex`, `nofollow`, `noarchive`, `nosnippet`, and `noimageindex` directives in page metadata and the production `X-Robots-Tag` response header.
+- Add a root `robots.txt` containing `User-agent: *` and `Disallow: /`.
+- Apply the same directives to the legacy `/edit/` and `/stats/` entry documents.
+- This is crawler/indexing control, not access control: it does not add authentication and cannot prevent someone who knows the URL from opening or sharing it.
 
 ## Header and Wordmark
 
@@ -69,6 +78,7 @@ The match data model, editing workflow, score strip, standings, navigation, stor
 - Confirm the first complete match remains visible at 390 × 844, the divider aligns across rail and week columns, the medal aligns with the result row, and the wordmark remains sharp and legible.
 - Scroll the standings and player editor beyond one viewport on iPhone-sized and desktop viewports; confirm the parchment has no cutoff, hard repeat band, or exposed solid-color block.
 - Confirm all project assets load locally with no failed network requests or console errors.
+- Confirm `/robots.txt` disallows `/`, every HTML entry contains the no-index metadata, and production responses include the `X-Robots-Tag` header.
 - Deploy to Vercel, verify `https://53aoe.vercel.app`, and push the same commit to GitHub.
 
 ## Out of Scope
@@ -77,3 +87,4 @@ The match data model, editing workflow, score strip, standings, navigation, stor
 - No score, player, civilization, statistics, or editing changes.
 - No replacement of the fixed blue/red team system.
 - No additional navigation, explanatory copy, ornamental frame, or dashboard content.
+- No login, password, private-network gate, or other access-control layer.

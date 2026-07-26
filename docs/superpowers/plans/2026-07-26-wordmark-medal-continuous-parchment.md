@@ -17,6 +17,7 @@
 - The complete newest match remains visible at 390 × 844.
 - The background has no 145px band, solid-color cutoff, or hard repeat seam.
 - No data migration, backend change, dependency, footer, bottom navigation, dashboard card, or explanatory copy.
+- Direct URLs stay public, but all pages must send `noindex`, `nofollow`, `noarchive`, `nosnippet`, and `noimageindex`; `robots.txt` disallows `/` for every user agent.
 
 ## File Structure
 
@@ -25,6 +26,7 @@
 - Modify `docs/lib/matrix.js` for the result-rail medal.
 - Modify `docs/styles.css` for all layout and material behavior.
 - Extend `tests/static-assets.test.mjs`, `tests/static-shell.test.mjs`, `tests/matrix-views.test.mjs`, and `tests/static-css.test.mjs`.
+- Create `docs/robots.txt`; update every HTML entry and `vercel.json`; verify through `tests/static-security.test.mjs`.
 - Refresh `DESIGN.md`, `.impeccable/design.json`, `.impeccable/surfaces/docs-index-html.md`, and `design-qa.md` after implementation.
 
 ---
@@ -387,11 +389,91 @@ git add docs/styles.css tests/static-css.test.mjs
 git commit -m "feat: add compact header and continuous ledger details"
 ```
 
-Expected: all 53 tests pass with zero failures (48 existing tests plus five new test cases).
+Expected after Task 3: all 53 tests pass with zero failures (48 existing tests plus five new test cases). Task 4 adds the 54th test.
 
 ---
 
-### Task 4: Synchronize Design Documentation and Run Bounded QA
+### Task 4: Opt Every Route Out of Search Indexing
+
+**Files:**
+- Create: `docs/robots.txt`
+- Modify: `docs/index.html:3-16`
+- Modify: `docs/edit/index.html:3-16`
+- Modify: `docs/stats/index.html:3-16`
+- Modify: `vercel.json:7-18`
+- Test: `tests/static-security.test.mjs`
+
+**Interfaces:**
+- Consumes: the existing three HTML entry documents and global Vercel header rule.
+- Produces: crawler refusal in `robots.txt`, page-level no-index metadata, and route-wide `X-Robots-Tag` headers while keeping direct URL access public.
+
+- [ ] **Step 1: Write the failing indexing-control test**
+
+Add these top-level reads to `tests/static-security.test.mjs`:
+
+```js
+const robots = await readFile(new URL("../docs/robots.txt", import.meta.url), "utf8");
+const vercel = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
+```
+
+Add this test:
+
+```js
+test("discourages crawling and search indexing on every route", async () => {
+  assert.match(robots, /^User-agent: \*\nDisallow: \/\n$/);
+  for (const path of ["../docs/index.html", "../docs/edit/index.html", "../docs/stats/index.html"]) {
+    const html = await readFile(new URL(path, import.meta.url), "utf8");
+    assert.match(html, /<meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">/);
+  }
+  const allRoutes = vercel.headers.find((rule) => rule.source === "/(.*)");
+  assert.ok(allRoutes);
+  assert.deepEqual(
+    allRoutes.headers.find((header) => header.key === "X-Robots-Tag"),
+    { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive, nosnippet, noimageindex" },
+  );
+});
+```
+
+- [ ] **Step 2: Verify the test fails**
+
+Run `node --test tests/static-security.test.mjs`.
+
+Expected: FAIL because `docs/robots.txt` is missing.
+
+- [ ] **Step 3: Add the crawler and index directives**
+
+Create `docs/robots.txt` with exactly:
+
+```text
+User-agent: *
+Disallow: /
+```
+
+Add this line after the viewport meta in all three HTML entry documents:
+
+```html
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+```
+
+Add this header to the existing `/(.*)` rule in `vercel.json`:
+
+```json
+{ "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }
+```
+
+- [ ] **Step 4: Pass the test and commit**
+
+```bash
+node --test tests/static-security.test.mjs
+git add docs/robots.txt docs/index.html docs/edit/index.html docs/stats/index.html vercel.json tests/static-security.test.mjs
+git commit -m "feat: opt the public tracker out of search indexing"
+```
+
+Expected: all security tests pass. Direct route behavior is unchanged.
+
+---
+
+### Task 5: Synchronize Design Documentation and Run Bounded QA
 
 **Files:**
 - Modify: `DESIGN.md`
@@ -401,7 +483,7 @@ Expected: all 53 tests pass with zero failures (48 existing tests plus five new 
 - Create ignored captures under: `.qa/`
 
 **Interfaces:**
-- Consumes: Tasks 1–3 and the approved spec.
+- Consumes: Tasks 1–4 and the approved spec.
 - Produces: durable design truth and mobile/desktop acceptance evidence.
 
 - [ ] **Step 1: Load refinement quality guidance**
@@ -463,7 +545,7 @@ Expected: tests pass, audit reports zero vulnerabilities, JSON parses, and the c
 
 ---
 
-### Task 5: Deploy, Verify, and Push
+### Task 6: Deploy, Verify, and Push
 
 **Files:**
 - Create ignored backup: `.qa/production-state-before-wordmark-deploy.json`
@@ -484,7 +566,7 @@ Record and preserve the actual live counts.
 
 - [ ] **Step 2: Deploy preview and smoke-test routes**
 
-Run `vercel deploy --yes`. For the returned URL, verify `/`, `/?view=standings`, `/?view=matches&edit=1`, `/stats/`, `/edit/`, and `/api/state` return HTTP 200. Do not save data.
+Run `vercel deploy --yes`. For the returned URL, verify `/`, `/?view=standings`, `/?view=matches&edit=1`, `/stats/`, `/edit/`, `/robots.txt`, and `/api/state` return HTTP 200. Confirm `robots.txt` disallows `/` and HTML/API responses include the expected `X-Robots-Tag`. Do not save data.
 
 - [ ] **Step 3: Deploy production and assign the short alias**
 
