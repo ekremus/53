@@ -28,7 +28,7 @@ Node.js 22 veya üzeri ve Vercel CLI gerekir.
 
 ```bash
 npm ci
-vercel link --project bu-ecof-empires-53
+vercel link --project 53aoe
 vercel env pull .env.local
 npm run dev:vercel
 ```
