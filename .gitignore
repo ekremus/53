@@ -45,3 +45,4 @@ next-env.d.ts
 /.impeccable/mocks/
 /.impeccable/meydan-surface-brief.md
 /.impeccable/qa/
+/.qa/

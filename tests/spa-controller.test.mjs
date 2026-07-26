@@ -21,7 +21,9 @@ test("one controller owns view switching and contextual editing", async () => {
     "data-player-select",
     "data-civilization-select",
     "data-player-rename",
+    "playerDialog.addEventListener(\"cancel\"",
+    "kaldırılsın mı?",
     "pushState",
-  ]) assert.match(source, new RegExp(contract));
+  ]) assert.ok(source.includes(contract), `missing controller contract: ${contract}`);
   assert.doesNotMatch(source, /Başka biri önce yayınladı|Yayınlandı/);
 });

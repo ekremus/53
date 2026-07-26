@@ -169,12 +169,15 @@ export async function startApp(documentRoot = document, {
         const input = surfaceRoot.querySelector(`[data-player-name="${CSS.escape(id)}"]`);
         controller.renamePlayer(id, input.value);
       } else if (target.matches("[data-player-remove]")) {
-        controller.removePlayer(target.dataset.playerRemove);
+        const id = target.dataset.playerRemove;
+        const player = controller.getState().players.find((candidate) => candidate.id === id);
+        if (player && confirmAction(`${player.name} kaldırılsın mı?`)) controller.removePlayer(id);
       } else if (target.matches("[data-player-reactivate]")) {
         controller.reactivatePlayer(target.dataset.playerReactivate);
       } else if (target.matches("[data-close-player-dialog]")) {
         pendingPlayerSlot = null;
         closeDialog(playerDialog);
+        render();
       }
     } catch (error) {
       notify(error.message);
@@ -236,6 +239,11 @@ export async function startApp(documentRoot = document, {
     } catch (error) {
       notify(error.message);
     }
+  });
+
+  playerDialog.addEventListener("cancel", () => {
+    pendingPlayerSlot = null;
+    render();
   });
 
   globalThis.addEventListener?.("popstate", () => {

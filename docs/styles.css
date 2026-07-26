@@ -144,7 +144,7 @@ select {
 
 .top-control {
   display: grid;
-  grid-template-columns: var(--touch) minmax(176px, 196px) 88px;
+  grid-template-columns: 88px minmax(0, 196px) 88px;
   justify-content: center;
   min-height: calc(var(--touch) + env(safe-area-inset-top));
   padding-top: env(safe-area-inset-top);

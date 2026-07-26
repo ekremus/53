@@ -30,6 +30,7 @@ test("renders active and passive player management actions", () => {
   assert.match(html, /data-player-rename="buyukekrem"/);
   assert.match(html, /data-player-remove="buyukekrem"/);
   assert.match(html, /data-player-reactivate="zombi"/);
+  assert.match(html, />Uygula</);
   assert.match(html, /Pasif yap/);
 });
 
