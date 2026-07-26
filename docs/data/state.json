@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "revision": 3,
+  "updatedAt": "2026-07-26T01:12:29.527Z",
+  "teams": [
+    {
+      "id": "cortinyanlar",
+      "name": "Cortinyanlar",
+      "tone": "blue"
+    },
+    {
+      "id": "bakracogullari",
+      "name": "Bakracoğulları",
+      "tone": "orange"
+    }
+  ],
+  "players": [
+    { "id": "alman-general", "name": "Alman General", "active": true },
+    { "id": "buyukekrem", "name": "BuyukEkrem", "active": true },
+    { "id": "emre", "name": "Emre", "active": true },
+    { "id": "italyan-aygiri", "name": "Italyan Aygiri", "active": true },
+    { "id": "jdjdj", "name": "Jdjdj", "active": true },
+    { "id": "mstfunsal", "name": "mstfunsal", "active": true },
+    { "id": "neudzulab", "name": "Neudzulab", "active": true },
+    { "id": "orc-rist", "name": "OrC_RIST", "active": true },
+    { "id": "serkan", "name": "Serkan", "active": true },
+    { "id": "zombi", "name": "Zombi", "active": true }
+  ],
+  "matches": [
+    {
+      "id": "e88b49b3-eb44-46e6-9082-afe329199074",
+      "date": "2026-07-26",
+      "teams": {
+        "cortinyanlar": [
+          { "playerId": "zombi", "civilization": "Bohemians" },
+          { "playerId": "italyan-aygiri", "civilization": "Burmese" },
+          { "playerId": "neudzulab", "civilization": "Random" },
+          { "playerId": "alman-general", "civilization": "Random" }
+        ],
+        "bakracogullari": [
+          { "playerId": "jdjdj", "civilization": "Random" },
+          { "playerId": "buyukekrem", "civilization": "Random" },
+          { "playerId": "orc-rist", "civilization": "Random" },
+          { "playerId": "mstfunsal", "civilization": "Random" }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "12131315-d162-4312-ab54-98570e741613",
+      "date": "2026-07-26",
+      "teams": {
+        "cortinyanlar": [
+          { "playerId": "buyukekrem", "civilization": "Huns" },
+          { "playerId": "emre", "civilization": "Random" },
+          { "playerId": "serkan", "civilization": "Random" },
+          { "playerId": "alman-general", "civilization": "Random" }
+        ],
+        "bakracogullari": [
+          { "playerId": "neudzulab", "civilization": "Random" },
+          { "playerId": "italyan-aygiri", "civilization": "Random" },
+          { "playerId": "mstfunsal", "civilization": "Random" },
+          { "playerId": "orc-rist", "civilization": "Random" }
+        ]
+      },
+      "winner": "cortinyanlar"
+    }
+  ]
+}

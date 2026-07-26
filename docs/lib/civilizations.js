@@ -1,0 +1,65 @@
+export const CIVILIZATIONS = Object.freeze([
+  "Armenians",
+  "Aztecs",
+  "Bengalis",
+  "Berbers",
+  "Bohemians",
+  "Britons",
+  "Bulgarians",
+  "Burgundians",
+  "Burmese",
+  "Byzantines",
+  "Celts",
+  "Chinese",
+  "Cumans",
+  "Dravidians",
+  "Ethiopians",
+  "Franks",
+  "Georgians",
+  "Goths",
+  "Gurjaras",
+  "Hindustanis",
+  "Huns",
+  "Incas",
+  "Italians",
+  "Japanese",
+  "Jurchens",
+  "Khitans",
+  "Khmer",
+  "Koreans",
+  "Lithuanians",
+  "Magyars",
+  "Malay",
+  "Malians",
+  "Mapuche",
+  "Mayans",
+  "Mongols",
+  "Muisca",
+  "Persians",
+  "Poles",
+  "Portuguese",
+  "Romans",
+  "Saracens",
+  "Shu",
+  "Sicilians",
+  "Slavs",
+  "Spanish",
+  "Tatars",
+  "Teutons",
+  "Tupi",
+  "Turks",
+  "Vietnamese",
+  "Vikings",
+  "Wei",
+  "Wu",
+]);
+
+export const CIVILIZATION_OPTIONS = Object.freeze(["Random", ...CIVILIZATIONS]);
+
+export const civilizationSet = new Set(CIVILIZATION_OPTIONS);
+
+export function civilizationAssetName(civilization) {
+  if (!civilizationSet.has(civilization)) return "random.svg";
+  if (civilization === "Random") return "random.svg";
+  return `${civilization.toLocaleLowerCase("en-US")}.png`;
+}
