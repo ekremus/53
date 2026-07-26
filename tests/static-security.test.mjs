@@ -15,6 +15,8 @@ async function sourceFiles(directory) {
 const docsRoot = new URL("../docs/", import.meta.url);
 const files = await sourceFiles(docsRoot);
 const sources = (await Promise.all(files.map(async (url) => `${url.pathname}\n${await readFile(url, "utf8")}`))).join("\n");
+const robots = await readFile(new URL("../docs/robots.txt", import.meta.url), "utf8");
+const vercel = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
 
 test("contains no browser credential, PIN, or retired runtime endpoint", () => {
   assert.doesNotMatch(sources, /(?:github_pat_|ghp_)[A-Za-z0-9_]+/);
@@ -36,4 +38,18 @@ test("limits browser connections to the same origin", async () => {
     assert.match(html, /object-src 'none'/);
     assert.match(html, /frame-ancestors 'none'/);
   }
+});
+
+test("discourages crawling and search indexing on every route", async () => {
+  assert.match(robots, /^User-agent: \*\nDisallow: \/\n$/);
+  for (const path of ["../docs/index.html", "../docs/edit/index.html", "../docs/stats/index.html"]) {
+    const html = await readFile(new URL(path, import.meta.url), "utf8");
+    assert.match(html, /<meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">/);
+  }
+  const allRoutes = vercel.headers.find((rule) => rule.source === "/(.*)");
+  assert.ok(allRoutes);
+  assert.deepEqual(
+    allRoutes.headers.find((header) => header.key === "X-Robots-Tag"),
+    { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive, nosnippet, noimageindex" },
+  );
 });
