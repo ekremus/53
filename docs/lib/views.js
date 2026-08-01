@@ -1,3 +1,5 @@
+import { civilizationAssetName } from "./civilizations.js";
+
 const dateFormatter = new Intl.DateTimeFormat("tr-TR", {
   day: "2-digit",
   month: "short",
@@ -36,5 +38,5 @@ export function renderTopControl({ view = "matches", editing = false, dirty = fa
 
 export function renderStatsTable(stats) {
   if (!stats.players.length) return `<div class="empty-state"><strong>Henüz oyuncu yok</strong></div>`;
-  return `<div class="table-scroller"><table class="stats-table"><colgroup><col class="stats-col-rank"><col class="stats-col-player"><col class="stats-col-number"><col class="stats-col-number"><col class="stats-col-number"><col class="stats-col-rate"></colgroup><thead><tr><th scope="col">#</th><th scope="col">Oyuncu</th><th scope="col" title="Oynanan maç">O</th><th scope="col" title="Galibiyet">G</th><th scope="col" title="Mağlubiyet">M</th><th scope="col">%</th></tr></thead><tbody>${stats.players.map((player) => `<tr><td class="rank-number">${player.rank}</td><th scope="row">${escapeHtml(player.name)}</th><td>${player.played}</td><td>${player.wins}</td><td>${player.losses}</td><td><strong>${player.winRate}%</strong></td></tr>`).join("")}</tbody></table></div>`;
+  return `<div class="table-scroller"><table class="stats-table"><colgroup><col class="stats-col-rank"><col class="stats-col-player"><col class="stats-col-number"><col class="stats-col-number"><col class="stats-col-number"><col class="stats-col-rate"></colgroup><thead><tr><th scope="col">#</th><th scope="col">Oyuncu</th><th scope="col" title="Oynanan maç">O</th><th scope="col" title="Galibiyet">G</th><th scope="col" title="Mağlubiyet">M</th><th scope="col">%</th></tr></thead><tbody>${stats.players.map((player) => `<tr><td class="rank-number">${player.rank}</td><th scope="row"><span class="stats-player"><img src="./assets/civs/${civilizationAssetName(player.favoriteCivilization)}" alt="" width="28" height="28"><span>${escapeHtml(player.name)}</span></span></th><td>${player.played}</td><td>${player.wins}</td><td>${player.losses}</td><td><strong>${player.winRate}%</strong></td></tr>`).join("")}</tbody></table></div>`;
 }

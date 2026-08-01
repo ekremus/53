@@ -26,7 +26,10 @@ test("renders one contextual top control", () => {
 
 test("renders rank, records, and win rate", () => {
   const html = renderStatsTable(stats);
+  const general = stats.players.find((player) => player.name === "Alman General");
+  assert.equal(general.favoriteCivilization, "Random");
   assert.match(html, /100%/);
+  assert.match(html, /class="stats-player"[\s\S]*assets\/civs\/random\.svg[\s\S]*Alman General/);
   assert.match(html, /<th[^>]*>O<\/th>/);
   assert.match(html, /<th[^>]*>G<\/th>/);
   assert.match(html, /<th[^>]*>M<\/th>/);
