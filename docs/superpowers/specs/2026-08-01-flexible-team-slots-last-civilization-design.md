@@ -4,7 +4,7 @@
 
 ## Goal
 
-Add safe 3v3 support to the existing weekly match tracker without deleting, rewriting, reseeding, or migrating the current production data. Keep the four-row team geometry, sort each team alphabetically in both public and edit views, start every new match with empty slots, and restore a selected player's most recently recorded civilization automatically.
+Add safe 3v3 support to the existing weekly match tracker without deleting, rewriting, reseeding, or migrating the current production data. Keep the four-row team geometry, sort each team alphabetically in both public and edit views, start every new match with empty slots, restore a selected player's most recently recorded civilization automatically, show each ranked player's most-picked civilization crest, and make mobile match columns approximately 30% narrower.
 
 ## Current Production Safety Baseline
 
@@ -61,6 +61,14 @@ Both public and editable match columns present each team's real players in Turki
 
 Ordering is presentation-only. Existing match arrays are not rewritten or published merely to alphabetize them. Editable controls retain their original slot index in their data keys, so changing a displayed row updates the correct stored slot. A normal edit re-render may move the selected player to their alphabetical position.
 
+Vacant slots must remain last even when multiple vacant slots are present. Their relative order is irrelevant, but they must never sort before or between real players.
+
+## Mobile Match Column Width
+
+At mobile widths, each match/week column changes from 232px to 164px, a reduction of approximately 29%. The team rail width, date-row height, player-row height, result-row height, civilization crest size, and desktop column width remain unchanged.
+
+The player text area must still display `Alman General`, the longest current production nickname, without clipping or truncation. Civilization names may continue using the existing constrained secondary line behavior. The 390px viewport must show the complete newest 164px column plus a meaningful portion of the next column without introducing document-level horizontal overflow; only the existing matrix remains horizontally scrollable.
+
 ## Public Rendering and Statistics
 
 Public match columns preserve all four rows per team. A vacant row displays only `-` with no civilization name contributing meaning.
@@ -73,6 +81,19 @@ Statistics skip vacant slots entirely:
 - no effect on team win totals or total match count beyond the match itself.
 
 A 3v3 match therefore counts as one team match while only the six selected players receive player statistics.
+
+## Favorite Civilization in Standings
+
+Each standings row shows a 28px local civilization crest immediately before the nickname. The crest is derived from match history and is not persisted on the player record.
+
+For each real player:
+
+1. Count every valid recorded civilization selection across that player's non-empty match slots, including `Random`.
+2. Choose the civilization with the highest count.
+3. If multiple civilizations share the highest count, choose the one appearing in that player's most recent match.
+4. If the player has no match history, use `Random`.
+
+The crest uses the existing local `civilizationAssetName` mapping and has empty alternative text because the adjacent nickname remains the row label and the crest is supplementary. The standings table keeps its current rank, played, wins, losses, and win-rate calculations and column order.
 
 ## Error Handling
 
@@ -96,6 +117,10 @@ Automated coverage must prove:
 - choosing `-` resets and disables civilization selection;
 - choosing a player restores their latest recorded civilization;
 - a player with no history falls back to `Random`; and
+- favorite-civilization counts include `Random`, resolve ties by most recent appearance, and fall back to `Random`;
+- standings render the correct local favorite-civilization crest before each nickname;
+- mobile match columns are 164px while desktop columns remain 232px;
+- `Alman General` remains fully visible at 390px with no document-level horizontal overflow; and
 - the full existing test suite remains green.
 
 ## Deployment and Data Preservation
@@ -125,4 +150,4 @@ The backup is a recovery artifact, not permission to overwrite newer production 
 - New statistics or scoring fields.
 - Automatic team balancing.
 - Reordering or migrating existing production slot arrays.
-- Any visual redesign beyond the minimal vacant-slot state required by this feature.
+- Any visual redesign beyond the vacant-slot state, standings crest, and narrower mobile match columns required by this feature.
