@@ -65,9 +65,23 @@ Vacant slots must remain last even when multiple vacant slots are present. Their
 
 ## Mobile Match Column Width
 
-At mobile widths, each match/week column changes from 232px to 164px, a reduction of approximately 29%. The team rail width, date-row height, player-row height, result-row height, civilization crest size, and desktop column width remain unchanged.
+At mobile widths, each match/week column changes from 232px to 164px, a reduction of approximately 29%. The date-row height, player-row height, result-row height, civilization crest size, and desktop column width remain unchanged.
 
 The player text area must still display `Alman General`, the longest current production nickname, without clipping or truncation. Civilization names may continue using the existing constrained secondary line behavior. The 390px viewport must show the complete newest 164px column plus a meaningful portion of the next column without introducing document-level horizontal overflow; only the existing matrix remains horizontally scrollable.
+
+## Mobile Team Rail and Edit Overflow
+
+The mobile team rail changes from 44px to 31px, approximately 30% narrower. Its desktop value remains 48px at the existing 920px breakpoint. Vertical team names, the date spacer, and the winner medal remain centered and legible without changing row heights.
+
+The public document already stays at the viewport width. Edit mode currently leaks native form-control overflow into the root document, making a 390px viewport report a 1018px document width. The root document must be horizontally clipped while `.match-matrix` remains the only horizontal scroll owner. At 390px, both public and edit modes must report `document.documentElement.scrollWidth === document.documentElement.clientWidth` while the matrix itself remains horizontally scrollable.
+
+## Edit Access Protection
+
+Public matches, standings, and `GET /api/state` remain open. Entering edit mode requires the shared password `1453`; direct `?edit=1` navigation must show the same password prompt before editable controls render. The password is stored only as a Vercel `EDIT_PASSWORD` environment variable and in the current page's JavaScript memory after successful verification. It is never committed, placed in a URL, persisted to local storage, or embedded in the static bundle.
+
+A small same-origin `POST /api/auth` endpoint verifies the submitted password. Every `PUT /api/state` independently requires the same password in a request header, so bypassing the UI cannot write data. Failed authentication returns 401 without reading or writing Blob state. The password dialog stays within the existing square parchment design and public viewing never prompts.
+
+This is lightweight shared-secret protection for accidental or casual edits, not user accounts or high-security authentication. It remains free on Vercel Hobby because it uses the existing Node Function environment and does not enable paid Vercel Password Protection.
 
 ## Public Rendering and Statistics
 
@@ -102,6 +116,8 @@ The crest uses the existing local `civilizationAssetName` mapping and has empty 
 - Unknown civilizations still fail validation.
 - Selecting a player already used elsewhere in the same match remains unavailable through the existing disabled-option behavior and is rejected by validation if submitted manually.
 - Existing server-side revision updates and last-writer-wins publishing remain unchanged; this feature adds no merge, reseed, or recovery write path.
+- Missing or incorrect edit passwords return 401 before a Blob write is attempted.
+- Closing the password prompt returns to public view without changing the draft or URL history incorrectly.
 
 ## Testing
 
@@ -121,6 +137,9 @@ Automated coverage must prove:
 - standings render the correct local favorite-civilization crest before each nickname;
 - mobile match columns are 164px while desktop columns remain 232px;
 - `Alman General` remains fully visible at 390px with no document-level horizontal overflow; and
+- the mobile team rail is 31px while the desktop rail remains 48px;
+- edit mode has no root-document horizontal overflow while its matrix still scrolls;
+- public GET requests remain unauthenticated, edit authentication accepts only the configured password, and every PUT rejects missing or incorrect credentials;
 - the full existing test suite remains green.
 
 ## Deployment and Data Preservation
@@ -132,6 +151,8 @@ Before deployment:
 3. Record a SHA-256 hash plus player, match, revision, and updated-at values.
 
 Deploy only application and API validation code. Do not seed or write state during preview or production verification.
+
+Configure `EDIT_PASSWORD` as a Production environment variable before the production deployment. Do not print it into logs or commit it to any file.
 
 After deployment:
 

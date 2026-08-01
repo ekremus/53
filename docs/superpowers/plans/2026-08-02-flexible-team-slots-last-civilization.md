@@ -18,6 +18,9 @@
 - Alphabetical ordering is presentation-only. Every editable row must retain its original slot index in `data-edit-slot`.
 - `Random` participates in favorite-civilization counts. Ties use the most recent appearance; no history falls back to `Random`.
 - Mobile match columns are 164px; the existing 920px breakpoint restores 232px. Player-row height and 38px match crest size stay unchanged.
+- The mobile team rail is 31px; the existing 920px breakpoint keeps it at 48px.
+- `html` and `body` stay viewport-bound in edit mode; `.match-matrix` remains the only horizontal scroll owner.
+- Public GET and view routes stay open. Edit entry and every state PUT require the Vercel `EDIT_PASSWORD` value; the password never enters Git, URLs, or persistent browser storage.
 - Do not reintroduce ETag/stale-write UI, authentication, migration code, a seed path, extra copy, or any redesign beyond the approved feature states.
 - Use `apply_patch` for source edits. Run the focused failing test before implementation, then the focused passing test, then commit each task.
 
@@ -649,7 +652,9 @@ git commit -m "feat: alphabetize teams and render vacant slots"
 **Interfaces:**
 - Standings nickname cell: `.stats-player` containing a 28px local crest then text.
 - Base `--week`: `164px`
+- Base `--rail`: `31px`
 - `@media (min-width: 920px)` `--week`: `232px`
+- `@media (min-width: 920px)` `--rail`: `48px`
 - Visual metrics: no document overflow and `Alman General` text fits at 390px.
 
 - [ ] **Step 1: Add failing standings and geometry tests**
@@ -668,7 +673,10 @@ In `tests/static-css.test.mjs`, replace the broad 232px geometry assertion with 
 
 ```js
 assert.match(css, /:root\s*{[\s\S]*--week:\s*164px/);
+assert.match(css, /:root\s*{[\s\S]*--rail:\s*31px/);
 assert.match(css, /@media\s*\(min-width:\s*920px\)[\s\S]*--week:\s*232px/);
+assert.match(css, /@media\s*\(min-width:\s*920px\)[\s\S]*--rail:\s*48px/);
+assert.match(css, /html[\s\S]*overflow-x:\s*clip/);
 assert.match(css, /\.matrix-player--empty[\s\S]*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
 assert.match(css, /\.stats-player img[\s\S]*width:\s*28px/);
 ```
@@ -701,9 +709,10 @@ The image `alt` stays empty because the adjacent nickname is the row label and t
 
 - [ ] **Step 4: Apply the approved mobile geometry and component styles**
 
-Change only the base token in `:root`:
+Change the two approved base tokens in `:root`:
 
 ```css
+--rail: 31px;
 --week: 164px;
 ```
 
@@ -854,6 +863,38 @@ Expected at 390 × 844:
 - standings crests load and appear before nicknames;
 - empty new-match rows show `-`, stay last, and do not compress row height.
 
+In both public and edit screenshots the rail must measure 31px, retain both vertical team names, and keep the medal centered. Edit mode must report root document width 390px even though the matrix scroll width is larger.
+
+---
+
+### Task 5A: Protect Edit Entry and State Writes with the Shared Password
+
+**Files:**
+- Create: `api/auth.js`
+- Create: `api/lib/edit-auth.js`
+- Modify: `api/lib/state-handler.js`
+- Modify: `docs/lib/state-api.js`
+- Modify: `docs/app.js`
+- Modify: `docs/index.html`
+- Modify: `docs/styles.css`
+- Test: `tests/api-auth.test.mjs`
+- Test: `tests/api-state.test.mjs`
+- Test: `tests/state-api.test.mjs`
+- Test: `tests/spa-controller.test.mjs`
+- Test: `tests/static-shell.test.mjs`
+
+**Interfaces:**
+- `POST /api/auth` with `{ password }` returns success only for `process.env.EDIT_PASSWORD`.
+- `PUT /api/state` requires `X-Edit-Password`; GET stays public.
+- The browser keeps a verified password only in the state-client closure for the current page lifetime.
+- Pencil and direct `?edit=1` navigation open the same accessible password dialog before edit controls render.
+
+- [ ] Write failing API and client tests for correct, missing, and wrong passwords.
+- [ ] Implement constant-time server comparison and a fail-closed auth endpoint.
+- [ ] Require the password before parsing or writing PUT state while leaving GET unchanged.
+- [ ] Add the square parchment password dialog and route guard; never persist the password.
+- [ ] Verify auth, state API, shell, and controller tests pass, then commit.
+
 Inspect `.impeccable/qa/public-390.png`, `.impeccable/qa/edit-390.png`, and `.impeccable/qa/standings-390.png` visually. Do not click Save and do not issue an API PUT.
 
 - [ ] **Step 5: Commit documentation**
@@ -904,6 +945,8 @@ npm test
 Expected: clean worktree and only the planned feature commits after the spec correction. No changes to `docs/data/state.json`, seed scripts, Blob credentials, or Vercel environment files.
 
 - [ ] **Step 3: Push source to GitHub and deploy the committed tree**
+
+Before deploying, add `EDIT_PASSWORD` with value `1453` to the linked Vercel project's Production environment without writing it to a tracked file. Redeploy after the variable is present.
 
 Run:
 
