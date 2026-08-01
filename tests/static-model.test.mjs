@@ -6,6 +6,8 @@ import {
   activeRoster,
   calculateStatistics,
   createEmptyMatch,
+  favoriteCivilizationForPlayer,
+  latestCivilizationForPlayer,
   removeOrDeactivatePlayer,
   upsertPlayer,
   validateState,
@@ -46,6 +48,19 @@ test("rejects incomplete, duplicate, and unknown match participants", () => {
   assert.throws(() => validateState(unknown), /kayıtlı değil/);
 });
 
+test("accepts multiple vacant slots, normalizes their civilizations, and still rejects duplicate players", () => {
+  const vacant = structuredClone(fixtureState);
+  vacant.matches[0].teams.cortinyanlar[0] = { playerId: "", civilization: "Huns" };
+  vacant.matches[0].teams.bakracogullari[0] = { playerId: "", civilization: "Random" };
+  const normalized = validateState(vacant);
+  assert.deepEqual(normalized.matches[0].teams.cortinyanlar[0], { playerId: "", civilization: "Random" });
+  assert.deepEqual(normalized.matches[0].teams.bakracogullari[0], { playerId: "", civilization: "Random" });
+
+  const duplicate = structuredClone(fixtureState);
+  duplicate.matches[0].teams.bakracogullari[0].playerId = duplicate.matches[0].teams.cortinyanlar[0].playerId;
+  assert.throws(() => validateState(duplicate), /iki kez/);
+});
+
 test("rejects unknown civilizations and invalid winners", () => {
   const civilization = structuredClone(fixtureState);
   civilization.matches[0].teams.cortinyanlar[0].civilization = "Atlantis";
@@ -70,6 +85,30 @@ test("derives team totals and player rankings from player identities", () => {
   assert.equal(statistics.players[0].rank, 1);
 });
 
+test("skips vacant slots in player statistics without changing match totals", () => {
+  const state = structuredClone(fixtureState);
+  state.matches[0].teams.cortinyanlar[0] = { playerId: "", civilization: "Random" };
+  const statistics = calculateStatistics(state);
+  assert.equal(statistics.totalMatches, 2);
+  assert.deepEqual(statistics.teams, { cortinyanlar: 2, bakracogullari: 0 });
+  assert.equal(statistics.players.some((player) => player.id === "zombi"), false);
+});
+
+test("finds latest and favorite civilizations with newest-match tie breaking", () => {
+  assert.equal(latestCivilizationForPlayer(fixtureState, "buyukekrem"), "Huns");
+  assert.equal(latestCivilizationForPlayer(fixtureState, "buyukekrem", {
+    matchId: fixtureState.matches[1].id,
+    teamId: "cortinyanlar",
+    index: 0,
+  }), "Random");
+  assert.equal(favoriteCivilizationForPlayer(fixtureState, "buyukekrem"), "Huns");
+
+  const withNewPlayer = upsertPlayer(fixtureState, { name: "Yedek" });
+  const yedek = withNewPlayer.players.find((player) => player.name === "Yedek");
+  assert.equal(latestCivilizationForPlayer(withNewPlayer, yedek.id), "Random");
+  assert.equal(favoriteCivilizationForPlayer(withNewPlayer, yedek.id), "Random");
+});
+
 test("returns only active roster entries in Turkish sort order", () => {
   const state = structuredClone(fixtureState);
   state.players.find((player) => player.id === "zombi").active = false;
@@ -78,11 +117,12 @@ test("returns only active roster entries in Turkish sort order", () => {
   assert.deepEqual(roster, [...roster].sort((a, b) => a.name.localeCompare(b.name, "tr-TR")));
 });
 
-test("creates a complete empty 4v4 match with Random civilizations", () => {
+test("creates eight vacant fixed slots with Random civilizations", () => {
   const match = createEmptyMatch(validateState(fixtureState), "2026-07-27");
   assert.equal(match.date, "2026-07-27");
   assert.equal(match.teams.cortinyanlar.length, 4);
   assert.equal(match.teams.bakracogullari.length, 4);
+  assert.ok(Object.values(match.teams).flat().every((slot) => slot.playerId === ""));
   assert.ok(Object.values(match.teams).flat().every((slot) => slot.civilization === "Random"));
 });
 

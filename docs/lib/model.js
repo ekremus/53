@@ -42,6 +42,7 @@ function normalizePlayer(value, index) {
 function normalizeSlot(value, label, playersById) {
   if (!value || typeof value !== "object") throw new Error(`${label} oyuncu satırı geçersiz.`);
   const playerId = typeof value.playerId === "string" ? value.playerId.trim() : "";
+  if (!playerId) return { playerId: "", civilization: "Random" };
   if (!playersById.has(playerId)) throw new Error(`${label} oyuncusu kayıtlı değil.`);
   const civilization = typeof value.civilization === "string" ? value.civilization : "";
   if (!civilizationSet.has(civilization)) throw new Error(`${label} için uygarlık seçimi geçersiz.`);
@@ -70,7 +71,8 @@ function normalizeMatch(value, index, playersById, seenIds) {
     ));
     allPlayerIds.push(...teams[teamId].map((slot) => slot.playerId));
   }
-  if (new Set(allPlayerIds).size !== allPlayerIds.length) {
+  const selectedPlayerIds = allPlayerIds.filter(Boolean);
+  if (new Set(selectedPlayerIds).size !== selectedPlayerIds.length) {
     throw new Error(`${index + 1}. maçta bir oyuncu iki kez yer alamaz.`);
   }
   if (!TEAM_IDS.includes(value.winner)) throw new Error(`${index + 1}. maçın kazananı geçersiz.`);
@@ -122,9 +124,69 @@ export function activeRoster(state) {
     .sort((a, b) => a.name.localeCompare(b.name, "tr-TR"));
 }
 
+function newestFirstMatchRecords(matches) {
+  return matches
+    .map((match, index) => ({ match, index }))
+    .sort((a, b) => b.match.date.localeCompare(a.match.date) || b.index - a.index);
+}
+
+function civilizationHistoryMap(state) {
+  const histories = new Map();
+  for (const { match } of newestFirstMatchRecords(state.matches)) {
+    for (const teamId of TEAM_IDS) {
+      for (const slot of match.teams[teamId]) {
+        if (!slot.playerId) continue;
+        const history = histories.get(slot.playerId) ?? [];
+        history.push(slot.civilization);
+        histories.set(slot.playerId, history);
+      }
+    }
+  }
+  return histories;
+}
+
+function favoriteFromHistory(history = []) {
+  if (!history.length) return "Random";
+  const counts = new Map();
+  for (const civilization of history) {
+    counts.set(civilization, (counts.get(civilization) ?? 0) + 1);
+  }
+  return history.reduce((best, civilization) => (
+    counts.get(civilization) > counts.get(best) ? civilization : best
+  ), history[0]);
+}
+
+function assertKnownPlayer(state, playerId) {
+  if (!state.players.some((player) => player.id === playerId)) throw new Error("Oyuncu bulunamadı.");
+}
+
+export function latestCivilizationForPlayer(state, playerId, excludedSlot = {}) {
+  const normalized = validateState(state);
+  if (!playerId) return "Random";
+  assertKnownPlayer(normalized, playerId);
+  for (const { match } of newestFirstMatchRecords(normalized.matches)) {
+    for (const teamId of TEAM_IDS) {
+      for (const [index, slot] of match.teams[teamId].entries()) {
+        const excluded = match.id === excludedSlot.matchId
+          && teamId === excludedSlot.teamId
+          && index === excludedSlot.index;
+        if (!excluded && slot.playerId === playerId) return slot.civilization;
+      }
+    }
+  }
+  return "Random";
+}
+
+export function favoriteCivilizationForPlayer(state, playerId) {
+  const normalized = validateState(state);
+  assertKnownPlayer(normalized, playerId);
+  return favoriteFromHistory(civilizationHistoryMap(normalized).get(playerId));
+}
+
 export function calculateStatistics(state) {
   const normalized = validateState(state);
   const playersById = new Map(normalized.players.map((player) => [player.id, player]));
+  const civilizationHistories = civilizationHistoryMap(normalized);
   const statsByPlayer = new Map();
   const teams = Object.fromEntries(TEAM_IDS.map((teamId) => [teamId, 0]));
 
@@ -132,6 +194,7 @@ export function calculateStatistics(state) {
     teams[match.winner] += 1;
     for (const teamId of TEAM_IDS) {
       for (const slot of match.teams[teamId]) {
+        if (!slot.playerId) continue;
         const source = playersById.get(slot.playerId);
         const current = statsByPlayer.get(slot.playerId) ?? {
           id: slot.playerId,
@@ -152,6 +215,7 @@ export function calculateStatistics(state) {
   const players = [...statsByPlayer.values()]
     .map((player) => ({
       ...player,
+      favoriteCivilization: favoriteFromHistory(civilizationHistories.get(player.id)),
       winRate: player.played ? Math.round((player.wins / player.played) * 100) : 0,
       rank: 0,
     }))

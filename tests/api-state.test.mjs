@@ -58,6 +58,22 @@ test("PUT accepts a valid stale client and applies last-write-wins", async () =>
   assert.equal(response.body.state.matches[0].teams.cortinyanlar[0].civilization, "Armenians");
 });
 
+test("PUT accepts vacant slots and canonicalizes them to Random", async () => {
+  const submitted = structuredClone(fixture);
+  submitted.matches[0].teams.cortinyanlar[0] = { playerId: "", civilization: "Huns" };
+  const handle = createStateHandler({ store: memoryStore() });
+  const response = await handle({
+    method: "PUT",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(submitted),
+  });
+  assert.equal(response.status, 200);
+  assert.deepEqual(response.body.state.matches[0].teams.cortinyanlar[0], {
+    playerId: "",
+    civilization: "Random",
+  });
+});
+
 test("PUT rejects invalid and oversized payloads", async () => {
   const handle = createStateHandler({ store: memoryStore(), maxBytes: 128 * 1024 });
   const invalid = await handle({
