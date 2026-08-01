@@ -8,17 +8,23 @@ test("owns phone safe areas and horizontal overflow inside the matrix", () => {
   assert.match(css, /env\(safe-area-inset-top\)/);
   assert.match(css, /100dvh/);
   assert.match(css, /\.match-matrix[\s\S]*overflow-x:\s*auto/);
+  assert.match(css, /html[\s\S]*overflow-x:\s*clip/);
+  assert.match(css, /\.surface-root[\s\S]*overflow-x:\s*clip/);
   assert.match(css, /\.matrix-rail[\s\S]*position:\s*sticky/);
   assert.match(css, /scroll-snap-type:\s*x\s+mandatory/);
 });
 
 test("binds the compact matrix geometry", () => {
-  assert.match(css, /--rail:\s*44px/);
-  assert.match(css, /--week:\s*232px/);
+  assert.match(css, /:root\s*{[\s\S]*--rail:\s*31px/);
+  assert.match(css, /:root\s*{[\s\S]*--week:\s*164px/);
+  assert.match(css, /@media\s*\(min-width:\s*920px\)[\s\S]*--rail:\s*48px/);
+  assert.match(css, /@media\s*\(min-width:\s*920px\)[\s\S]*--week:\s*232px/);
   assert.match(css, /--player-row:\s*54px/);
   assert.match(css, /--date-row:\s*34px/);
   assert.match(css, /--result-row:\s*38px/);
   assert.match(css, /writing-mode:\s*vertical-rl/);
+  assert.match(css, /\.matrix-player--empty[\s\S]*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+  assert.match(css, /\.stats-player img[\s\S]*width:\s*28px/);
 });
 
 test("ships one blue-red parchment token system", () => {
