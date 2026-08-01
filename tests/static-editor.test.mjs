@@ -16,8 +16,9 @@ function completeDraft(state = fixture) {
   return draft;
 }
 
-test("rejects incomplete and duplicate match participants", () => {
-  assert.throws(() => validateMatchDraft(createEmptyMatch(fixture, "2026-08-02"), fixture), /sekiz oyuncu/);
+test("accepts vacant slots and still rejects duplicate real players", () => {
+  const vacant = createEmptyMatch(fixture, "2026-08-02");
+  assert.equal(validateMatchDraft(vacant, fixture).teams.cortinyanlar[0].playerId, "");
   const duplicate = completeDraft();
   duplicate.teams.bakracogullari[3].playerId = duplicate.teams.cortinyanlar[0].playerId;
   assert.throws(() => validateMatchDraft(duplicate, fixture), /iki kez/);

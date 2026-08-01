@@ -1,5 +1,4 @@
 import {
-  activeRoster,
   createEmptyMatch,
   removeOrDeactivatePlayer,
   upsertPlayer,
@@ -18,8 +17,7 @@ function allSelectedPlayerIds(draft) {
 export function validateMatchDraft(draft, state) {
   if (!draft || typeof draft !== "object" || !draft.teams) throw new Error("Maç kaydı eksik.");
   const selected = allSelectedPlayerIds(draft);
-  if (selected.length !== 8) throw new Error("Maç için sekiz oyuncu seçilmeli.");
-  if (new Set(selected).size !== 8) throw new Error("Bir oyuncu maçta iki kez yer alamaz.");
+  if (new Set(selected).size !== selected.length) throw new Error("Bir oyuncu maçta iki kez yer alamaz.");
 
   const normalized = validateState(state);
   const candidate = clone(normalized);
@@ -44,25 +42,6 @@ export function renderPlayerManager(state, { includeAdd = false } = {}) {
       <div class="player-row__actions">${player.active ? `<button type="button" data-player-rename="${escapeHtml(player.id)}">Uygula</button><button class="danger-action" type="button" data-player-remove="${escapeHtml(player.id)}">${usage ? "Pasif yap" : "Sil"}</button>` : `<button type="button" data-player-reactivate="${escapeHtml(player.id)}">Etkinleştir</button>`}</div>
     </div>`;
   }).join("")}</div>`;
-}
-
-function prefilledMatch(state, date) {
-  const empty = createEmptyMatch(state, date);
-  const latest = [...state.matches].sort((a, b) => b.date.localeCompare(a.date))[0];
-  if (latest) {
-    empty.teams = clone(latest.teams);
-    empty.winner = latest.winner;
-    for (const slot of Object.values(empty.teams).flat()) slot.civilization = "Random";
-    return empty;
-  }
-  const players = activeRoster(state).slice(0, 8);
-  if (players.length < 8) throw new Error("Yeni maç için en az sekiz etkin oyuncu gerekli.");
-  state.teams.forEach((team, teamIndex) => {
-    empty.teams[team.id].forEach((slot, slotIndex) => {
-      slot.playerId = players[teamIndex * 4 + slotIndex].id;
-    });
-  });
-  return empty;
 }
 
 export function createDraftController({ state, client, render = () => {}, notify = () => {} } = {}) {
@@ -102,7 +81,7 @@ export function createDraftController({ state, client, render = () => {}, notify
       draft = clone(baseline);
       render(draft);
     },
-    createMatch: (date) => prefilledMatch(draft, date),
+    createMatch: (date) => createEmptyMatch(draft, date),
     saveMatch: (match) => update((next) => {
       const valid = validateMatchDraft(match, next);
       const index = next.matches.findIndex((candidate) => candidate.id === valid.id);

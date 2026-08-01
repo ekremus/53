@@ -1,7 +1,7 @@
 import { civilizationAssetName } from "./lib/civilizations.js";
 import { createDraftController, renderPlayerManager } from "./lib/editor.js";
 import { renderEditableMatrix, renderMatchMatrix } from "./lib/matrix.js";
-import { calculateStatistics } from "./lib/model.js";
+import { calculateStatistics, latestCivilizationForPlayer } from "./lib/model.js";
 import { createStateClient } from "./lib/state-api.js";
 import { escapeHtml, renderScoreStrip, renderStatsTable, renderTopControl } from "./lib/views.js";
 
@@ -199,7 +199,13 @@ export async function startApp(documentRoot = document, {
           dialogPlayerForm.elements.name.focus();
           return;
         }
-        editMatch(key.matchId, (match) => { match.teams[key.teamId][key.index].playerId = input.value; });
+        const state = controller.getState();
+        const civilization = latestCivilizationForPlayer(state, input.value, key);
+        editMatch(key.matchId, (match) => {
+          const slot = match.teams[key.teamId][key.index];
+          slot.playerId = input.value;
+          slot.civilization = civilization;
+        });
       } else if (input.matches("[data-civilization-select]")) {
         const key = parseSlotKey(input.dataset.civilizationSelect);
         input.closest(".matrix-player")?.querySelector("[data-civilization-preview]")?.setAttribute("src", `./assets/civs/${civilizationAssetName(input.value)}`);
@@ -232,7 +238,11 @@ export async function startApp(documentRoot = document, {
       if (pendingPlayerSlot && added) {
         const key = pendingPlayerSlot;
         pendingPlayerSlot = null;
-        editMatch(key.matchId, (match) => { match.teams[key.teamId][key.index].playerId = added.id; });
+        editMatch(key.matchId, (match) => {
+          const slot = match.teams[key.teamId][key.index];
+          slot.playerId = added.id;
+          slot.civilization = "Random";
+        });
       }
       dialogPlayerForm.reset();
       closeDialog(playerDialog);

@@ -49,10 +49,11 @@ test("civilization change becomes dirty and persists in the complete write", asy
   assert.equal(controller.getSnapshot().dirty, false);
 });
 
-test("creates a complete new match from the latest lineup", () => {
+test("creates every new match with eight vacant Random slots", () => {
   const controller = createDraftController({ state: fixture, client: { write: async () => {} } });
   const match = controller.createMatch("2026-08-02");
-  assert.equal(Object.values(match.teams).flat().length, 8);
-  assert.equal(new Set(Object.values(match.teams).flat().map((slot) => slot.playerId)).size, 8);
-  assert.ok(Object.values(match.teams).flat().every((slot) => slot.civilization === "Random"));
+  const slots = Object.values(match.teams).flat();
+  assert.equal(slots.length, 8);
+  assert.ok(slots.every((slot) => slot.playerId === ""));
+  assert.ok(slots.every((slot) => slot.civilization === "Random"));
 });

@@ -25,5 +25,7 @@ test("one controller owns view switching and contextual editing", async () => {
     "kaldırılsın mı?",
     "pushState",
   ]) assert.ok(source.includes(contract), `missing controller contract: ${contract}`);
+  assert.match(source, /latestCivilizationForPlayer\(state, input\.value, key\)/);
+  assert.match(source, /slot\.civilization = civilization/);
   assert.doesNotMatch(source, /Başka biri önce yayınladı|Yayınlandı/);
 });
