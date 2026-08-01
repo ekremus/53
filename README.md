@@ -1,26 +1,26 @@
 # Bu Ecof Empires — 53
 
-Haftalık Age of Empires II: Definitive Edition 4v4 maçları için telefon öncelikli ortak maç defteri.
+Haftalık Age of Empires II: Definitive Edition 3v3 ve 4v4 maçları için telefon öncelikli ortak maç defteri.
 
 **Canlı adres:** [https://53aoe.vercel.app](https://53aoe.vercel.app)
 
-Uygulama tek bir yatay haftalık matristir: en yeni maç soldadır, eski haftalar sağa doğru devam eder. Cortinyanlar ve Bakracoğulları için dört oyuncu, oyuncuların uygarlıkları, maç tarihi ve kazanan takım tutulur. Takım skorları ile oyuncu istatistikleri otomatik hesaplanır.
+Uygulama tek bir yatay haftalık matristir: en yeni maç soldadır, eski haftalar sağa doğru devam eder. Cortinyanlar ve Bakracoğulları için en fazla dört oyuncu, oyuncuların uygarlıkları, maç tarihi ve kazanan takım tutulur. Boş slotlar `-` olarak kalır. Takım skorları ile oyuncu istatistikleri otomatik hesaplanır.
 
 ## Görünümler
 
 - `/` — bütün maçları bir kez gösteren ortak matris;
 - `/?view=standings` — oyuncu sıralaması, galibiyet, mağlubiyet ve kazanma oranı;
-- kalem düğmesi — açık görünümü yerinde düzenler; maçlarda yalnız maç alanları, sıralamada yalnız oyuncular değişir.
+- kalem düğmesi — `1453` ortak şifresi doğrulandıktan sonra açık görünümü yerinde düzenler; maçlarda yalnız maç alanları, sıralamada yalnız oyuncular değişir.
 
 Eski `/edit/` ve `/stats/` bağlantıları aynı tek sayfalı uygulamadaki ilgili görünüme yönlenir.
 
-Oyuncu bir kez eklenir ve sonraki maçlarda listeden seçilir. Hiç kullanılmamış oyuncu silinir; geçmiş maçta kullanılan oyuncu ise kayıtları bozmamak için pasif yapılır.
+Oyuncu bir kez eklenir ve sonraki maçlarda listeden seçilir. Takım içindeki gerçek oyuncular Türkçe ada göre sıralanır, boş slotlar sonda kalır. Oyuncu seçildiğinde en son oynadığı uygarlık otomatik gelir; sıralamada en sık oynadığı uygarlığın arması görünür. Hiç kullanılmamış oyuncu silinir; geçmiş maçta kullanılan oyuncu ise kayıtları bozmamak için pasif yapılır.
 
 ## Mimari
 
 HTML, CSS ve tarayıcı ES modülleri `docs/` klasöründedir. `api/state.js`, aynı Vercel projesindeki private Blob deposunda bulunan sabit `state.json` dosyasını okur ve yazar. Tarayıcı Blob anahtarını görmez. Paylaşımlı editör basit, bilinçli bir son-yazan-kazanır modeli kullanır; eski revizyon uyarısı yoktur.
 
-GitHub yalnızca kaynak kod ve geri dönüş geçmişidir. Çalışma zamanında GitHub tokenı, PIN, kullanıcı hesabı, Cloudflare ya da harici veritabanı yoktur. Açık editör bilinçli bir ürün kararıdır: linki bilen herkes ortak veriyi değiştirebilir.
+GitHub yalnızca kaynak kod ve geri dönüş geçmişidir. Çalışma zamanında GitHub tokenı, kullanıcı hesabı, Cloudflare ya da harici veritabanı yoktur. Görüntüleme herkese açıktır; düzenleme arayüzü ve `PUT /api/state` çağrısı yalnızca sunucudaki `EDIT_PASSWORD` ortam değişkeniyle doğrulanan ortak şifreyle açılır. Şifre kaynak koda veya tarayıcı depolamasına yazılmaz.
 
 `docs/data/state.json`, ilk seed ve acil geri yükleme kopyasıdır. Canlı veri Vercel Blob’dadır.
 
