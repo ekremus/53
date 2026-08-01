@@ -74,12 +74,15 @@ async function capture(session, name) {
 }
 
 async function waitForReady(session) {
-  await evaluate(session, `new Promise((resolve) => {
-    const done = () => !document.querySelector('[aria-busy="true"]');
+  const ready = await evaluate(session, `new Promise((resolve) => {
+    const done = () => document.readyState !== 'loading'
+      && document.querySelector('#top-control')?.childElementCount > 0
+      && !document.querySelector('[aria-busy="true"]');
     if (done()) return resolve(true);
     const timer = setInterval(() => { if (done()) { clearInterval(timer); resolve(true); } }, 50);
     setTimeout(() => { clearInterval(timer); resolve(false); }, 6000);
   })`);
+  if (!ready) throw new Error("Uygulama QA süresi içinde hazır olmadı.");
   await evaluate(session, `Promise.all([...document.images].map((image) => image.complete ? true : new Promise((resolve) => {
     image.addEventListener('load', () => resolve(true), { once: true });
     image.addEventListener('error', () => resolve(false), { once: true });
