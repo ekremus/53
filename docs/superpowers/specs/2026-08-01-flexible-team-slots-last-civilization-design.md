@@ -10,7 +10,7 @@ Add safe 3v3 support to the existing weekly match tracker without deleting, rewr
 
 - Production state lives in the existing private Vercel Blob store and is read through `GET /api/state`.
 - At design time, production contains 12 players and 5 matches.
-- The existing ETag/revision conflict protection remains mandatory.
+- The existing server-side revision increment and deliberate last-writer-wins behavior remain unchanged; this feature must not reintroduce the removed stale-write warning.
 - Schema version stays at `1`; this feature is backward compatible with every existing non-empty slot.
 - Deployment must never run `npm run data:seed`, the Blob seed script, or a production `PUT /api/state`.
 
@@ -101,7 +101,7 @@ The crest uses the existing local `civilizationAssetName` mapping and has empty 
 - Unknown non-empty player IDs still fail validation.
 - Unknown civilizations still fail validation.
 - Selecting a player already used elsewhere in the same match remains unavailable through the existing disabled-option behavior and is rejected by validation if submitted manually.
-- Existing conflict handling continues to stop stale writes rather than merging or overwriting production state.
+- Existing server-side revision updates and last-writer-wins publishing remain unchanged; this feature adds no merge, reseed, or recovery write path.
 
 ## Testing
 
@@ -128,7 +128,7 @@ Automated coverage must prove:
 Before deployment:
 
 1. Fetch `GET https://53aoe.vercel.app/api/state` with response headers.
-2. Save the exact JSON body and ETag in a timestamped `.qa` backup.
+2. Save the exact JSON body and HTTP response headers in a timestamped `.qa` backup.
 3. Record a SHA-256 hash plus player, match, revision, and updated-at values.
 
 Deploy only application and API validation code. Do not seed or write state during preview or production verification.
@@ -138,7 +138,7 @@ After deployment:
 1. Fetch production state again using `GET` only.
 2. Compare the complete `players` and `matches` arrays, revision, and updated-at value with the backup.
 3. Require exact semantic equality and the same 12-player/5-match baseline unless a real user edited production during the deployment window.
-4. If the ETag changed concurrently, stop and inspect the new state; never restore the older backup over a legitimate user edit.
+4. If revision or `updatedAt` changed concurrently, stop and inspect the new state; never restore the older backup over a legitimate user edit.
 5. Verify the UI and API read paths without saving production data.
 
 The backup is a recovery artifact, not permission to overwrite newer production data.
