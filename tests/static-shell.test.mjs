@@ -16,6 +16,9 @@ test("ships one minimal mobile SPA shell", () => {
   assert.match(html, /alt="Bu Ecof Empires🏹🪓⚔️"/);
   assert.match(html, /id="score-strip"/);
   assert.match(html, /id="surface-root"/);
+  assert.match(html, /id="edit-auth-dialog"/);
+  assert.match(html, /id="edit-auth-form"/);
+  assert.match(html, /type="password"/);
   assert.match(html, /type="module" src="\.\/app\.js"/);
   assert.doesNotMatch(html, /tracker-identity|matrix-title-row|action-menu|action-seal|publish-seal/);
   assert.doesNotMatch(html, /Haftalık 4v4|Maç Defteri|Eski haftalar sağda|Alanlara dokunarak değiştir/);

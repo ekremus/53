@@ -59,9 +59,17 @@ export async function startApp(documentRoot = document, {
   const noticeRegion = documentRoot.querySelector("#notice-region");
   const playerDialog = documentRoot.querySelector("#player-dialog");
   const dialogPlayerForm = documentRoot.querySelector("#dialog-player-form");
-  let route = parseAppLocation(locationLike);
+  const editAuthDialog = documentRoot.querySelector("#edit-auth-dialog");
+  const editAuthForm = documentRoot.querySelector("#edit-auth-form");
+  const initialRoute = parseAppLocation(locationLike);
+  const requestedInitialEdit = initialRoute.editing;
+  let route = { ...initialRoute, editing: false };
   let controller;
   let saving = false;
+  let editAuthorized = false;
+  let authenticating = false;
+  let authReplaceUrl = false;
+  let authResetDraft = true;
   let pendingPlayerSlot = null;
   let noticeTimer;
 
@@ -101,10 +109,31 @@ export async function startApp(documentRoot = document, {
     controller.saveMatch(next);
   }
 
-  function enterEdit() {
-    controller.reset();
+  function activateEdit({ replace = false, resetDraft = true } = {}) {
+    if (resetDraft) controller.reset();
     route = { ...route, editing: true };
-    syncUrl();
+    syncUrl({ replace });
+    render();
+  }
+
+  function requestEdit({ replace = false, resetDraft = true } = {}) {
+    if (editAuthorized) {
+      activateEdit({ replace, resetDraft });
+      return;
+    }
+    authReplaceUrl = replace;
+    authResetDraft = resetDraft;
+    editAuthForm.reset();
+    openDialog(editAuthDialog);
+    editAuthForm.elements.password.focus();
+  }
+
+  function cancelEditAuth() {
+    closeDialog(editAuthDialog);
+    route = { ...route, editing: false };
+    if (authReplaceUrl) syncUrl({ replace: true });
+    authReplaceUrl = false;
+    authResetDraft = true;
     render();
   }
 
@@ -119,6 +148,7 @@ export async function startApp(documentRoot = document, {
   async function save() {
     const snapshot = controller.getSnapshot();
     if (!snapshot.dirty || saving) return;
+    let reauthenticate = false;
     saving = true;
     render();
     try {
@@ -126,10 +156,16 @@ export async function startApp(documentRoot = document, {
       route = { ...route, editing: false };
       syncUrl({ replace: true });
     } catch (error) {
+      if (error.status === 401) {
+        editAuthorized = false;
+        client.clearEditPassword();
+        reauthenticate = true;
+      }
       notify(error.message ? `Kaydedilemedi · ${error.message}` : "Kaydedilemedi · tekrar dene");
     } finally {
       saving = false;
       render();
+      if (reauthenticate) requestEdit({ replace: true, resetDraft: false });
     }
   }
 
@@ -137,6 +173,7 @@ export async function startApp(documentRoot = document, {
     const { state } = await client.read();
     controller = createDraftController({ state, client, render, notify });
     render();
+    if (requestedInitialEdit) requestEdit({ replace: true });
   } catch (error) {
     scoreRoot.hidden = true;
     surfaceRoot.innerHTML = `<div class="load-error"><strong>Açılamadı</strong><button type="button" data-retry>Tekrar dene</button></div>`;
@@ -153,7 +190,7 @@ export async function startApp(documentRoot = document, {
         route = { view: target.dataset.setView, editing: false };
         syncUrl();
         render();
-      } else if (target.matches("[data-enter-edit]")) enterEdit();
+      } else if (target.matches("[data-enter-edit]")) requestEdit();
       else if (target.matches("[data-exit-edit]")) exitEdit();
       else if (target.matches("[data-save]")) void save();
       else if (target.matches("[data-add-match]")) {
@@ -178,6 +215,8 @@ export async function startApp(documentRoot = document, {
         pendingPlayerSlot = null;
         closeDialog(playerDialog);
         render();
+      } else if (target.matches("[data-close-edit-auth]")) {
+        cancelEditAuth();
       }
     } catch (error) {
       notify(error.message);
@@ -251,16 +290,45 @@ export async function startApp(documentRoot = document, {
     }
   });
 
+  editAuthForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (authenticating) return;
+    authenticating = true;
+    const submit = editAuthForm.querySelector('button[type="submit"]');
+    submit.disabled = true;
+    try {
+      await client.authenticate(editAuthForm.elements.password.value);
+      editAuthorized = true;
+      closeDialog(editAuthDialog);
+      activateEdit({ replace: authReplaceUrl, resetDraft: authResetDraft });
+      authReplaceUrl = false;
+      authResetDraft = true;
+    } catch (error) {
+      notify(error.message ?? "Şifre doğrulanamadı.");
+      editAuthForm.elements.password.select();
+    } finally {
+      authenticating = false;
+      submit.disabled = false;
+    }
+  });
+
   playerDialog.addEventListener("cancel", () => {
     pendingPlayerSlot = null;
     render();
   });
 
+  editAuthDialog.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    cancelEditAuth();
+  });
+
   globalThis.addEventListener?.("popstate", () => {
     if (controller.getSnapshot().dirty && !confirmAction("Kaydedilmemiş değişiklikler silinsin mi?")) return;
     controller.reset();
-    route = parseAppLocation(globalThis.location);
+    const nextRoute = parseAppLocation(globalThis.location);
+    route = { ...nextRoute, editing: nextRoute.editing && editAuthorized };
     render();
+    if (nextRoute.editing && !editAuthorized) requestEdit({ replace: true });
   });
 
   globalThis.addEventListener?.("beforeunload", (event) => {

@@ -42,6 +42,14 @@
       </form>
     </dialog>
 
+    <dialog id="edit-auth-dialog" aria-labelledby="edit-auth-title">
+      <form id="edit-auth-form" class="dialog-surface" novalidate>
+        <div class="dialog-heading"><strong id="edit-auth-title">Düzenle</strong><button class="icon-button" type="button" data-close-edit-auth aria-label="Kapat"><img src="./assets/icons/x.svg" alt="" width="20" height="20"></button></div>
+        <label for="edit-auth-password">Şifre</label>
+        <div class="inline-form"><input id="edit-auth-password" name="password" type="password" inputmode="numeric" autocomplete="current-password" maxlength="40" required><button type="submit">Aç</button></div>
+      </form>
+    </dialog>
+
     <div id="notice-region" class="notice-region" aria-live="assertive" aria-atomic="true"></div>
     <noscript>JavaScript gerekli.</noscript>
   </body>

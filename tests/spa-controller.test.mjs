@@ -15,6 +15,8 @@ test("one controller owns view switching and contextual editing", async () => {
   for (const contract of [
     "data-set-view",
     "data-enter-edit",
+    "edit-auth-dialog",
+    "client.authenticate",
     "data-save",
     "data-exit-edit",
     "data-add-match",
@@ -28,4 +30,5 @@ test("one controller owns view switching and contextual editing", async () => {
   assert.match(source, /latestCivilizationForPlayer\(state, input\.value, key\)/);
   assert.match(source, /slot\.civilization = civilization/);
   assert.doesNotMatch(source, /Başka biri önce yayınladı|Yayınlandı/);
+  assert.doesNotMatch(source, /localStorage|sessionStorage/);
 });

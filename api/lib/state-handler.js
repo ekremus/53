@@ -1,4 +1,5 @@
 import { validateState } from "../../docs/lib/model.js";
+import { isEditPasswordValid } from "./edit-auth.js";
 
 function reply(status, body, headers = {}) {
   return {
@@ -21,6 +22,7 @@ export function createStateHandler({
   store,
   now = () => new Date(),
   maxBytes = 128 * 1024,
+  editPassword = process.env.EDIT_PASSWORD,
 } = {}) {
   if (!store?.read || !store?.write) throw new Error("State store gerekli.");
 
@@ -33,6 +35,9 @@ export function createStateHandler({
 
       if (method !== "PUT") {
         return reply(405, { error: "Yöntem desteklenmiyor." }, { Allow: "GET, PUT" });
+      }
+      if (!isEditPasswordValid(String(header(headers, "x-edit-password") ?? ""), editPassword)) {
+        return reply(401, { error: "Düzenleme şifresi gerekli." }, { "Cache-Control": "no-store" });
       }
       if (!String(header(headers, "content-type") ?? "").toLowerCase().startsWith("application/json")) {
         return reply(415, { error: "Yalnızca JSON kabul edilir." });
