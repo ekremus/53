@@ -98,8 +98,11 @@ async function metrics(session) {
     const matrix = document.querySelector('.match-matrix');
     const rail = document.querySelector('.matrix-rail');
     const firstMatch = document.querySelector('.match-column');
+    const scoreStrip = document.querySelector('.score-strip');
     const editAuthDialog = document.querySelector('#edit-auth-dialog');
     const almanGeneral = [...document.querySelectorAll('.matrix-player strong')].find((element) => element.textContent.trim() === 'Alman General');
+    const railText = rail?.textContent.trim() ?? "";
+    const resultMedals = document.querySelectorAll('.matrix-result__medal').length;
     const originalScrollLeft = matrix?.scrollLeft ?? 0;
     if (matrix) matrix.scrollLeft = 0;
     const railLeftBefore = rail?.getBoundingClientRect().left ?? null;
@@ -116,7 +119,12 @@ async function metrics(session) {
       matrixClientWidth: matrix?.clientWidth ?? null,
       matrixScrollWidth: matrix?.scrollWidth ?? null,
       matrixScrollLeft: originalScrollLeft,
+      matrixBottom: matrix?.getBoundingClientRect().bottom ?? null,
+      scoreStripHeight: scoreStrip?.getBoundingClientRect().height ?? null,
+      scoreLabels: document.querySelectorAll('.score-team-name').length,
       railWidth: rail?.getBoundingClientRect().width ?? null,
+      railText,
+      resultMedals,
       firstMatchWidth: firstMatch?.getBoundingClientRect().width ?? null,
       editAuthDialogWidth: editAuthDialog?.getBoundingClientRect().width ?? null,
       railLeftBefore,
