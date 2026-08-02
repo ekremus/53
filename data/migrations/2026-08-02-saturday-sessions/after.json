@@ -1,0 +1,2107 @@
+{
+  "schemaVersion": 1,
+  "revision": 32,
+  "updatedAt": "2026-08-02T12:20:01.826Z",
+  "teams": [
+    {
+      "id": "cortinyanlar",
+      "name": "Cortinyanlar",
+      "tone": "blue"
+    },
+    {
+      "id": "bakracogullari",
+      "name": "Bakracoğulları",
+      "tone": "red"
+    }
+  ],
+  "players": [
+    {
+      "id": "alman-general",
+      "name": "Alman General",
+      "active": true
+    },
+    {
+      "id": "buyukekrem",
+      "name": "BuyukEkrem",
+      "active": true
+    },
+    {
+      "id": "emre",
+      "name": "Emre",
+      "active": true
+    },
+    {
+      "id": "italyan-aygiri",
+      "name": "Italyan Aygırı",
+      "active": true
+    },
+    {
+      "id": "mstfunsal",
+      "name": "mstfunsal",
+      "active": true
+    },
+    {
+      "id": "neudzulab",
+      "name": "Neudzulab",
+      "active": true
+    },
+    {
+      "id": "orc-rist",
+      "name": "OrC_RiST",
+      "active": true
+    },
+    {
+      "id": "serkan",
+      "name": "serkancan28",
+      "active": true
+    },
+    {
+      "id": "renosa",
+      "name": "Renosa",
+      "active": true
+    },
+    {
+      "id": "ksahin61",
+      "name": "KSahin61",
+      "active": true
+    },
+    {
+      "id": "emrahkara1989",
+      "name": "emrahkara1989",
+      "active": true
+    },
+    {
+      "id": "kemalakmehmet",
+      "name": "Kemalakmehmet",
+      "active": true
+    },
+    {
+      "id": "sahin-16",
+      "name": "Sahin-16",
+      "active": true
+    }
+  ],
+  "matches": [
+    {
+      "id": "replay-20260201-0028-044",
+      "date": "2026-01-31",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Puru"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Byzantines"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "sahin-16",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Lithuanians"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Britons"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260201-0240-043",
+      "date": "2026-01-31",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Goths"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Gurjaras"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Bohemians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Britons"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Lithuanians"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260207-2324-042",
+      "date": "2026-02-07",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Goths"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Burmese"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Macedonians"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Britons"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Lithuanians"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260208-0019-041",
+      "date": "2026-02-07",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Goths"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Burmese"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "neudzulab",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Mongols"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Britons"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Turks"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260215-2212-040",
+      "date": "2026-02-14",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Goths"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Burmese"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Italians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Romans"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Lithuanians"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260215-2314-039",
+      "date": "2026-02-14",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Goths"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Burmese"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Italians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Mongols"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260221-2334-038",
+      "date": "2026-02-21",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Goths"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Bohemians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Slavs"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Mongols"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260222-0043-037",
+      "date": "2026-02-21",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Goths"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Bohemians"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Italians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Mongols"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Slavs"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260228-0105-036",
+      "date": "2026-02-28",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Goths"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Bohemians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Romans"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Slavs"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260228-2323-035",
+      "date": "2026-02-28",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Hindustanis"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Macedonians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Romans"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Franks"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260301-0037-034",
+      "date": "2026-02-28",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Puru"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Hindustanis"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Italians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Romans"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Persians"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260301-0152-033",
+      "date": "2026-02-28",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Thracians"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Hindustanis"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Romans"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Turks"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260307-2317-032",
+      "date": "2026-03-07",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Malay"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Byzantines"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Goths"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Franks"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Romans"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Chinese"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260308-0026-031",
+      "date": "2026-03-07",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Hindustanis"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Byzantines"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Saracens"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Romans"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260308-0321-030",
+      "date": "2026-03-07",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Tatars"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Byzantines"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Goths"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Romans"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Turks"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260509-2338-029",
+      "date": "2026-05-09",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Gurjaras"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Celts"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Slavs"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260510-0042-028",
+      "date": "2026-05-09",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Gurjaras"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Bohemians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "sahin-16",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Celts"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Turks"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260516-2321-027",
+      "date": "2026-05-16",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Koreans"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Italians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "emre",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Franks"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260517-0031-026",
+      "date": "2026-05-16",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Gurjaras"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Italians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Franks"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Turks"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260517-0154-025",
+      "date": "2026-05-16",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Gurjaras"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Byzantines"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Goths"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Romans"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260524-0045-024",
+      "date": "2026-05-23",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Gurjaras"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Slavs"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Chinese"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260524-2319-023",
+      "date": "2026-05-23",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Gurjaras"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "neudzulab",
+            "civilization": "Huns"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Romans"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260525-0043-022",
+      "date": "2026-05-23",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Gurjaras"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Romans"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Mongols"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Slavs"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260531-0014-021",
+      "date": "2026-05-30",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Bohemians"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Italians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "neudzulab",
+            "civilization": "Poles"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Franks"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Turks"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260531-0118-020",
+      "date": "2026-05-30",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Bohemians"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Italians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Byzantines"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Poles"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Turks"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260531-0244-019",
+      "date": "2026-05-30",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Bohemians"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Italians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Byzantines"
+          },
+          {
+            "playerId": "sahin-16",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Cumans"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Turks"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260606-2313-018",
+      "date": "2026-06-06",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Dravidians"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Huns"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Byzantines"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260607-0129-017",
+      "date": "2026-06-06",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "kemalakmehmet",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Magyars"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "neudzulab",
+            "civilization": "Huns"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Byzantines"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Turks"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260613-2321-016",
+      "date": "2026-06-13",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Gurjaras"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Byzantines"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260614-0016-015",
+      "date": "2026-06-13",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Malay"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Byzantines"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260614-0110-014",
+      "date": "2026-06-13",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Incas"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Byzantines"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260614-0205-013",
+      "date": "2026-06-13",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Byzantines"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260620-2309-012",
+      "date": "2026-06-20",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Goths"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Gurjaras"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Hindustanis"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Byzantines"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260621-0135-011",
+      "date": "2026-06-20",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Khmer"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Chinese"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Koreans"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Romans"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260628-0014-010",
+      "date": "2026-06-27",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Khmer"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Turks"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Romans"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Gurjaras"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260628-0149-009",
+      "date": "2026-06-27",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "neudzulab",
+            "civilization": "Bohemians"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Franks"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Turks"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260704-2347-008",
+      "date": "2026-07-04",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Khmer"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Spanish"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "ksahin61",
+            "civilization": "Bohemians"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Turks"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260705-0041-007",
+      "date": "2026-07-04",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Khmer"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Magyars"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Romans"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Franks"
+          },
+          {
+            "playerId": "ksahin61",
+            "civilization": "Huns"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "replay-20260705-0137-006",
+      "date": "2026-07-04",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Franks"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "ksahin61",
+            "civilization": "Bohemians"
+          },
+          {
+            "playerId": "emrahkara1989",
+            "civilization": "Turks"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260711-2320-005",
+      "date": "2026-07-11",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "renosa",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Dravidians"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Bohemians"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260719-0005-004",
+      "date": "2026-07-18",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Bulgarians"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Lithuanians"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Bohemians"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "replay-20260719-0058-003",
+      "date": "2026-07-18",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Incas"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Magyars"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "1e85da4a-b26b-40ec-b954-fd3004c24e7a",
+      "date": "2026-07-25",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Celts"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Incas"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "neudzulab",
+            "civilization": "Bohemians"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "12131315-d162-4312-ab54-98570e741613",
+      "date": "2026-07-25",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          },
+          {
+            "playerId": "emre",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "neudzulab",
+            "civilization": "Bohemians"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Teutons"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "cortinyanlar"
+    },
+    {
+      "id": "c4add272-6920-4df9-beb2-58df38e176b1",
+      "date": "2026-08-01",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "",
+            "civilization": "Random"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Koreans"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Italians"
+          },
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          },
+          {
+            "playerId": "",
+            "civilization": "Random"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Byzantines"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "138d7d65-7e66-4411-865d-136632015b4b",
+      "date": "2026-08-01",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "",
+            "civilization": "Random"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Koreans"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "",
+            "civilization": "Random"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Aztecs"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    },
+    {
+      "id": "ec1d9959-dfe4-4fb6-8740-97d31554e6d9",
+      "date": "2026-08-01",
+      "teams": {
+        "cortinyanlar": [
+          {
+            "playerId": "",
+            "civilization": "Random"
+          },
+          {
+            "playerId": "italyan-aygiri",
+            "civilization": "Incas"
+          },
+          {
+            "playerId": "serkan",
+            "civilization": "Khmer"
+          },
+          {
+            "playerId": "alman-general",
+            "civilization": "Teutons"
+          }
+        ],
+        "bakracogullari": [
+          {
+            "playerId": "",
+            "civilization": "Random"
+          },
+          {
+            "playerId": "buyukekrem",
+            "civilization": "Huns"
+          },
+          {
+            "playerId": "mstfunsal",
+            "civilization": "Franks"
+          },
+          {
+            "playerId": "orc-rist",
+            "civilization": "Khmer"
+          }
+        ]
+      },
+      "winner": "bakracogullari"
+    }
+  ]
+}

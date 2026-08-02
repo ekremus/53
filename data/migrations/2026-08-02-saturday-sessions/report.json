@@ -1,0 +1,39 @@
+{
+  "beforeRevision": 32,
+  "beforeDigest": "d4f14f0fa6ba87758fb2fe6961ce8cf4f93230f16eea8a2393ce787313334046",
+  "afterDigestBeforeServerWrite": "3bd99b7dab52a065d1d537952e57688faf3140d83003a24ed8f4ea2a39763111",
+  "players": 13,
+  "matches": 47,
+  "replayBackedMatches": 44,
+  "changedDates": [
+    {
+      "id": "replay-20260215-2212-040",
+      "from": "2026-02-15",
+      "to": "2026-02-14"
+    },
+    {
+      "id": "replay-20260215-2314-039",
+      "from": "2026-02-15",
+      "to": "2026-02-14"
+    },
+    {
+      "id": "replay-20260228-0105-036",
+      "from": "2026-02-27",
+      "to": "2026-02-28"
+    },
+    {
+      "id": "replay-20260524-2319-023",
+      "from": "2026-05-24",
+      "to": "2026-05-23"
+    },
+    {
+      "id": "replay-20260525-0043-022",
+      "from": "2026-05-24",
+      "to": "2026-05-23"
+    }
+  ],
+  "changedFields": [
+    "matches[].date",
+    "matches array order"
+  ]
+}
