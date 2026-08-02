@@ -14,7 +14,7 @@ Uygulama tek bir yatay haftalık matristir: en yeni maç soldadır, eski haftala
 
 Eski `/edit/` ve `/stats/` bağlantıları aynı tek sayfalı uygulamadaki ilgili görünüme yönlenir.
 
-Oyuncu bir kez eklenir ve sonraki maçlarda listeden seçilir. Takım içindeki gerçek oyuncular Türkçe ada göre sıralanır, boş slotlar sonda kalır. Oyuncu seçildiğinde en son oynadığı uygarlık otomatik gelir; sıralamada en sık oynadığı uygarlığın arması görünür. Hiç kullanılmamış oyuncu silinir; geçmiş maçta kullanılan oyuncu ise kayıtları bozmamak için pasif yapılır.
+Oyuncu bir kez eklenir ve sonraki maçlarda listeden seçilir. Takım içindeki gerçek oyuncular Türkçe ada göre sıralanır, boş slotlar sonda kalır. Oyuncu seçildiğinde en son oynadığı uygarlık otomatik gelir; sıralamada kayıtlı bütün oyuncular, en sık oynadıkları uygarlığın arması ve tekrarsız sıra numarasıyla görünür. Hiç kullanılmamış oyuncu silinir; geçmiş maçta kullanılan oyuncu ise kayıtları bozmamak için pasif yapılır.
 
 ## Mimari
 

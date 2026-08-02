@@ -83,15 +83,34 @@ test("derives team totals and player rankings from player identities", () => {
     { played: 2, wins: 2, losses: 0, winRate: 100 },
   );
   assert.equal(statistics.players[0].rank, 1);
+  assert.equal(statistics.players.length, fixtureState.players.length);
+  assert.deepEqual(statistics.players.map((player) => player.rank), statistics.players.map((_, index) => index + 1));
 });
 
-test("skips vacant slots in player statistics without changing match totals", () => {
+test("keeps every registered player while vacant slots do not affect statistics", () => {
   const state = structuredClone(fixtureState);
   state.matches[0].teams.cortinyanlar[0] = { playerId: "", civilization: "Random" };
   const statistics = calculateStatistics(state);
   assert.equal(statistics.totalMatches, 2);
   assert.deepEqual(statistics.teams, { cortinyanlar: 2, bakracogullari: 0 });
-  assert.equal(statistics.players.some((player) => player.id === "zombi"), false);
+  const zombi = statistics.players.find((player) => player.id === "zombi");
+  assert.ok(zombi);
+  assert.deepEqual(
+    { played: zombi?.played, wins: zombi?.wins, losses: zombi?.losses, winRate: zombi?.winRate },
+    { played: 0, wins: 0, losses: 0, winRate: 0 },
+  );
+});
+
+test("includes newly added and passive zero-match players with unique ranks", () => {
+  const state = upsertPlayer(fixtureState, { name: "Yedek" });
+  state.players.find((player) => player.name === "Yedek").active = false;
+  const statistics = calculateStatistics(validateState(state));
+  const yedek = statistics.players.find((player) => player.name === "Yedek");
+  assert.deepEqual(
+    { active: yedek?.active, played: yedek?.played, wins: yedek?.wins, losses: yedek?.losses, winRate: yedek?.winRate, favoriteCivilization: yedek?.favoriteCivilization },
+    { active: false, played: 0, wins: 0, losses: 0, winRate: 0, favoriteCivilization: "Random" },
+  );
+  assert.equal(new Set(statistics.players.map((player) => player.rank)).size, statistics.players.length);
 });
 
 test("finds latest and favorite civilizations with newest-match tie breaking", () => {

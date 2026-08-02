@@ -125,6 +125,8 @@ async function metrics(session) {
       emptySlots: document.querySelectorAll('.matrix-player--empty, [data-player-select] option[value=""]:checked').length,
       almanGeneralFits: almanGeneral ? almanGeneral.scrollWidth <= almanGeneral.clientWidth : null,
       favoriteCivilizationCrests: document.querySelectorAll('.stats-player > img').length,
+      standingsRows: document.querySelectorAll('.stats-table tbody tr').length,
+      standingsRanks: [...document.querySelectorAll('.rank-number')].map((element) => Number(element.textContent)),
       failedImages: [...document.images].filter((image) => !image.complete || image.naturalWidth === 0).map((image) => image.src),
       openDialogs: [...document.querySelectorAll('dialog[open]')].map((dialog) => dialog.id),
       runtimeErrors: globalThis.__qaErrors ?? [],

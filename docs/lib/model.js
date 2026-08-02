@@ -185,9 +185,15 @@ export function favoriteCivilizationForPlayer(state, playerId) {
 
 export function calculateStatistics(state) {
   const normalized = validateState(state);
-  const playersById = new Map(normalized.players.map((player) => [player.id, player]));
   const civilizationHistories = civilizationHistoryMap(normalized);
-  const statsByPlayer = new Map();
+  const statsByPlayer = new Map(normalized.players.map((player) => [player.id, {
+    id: player.id,
+    name: player.name,
+    active: player.active,
+    played: 0,
+    wins: 0,
+    losses: 0,
+  }]));
   const teams = Object.fromEntries(TEAM_IDS.map((teamId) => [teamId, 0]));
 
   for (const match of normalized.matches) {
@@ -195,15 +201,7 @@ export function calculateStatistics(state) {
     for (const teamId of TEAM_IDS) {
       for (const slot of match.teams[teamId]) {
         if (!slot.playerId) continue;
-        const source = playersById.get(slot.playerId);
-        const current = statsByPlayer.get(slot.playerId) ?? {
-          id: slot.playerId,
-          name: source.name,
-          active: source.active,
-          played: 0,
-          wins: 0,
-          losses: 0,
-        };
+        const current = statsByPlayer.get(slot.playerId);
         current.played += 1;
         if (teamId === match.winner) current.wins += 1;
         else current.losses += 1;
@@ -226,12 +224,8 @@ export function calculateStatistics(state) {
       a.name.localeCompare(b.name, "tr-TR")
     ));
 
-  let currentRank = 0;
   players.forEach((player, index) => {
-    const previous = players[index - 1];
-    const tied = previous && previous.winRate === player.winRate && previous.wins === player.wins && previous.played === player.played;
-    if (!tied) currentRank = index + 1;
-    player.rank = currentRank;
+    player.rank = index + 1;
   });
 
   return {
