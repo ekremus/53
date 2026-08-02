@@ -802,6 +802,10 @@ dialog {
   box-shadow: 10px 14px 34px rgb(0 0 0 / 42%);
 }
 
+.dialog--compact {
+  width: min(calc(100% - 32px), 280px);
+}
+
 dialog::backdrop {
   background: rgb(17 12 7 / 68%);
 }

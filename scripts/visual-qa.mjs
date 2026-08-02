@@ -94,6 +94,7 @@ async function metrics(session) {
     const matrix = document.querySelector('.match-matrix');
     const rail = document.querySelector('.matrix-rail');
     const firstMatch = document.querySelector('.match-column');
+    const editAuthDialog = document.querySelector('#edit-auth-dialog');
     const almanGeneral = [...document.querySelectorAll('.matrix-player strong')].find((element) => element.textContent.trim() === 'Alman General');
     const originalScrollLeft = matrix?.scrollLeft ?? 0;
     if (matrix) matrix.scrollLeft = 0;
@@ -113,6 +114,7 @@ async function metrics(session) {
       matrixScrollLeft: originalScrollLeft,
       railWidth: rail?.getBoundingClientRect().width ?? null,
       firstMatchWidth: firstMatch?.getBoundingClientRect().width ?? null,
+      editAuthDialogWidth: editAuthDialog?.getBoundingClientRect().width ?? null,
       railLeftBefore,
       railLeftAfter,
       matchColumns: document.querySelectorAll('[data-match-column], [data-edit-match]').length,
@@ -163,6 +165,7 @@ const checks = [
   { route: "/", width: 390, height: 844, name: "public-390" },
   { route: "/", width: 1440, height: 1000, name: "public-1440" },
   { route: "/", width: 390, height: 844, name: "public-390-scrolled", action: `document.querySelector('.match-matrix').scrollLeft = 260` },
+  { route: "/", width: 390, height: 844, name: "auth-dialog-390", action: `document.querySelector('[data-enter-edit]').click()` },
   { route: "/", width: 320, height: 700, name: "edit-320", action: unlockEditAction() },
   { route: "/", width: 390, height: 844, name: "edit-390", action: unlockEditAction() },
   { route: "/", width: 390, height: 844, name: "edit-new-blank-390", action: unlockEditAction("document.querySelector('[data-add-match]').click();") },

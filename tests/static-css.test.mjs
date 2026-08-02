@@ -41,6 +41,10 @@ test("adds a compact brand row without breaking the first viewport", () => {
   assert.match(css, /\.brand-wordmark[\s\S]*max-height:\s*30px/);
 });
 
+test("keeps the password dialog compact on phones", () => {
+  assert.match(css, /\.dialog--compact\s*{[\s\S]*width:\s*min\(calc\(100% - 32px\),\s*280px\)/);
+});
+
 test("draws one inset walnut boundary between the teams", () => {
   assert.match(css, /--team-divider:\s*#5c4326/);
   assert.match(css, /\.rail-team--blue[\s\S]*inset 0 -3px 0 var\(--team-divider\)/);
