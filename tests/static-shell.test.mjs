@@ -9,6 +9,7 @@ const statsHtml = await readFile(new URL("../docs/stats/index.html", import.meta
 test("ships one minimal mobile SPA shell", () => {
   assert.match(html, /Bu Ecof Empires🏹🪓⚔️/);
   assert.match(html, /viewport-fit=cover/);
+  assert.match(html, /<meta name="theme-color" content="#3c3022">/);
   assert.match(html, /id="top-control"/);
   assert.match(html, /class="brand-header"/);
   assert.match(html, /class="brand-wordmark"/);

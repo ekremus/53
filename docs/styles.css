@@ -73,7 +73,7 @@ html {
   min-width: 320px;
   min-height: 100%;
   overflow-x: clip;
-  background-color: var(--paper);
+  background-color: var(--furniture-deep);
 }
 
 body {
@@ -296,6 +296,14 @@ select {
   min-width: 0;
   max-width: 100%;
   overflow-x: clip;
+}
+
+body[data-view="matches"]:not([data-editing]) .surface-root::after {
+  display: block;
+  min-height: max(0px, calc(100dvh - env(safe-area-inset-top) - var(--brand-row) - var(--touch) - 52px - 504px));
+  background-color: rgb(229 205 157 / 55%);
+  content: "";
+  pointer-events: none;
 }
 
 .loading-line,

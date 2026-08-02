@@ -7,6 +7,7 @@ const css = await readFile(new URL("../docs/styles.css", import.meta.url), "utf8
 test("owns phone safe areas and horizontal overflow inside the matrix", () => {
   assert.match(css, /env\(safe-area-inset-top\)/);
   assert.match(css, /100dvh/);
+  assert.match(css, /html\s*{[\s\S]*background-color:\s*var\(--furniture-deep\)/);
   assert.match(css, /\.match-matrix[\s\S]*overflow-x:\s*auto/);
   assert.match(css, /html[\s\S]*overflow-x:\s*clip/);
   assert.match(css, /\.surface-root[\s\S]*overflow-x:\s*clip/);
@@ -60,6 +61,7 @@ test("keeps parchment continuous behind long surfaces", () => {
   assert.match(css, /paper-continuous\.jpg/);
   assert.match(css, /body::before[\s\S]*position:\s*fixed/);
   assert.match(css, /body::before[\s\S]*background-size:\s*cover/);
+  assert.match(css, /body\[data-view="matches"\]:not\(\[data-editing\]\) \.surface-root::after[\s\S]*background-color:\s*rgb\(229 205 157 \/ 55%\)/);
   assert.doesNotMatch(css, /background-image:\s*url\("\.\/assets\/paper\.jpg"\)/);
 });
 

@@ -194,6 +194,8 @@ At the only CSS breakpoint, 920px, the sticky rail grows to 48px and match colum
 
 Top safe-area padding belongs to the signature row. Notices begin below the signature and control rows. There is no fixed bottom control, so the browser home-indicator area remains visually open.
 
+The browser theme color and root canvas are the exact deep-brown signature color (`#3c3022`), so current and earlier iPhone Safari chrome and the top safe area meet the header without a tan band. The body still owns its fixed parchment layer. In public match view, the same translucent raised-parchment wash continues below the matrix to the dynamic viewport edge; the fixed texture remains visually continuous instead of changing material after the winner row.
+
 **The One Scroll Owner Rule.** The document stays viewport-bound in public match view; only the match matrix owns horizontal movement.
 
 **The Show It Once Rule.** Every match appears once, newest first. Do not split history into latest, recent, and archive variants.
