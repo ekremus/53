@@ -6,7 +6,7 @@ import { CIVILIZATIONS, civilizationAssetName } from "../docs/lib/civilizations.
 const pngSignature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
 
 test("vendors a valid PNG for every supported civilization", async () => {
-  assert.equal(CIVILIZATIONS.length, 53);
+  assert.equal(CIVILIZATIONS.length, 56);
   for (const civilization of CIVILIZATIONS) {
     const bytes = await readFile(new URL(`../docs/assets/civs/${civilizationAssetName(civilization)}`, import.meta.url));
     assert.deepEqual(bytes.subarray(0, 8), pngSignature, `${civilization} PNG imzası`);

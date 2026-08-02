@@ -1,0 +1,78 @@
+{
+  "source": "replays/aoe2_replays.xlsx",
+  "sourceSha256": "63d181c8a46c498fe2af59c8e16ca3130d0be3fafb85241cfb085d0c4335824d",
+  "sourceMatches": 44,
+  "duplicateSourceRows": [
+    1,
+    2
+  ],
+  "importedMatches": 42,
+  "importedSourceRows": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44
+  ],
+  "importedDateRange": {
+    "from": "2026-01-31",
+    "to": "2026-07-18"
+  },
+  "importedWinnerTotals": {
+    "cortinyanlar": 25,
+    "bakracogullari": 17
+  },
+  "durationColumnPresent": false,
+  "underTenMinuteMatchesDetectedFromTimestamps": 0,
+  "minimumAdjacentReplayGapMinutes": 53,
+  "excludedUnderTenMinuteSourceRows": [],
+  "before": {
+    "digest": "60c328ed0a3de9d8d7e3bb112661052829542e63b0000beab7c9e10e43d2ff9f",
+    "revision": 31,
+    "players": 13,
+    "matches": 5
+  },
+  "after": {
+    "digest": "eafa712a6b5f29b0e5d846e276fb56e458a54b02fdf0f18617056b3e32276089",
+    "revisionBeforeServerWrite": 31,
+    "players": 13,
+    "matches": 47
+  }
+}

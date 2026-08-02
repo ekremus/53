@@ -18,9 +18,9 @@ const fixtureState = JSON.parse(await readFile(
   "utf8",
 ));
 
-test("ships the current 53 standard AoE2 DE civilizations", () => {
-  assert.equal(CIVILIZATIONS.length, 53);
-  for (const civilization of ["Mapuche", "Muisca", "Tupi", "Turks", "Vikings"]) {
+test("ships every AoE2 DE civilization used by saved matches", () => {
+  assert.equal(CIVILIZATIONS.length, 56);
+  for (const civilization of ["Macedonians", "Mapuche", "Muisca", "Puru", "Thracians", "Tupi", "Turks", "Vikings"]) {
     assert.ok(CIVILIZATIONS.includes(civilization));
   }
 });
