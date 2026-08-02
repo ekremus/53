@@ -735,6 +735,10 @@ body[data-editing] {
   color: var(--ink);
 }
 
+.dialog-surface input {
+  font-size: 16px;
+}
+
 .player-add input::placeholder {
   color: #5c431f;
 }

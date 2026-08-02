@@ -36,6 +36,11 @@ typography:
     fontSize: "14px"
     fontWeight: 400
     lineHeight: 1.3
+  input:
+    fontFamily: "Merriweather, Georgia, 'Times New Roman', serif"
+    fontSize: "16px"
+    fontWeight: 400
+    lineHeight: 1.3
   label:
     fontFamily: "Merriweather, Georgia, 'Times New Roman', serif"
     fontSize: "10.5px"
@@ -261,7 +266,7 @@ Edit mode replaces standings with the player manager in the same surface. A 52px
 
 ### Dialog and Notices
 
-The custom modal surfaces are the square, continuous-texture-backed shared-password and new-player dialogs. The single-purpose password dialog is capped at a compact 280px with a 16px phone inset; the new-player dialog remains capped at 440px with a 12px inset. Each uses one walnut perimeter rule, a deep-brown heading, a 44px close action, and one flat inline form. Closing or canceling the new-player dialog clears the pending matrix selection; closing password authentication returns to public view.
+The custom modal surfaces are the square, continuous-texture-backed shared-password and new-player dialogs. The single-purpose password dialog is capped at a compact 280px with a 16px phone inset; the new-player dialog remains capped at 440px with a 12px inset. Each uses one walnut perimeter rule, a deep-brown heading, a 44px close action, and one flat inline form. Dialog text inputs stay at 16px so iPhone Safari never magnifies the page on focus. Closing or canceling the new-player dialog clears the pending matrix selection; closing password authentication returns to public view.
 
 Destructive confirmations use the platform confirmation flow. Temporary notices sit below the safe-area-aware top control, announce status through the live region, and disappear after a short interval.
 

@@ -44,6 +44,7 @@ test("adds a compact brand row without breaking the first viewport", () => {
 
 test("keeps the password dialog compact on phones", () => {
   assert.match(css, /\.dialog--compact\s*{[\s\S]*width:\s*min\(calc\(100% - 32px\),\s*280px\)/);
+  assert.match(css, /\.dialog-surface input\s*{[\s\S]*font-size:\s*16px/);
 });
 
 test("makes inline player-name editing visibly editable", () => {
