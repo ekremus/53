@@ -7,11 +7,13 @@ import { escapeHtml, renderScoreStrip, renderStatsTable, renderTopControl } from
 const state = validateState(JSON.parse(await readFile(new URL("../docs/data/state.json", import.meta.url), "utf8")));
 const stats = calculateStatistics(state);
 
-test("renders only the blue-red score", () => {
+test("renders labeled blue-red scores without redundant copy", () => {
   const html = renderScoreStrip(state, stats);
-  assert.match(html, /Cortinyanlar/);
-  assert.match(html, /Bakracoğulları/);
-  assert.match(html, />2</);
+  assert.equal((html.match(/class="score-team-name"/g) ?? []).length, 2);
+  assert.equal((html.match(/class="score-value"/g) ?? []).length, 2);
+  assert.match(html, /class="score-team-name">Cortinyanlar</);
+  assert.match(html, /class="score-team-name">Bakracoğulları</);
+  assert.match(html, /class="score-value">2</);
   assert.match(html, /score-dash/);
   assert.doesNotMatch(html, /VS|maç|önde/);
 });

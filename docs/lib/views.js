@@ -23,9 +23,10 @@ export function formatMatchDate(value) {
 
 export function renderScoreStrip(state, stats) {
   const [blue, red] = state.teams;
-  return `<div class="score-number score-number--blue" aria-label="${escapeHtml(blue.name)} ${stats.teams[blue.id]}">${stats.teams[blue.id]}</div>
+  const score = (team, color) => `<div class="score-number score-number--${color}" aria-label="${escapeHtml(team.name)} ${stats.teams[team.id]}"><span class="score-team-name">${escapeHtml(team.name)}</span><strong class="score-value">${stats.teams[team.id]}</strong></div>`;
+  return `${score(blue, "blue")}
     <span class="score-dash" aria-hidden="true">–</span>
-    <div class="score-number score-number--red" aria-label="${escapeHtml(red.name)} ${stats.teams[red.id]}">${stats.teams[red.id]}</div>`;
+    ${score(red, "red")}`;
 }
 
 export function renderTopControl({ view = "matches", editing = false, dirty = false, saving = false } = {}) {
