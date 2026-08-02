@@ -130,6 +130,8 @@ async function metrics(session) {
       railLeftBefore,
       railLeftAfter,
       matchColumns: document.querySelectorAll('[data-match-column], [data-edit-match]').length,
+      dateLabels: [...document.querySelectorAll('.match-column__date time')].map((element) => element.textContent.trim()),
+      matchSequences: [...document.querySelectorAll('.match-sequence')].map((element) => element.textContent.trim()),
       emptySlots: document.querySelectorAll('.matrix-player--empty, [data-player-select] option[value=""]:checked').length,
       almanGeneralFits: almanGeneral ? almanGeneral.scrollWidth <= almanGeneral.clientWidth : null,
       favoriteCivilizationCrests: document.querySelectorAll('.stats-player > img').length,
