@@ -1,11 +1,23 @@
 import { civilizationAssetName } from "./civilizations.js";
 
-const dateFormatter = new Intl.DateTimeFormat("tr-TR", {
+const compactDateFormatter = new Intl.DateTimeFormat("tr-TR", {
   day: "2-digit",
   month: "short",
   year: "numeric",
   timeZone: "UTC",
 });
+
+const longDateFormatter = new Intl.DateTimeFormat("tr-TR", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+function utcDate(value) {
+  const [year, month, day] = String(value).split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, day));
+}
 
 export function escapeHtml(value) {
   return String(value)
@@ -17,8 +29,11 @@ export function escapeHtml(value) {
 }
 
 export function formatMatchDate(value) {
-  const [year, month, day] = String(value).split("-").map(Number);
-  return dateFormatter.format(new Date(Date.UTC(year, month - 1, day)));
+  return compactDateFormatter.format(utcDate(value));
+}
+
+export function formatMatchDateLong(value) {
+  return longDateFormatter.format(utcDate(value));
 }
 
 export function renderScoreStrip(state, stats) {

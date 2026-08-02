@@ -1,12 +1,20 @@
 import { CIVILIZATION_OPTIONS, civilizationAssetName } from "./civilizations.js";
 import { activeRoster } from "./model.js";
-import { escapeHtml, formatMatchDate } from "./views.js";
+import { escapeHtml, formatMatchDate, formatMatchDateLong } from "./views.js";
+
+export function orderedMatchRecords(state) {
+  const counts = new Map();
+  return state.matches
+    .map((match, index) => {
+      const sequence = (counts.get(match.date) ?? 0) + 1;
+      counts.set(match.date, sequence);
+      return { match, index, sequence };
+    })
+    .sort((a, b) => b.match.date.localeCompare(a.match.date) || b.index - a.index);
+}
 
 export function orderedMatches(state) {
-  return state.matches
-    .map((match, index) => ({ match, index }))
-    .sort((a, b) => b.match.date.localeCompare(a.match.date) || b.index - a.index)
-    .map(({ match }) => match);
+  return orderedMatchRecords(state).map(({ match }) => match);
 }
 
 function roster(state) {
@@ -45,26 +53,27 @@ function publicPlayerCell(players, slot, teamId, index) {
   </div>`;
 }
 
-function publicMatchColumn(state, match, players) {
+function publicMatchColumn(state, { match, sequence }, players) {
   const winner = state.teams.find((team) => team.id === match.winner);
   const winnerIndex = state.teams.findIndex((team) => team.id === match.winner);
   const result = winner
     ? `<img class="matrix-result__medal" src="./assets/icons/medal.svg" alt="" width="18" height="18"><strong>${escapeHtml(winner.name)}</strong>`
     : "";
+  const accessibleDate = `${formatMatchDateLong(match.date)}, ${sequence}. maç`;
   return `<article class="match-column" data-match-column="${escapeHtml(match.id)}">
-    <div class="match-column__date"><time datetime="${escapeHtml(match.date)}" data-iso-date="${escapeHtml(match.date)}">${escapeHtml(formatMatchDate(match.date))}</time></div>
+    <div class="match-column__date"><time datetime="${escapeHtml(match.date)}" data-iso-date="${escapeHtml(match.date)}" aria-label="${escapeHtml(accessibleDate)}">${escapeHtml(formatMatchDate(match.date))}<span class="match-sequence"> (${sequence})</span></time></div>
     ${state.teams.map((team, index) => `<section class="matrix-team matrix-team--${index === 0 ? "blue" : "red"}" aria-label="${escapeHtml(team.name)}">${orderedTeamSlots(state, match.teams[team.id]).map(({ slot, index: slotIndex }) => publicPlayerCell(players, slot, team.id, slotIndex)).join("")}</section>`).join("")}
     <div class="matrix-result matrix-result--${winnerIndex === 0 ? "blue" : "red"}">${result}</div>
   </article>`;
 }
 
 export function renderMatchMatrix(state) {
-  const matches = orderedMatches(state);
-  if (!matches.length) return `<div class="matrix-empty"><strong>Henüz maç yok</strong></div>`;
+  const records = orderedMatchRecords(state);
+  if (!records.length) return `<div class="matrix-empty"><strong>Henüz maç yok</strong></div>`;
   const players = roster(state);
   return `<div class="match-matrix" role="region" tabindex="0" aria-label="Haftalık maçlar; eski haftalar için sağa kaydır">
     ${railMarkup(state)}
-    <div class="matrix-weeks">${matches.map((match) => publicMatchColumn(state, match, players)).join("")}</div>
+    <div class="matrix-weeks">${records.map((record) => publicMatchColumn(state, record, players)).join("")}</div>
   </div>`;
 }
 
@@ -101,8 +110,8 @@ function editableMatchColumn(state, match) {
 }
 
 export function renderEditableMatrix(state) {
-  const matches = orderedMatches(state);
+  const records = orderedMatchRecords(state);
   const addAction = `<button class="add-action" type="button" data-add-match><img src="./assets/icons/plus.svg" alt="" width="18" height="18"><span>Maç ekle</span></button>`;
-  if (!matches.length) return `<div class="matrix-empty">${addAction}</div>`;
-  return `<div class="edit-toolbar">${addAction}</div><div class="match-matrix match-matrix--editable" role="region" tabindex="0" aria-label="Düzenlenebilir maçlar">${railMarkup(state)}<div class="matrix-weeks">${matches.map((match) => editableMatchColumn(state, match)).join("")}</div></div>`;
+  if (!records.length) return `<div class="matrix-empty">${addAction}</div>`;
+  return `<div class="edit-toolbar">${addAction}</div><div class="match-matrix match-matrix--editable" role="region" tabindex="0" aria-label="Düzenlenebilir maçlar">${railMarkup(state)}<div class="matrix-weeks">${records.map(({ match }) => editableMatchColumn(state, match)).join("")}</div></div>`;
 }

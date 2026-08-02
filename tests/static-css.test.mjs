@@ -36,6 +36,11 @@ test("labels the taller score and aligns medals with winners", () => {
   assert.doesNotMatch(css, /rail-result__medal/);
 });
 
+test("keeps match sequence metadata compact inside the date row", () => {
+  assert.match(css, /\.match-sequence\s*{[\s\S]*font-weight:\s*400[\s\S]*opacity:\s*0\.72/);
+  assert.match(css, /\.match-column__date time[\s\S]*white-space:\s*nowrap/);
+});
+
 test("ships one blue-red parchment token system", () => {
   for (const token of ["--paper", "--ink", "--rule", "--bronze", "--blue", "--red"]) {
     assert.match(css, new RegExp(`${token}:`));

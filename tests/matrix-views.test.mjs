@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { orderedTeamSlots, renderEditableMatrix, renderMatchMatrix } from "../docs/lib/matrix.js";
+import {
+  orderedMatchRecords,
+  orderedTeamSlots,
+  renderEditableMatrix,
+  renderMatchMatrix,
+} from "../docs/lib/matrix.js";
 
 const fixture = JSON.parse(await readFile(new URL("../docs/data/state.json", import.meta.url)));
 
@@ -14,6 +19,41 @@ test("renders every match once, newest first, with eight player cells and one re
   assert.ok(html.indexOf("2026-07-26") < html.indexOf("2026-07-19"));
   assert.equal((html.match(/class="matrix-player(?: |")/g) ?? []).length, 16);
   assert.equal((html.match(/class="matrix-result(?: |")/g) ?? []).length, 2);
+});
+
+test("numbers same-Saturday matches chronologically while rendering newest first", () => {
+  const state = structuredClone(fixture);
+  const first = structuredClone(state.matches[0]);
+  const second = structuredClone(state.matches[1]);
+  const third = structuredClone(state.matches[0]);
+  first.id = "same-day-1";
+  second.id = "same-day-2";
+  third.id = "same-day-3";
+  first.date = second.date = third.date = "2026-08-01";
+  state.matches = [first, second, third];
+
+  const records = orderedMatchRecords(state);
+  assert.deepEqual(records.map(({ match, sequence }) => [match.id, sequence]), [
+    ["same-day-3", 3],
+    ["same-day-2", 2],
+    ["same-day-1", 1],
+  ]);
+
+  const html = renderMatchMatrix(state);
+  assert.ok(html.indexOf("same-day-3") < html.indexOf("same-day-2"));
+  assert.ok(html.indexOf("same-day-2") < html.indexOf("same-day-1"));
+  assert.deepEqual(
+    [...html.matchAll(/class="match-sequence"> \((\d+)\)<\/span>/g)].map((match) => Number(match[1])),
+    [3, 2, 1],
+  );
+  assert.match(html, /aria-label="01 Ağustos 2026, 3\. maç"/);
+});
+
+test("labels a one-match Saturday as the first game", () => {
+  const state = structuredClone(fixture);
+  state.matches = [state.matches[0]];
+  state.matches[0].date = "2026-08-01";
+  assert.match(renderMatchMatrix(state), /01 Ağu 2026<span class="match-sequence"> \(1\)<\/span>/);
 });
 
 test("keeps only empty colored team bands in the rail", () => {

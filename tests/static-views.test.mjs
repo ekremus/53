@@ -2,10 +2,22 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { calculateStatistics, validateState } from "../docs/lib/model.js";
-import { escapeHtml, renderScoreStrip, renderStatsTable, renderTopControl } from "../docs/lib/views.js";
+import {
+  escapeHtml,
+  formatMatchDate,
+  formatMatchDateLong,
+  renderScoreStrip,
+  renderStatsTable,
+  renderTopControl,
+} from "../docs/lib/views.js";
 
 const state = validateState(JSON.parse(await readFile(new URL("../docs/data/state.json", import.meta.url), "utf8")));
 const stats = calculateStatistics(state);
+
+test("formats compact and accessible Turkish match dates", () => {
+  assert.equal(formatMatchDate("2026-08-01"), "01 Ağu 2026");
+  assert.equal(formatMatchDateLong("2026-08-01"), "01 Ağustos 2026");
+});
 
 test("renders labeled blue-red scores without redundant copy", () => {
   const html = renderScoreStrip(state, stats);

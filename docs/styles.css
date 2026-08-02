@@ -435,6 +435,11 @@ body[data-view="matches"]:not([data-editing]) .surface-root::after {
   white-space: nowrap;
 }
 
+.match-sequence {
+  font-weight: 400;
+  opacity: 0.72;
+}
+
 .matrix-team {
   min-height: calc(var(--player-row) * 4);
 }
