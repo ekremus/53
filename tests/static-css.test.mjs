@@ -16,16 +16,24 @@ test("owns phone safe areas and horizontal overflow inside the matrix", () => {
 });
 
 test("binds the compact matrix geometry", () => {
-  assert.match(css, /:root\s*{[\s\S]*--rail:\s*31px/);
+  assert.match(css, /:root\s*{[\s\S]*--rail:\s*8px/);
+  assert.match(css, /:root\s*{[\s\S]*--score-row:\s*68px/);
   assert.match(css, /:root\s*{[\s\S]*--week:\s*164px/);
-  assert.match(css, /@media\s*\(min-width:\s*920px\)[\s\S]*--rail:\s*48px/);
+  assert.match(css, /@media\s*\(min-width:\s*920px\)[\s\S]*--rail:\s*12px/);
   assert.match(css, /@media\s*\(min-width:\s*920px\)[\s\S]*--week:\s*232px/);
   assert.match(css, /--player-row:\s*54px/);
   assert.match(css, /--date-row:\s*34px/);
   assert.match(css, /--result-row:\s*38px/);
-  assert.match(css, /writing-mode:\s*vertical-rl/);
+  assert.doesNotMatch(css, /writing-mode:\s*vertical-rl/);
   assert.match(css, /\.matrix-player--empty[\s\S]*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
   assert.match(css, /\.stats-player img[\s\S]*width:\s*28px/);
+});
+
+test("labels the taller score and aligns medals with winners", () => {
+  assert.match(css, /\.score-strip[\s\S]*height:\s*var\(--score-row\)/);
+  assert.match(css, /\.score-team-name[\s\S]*font-size:\s*10px[\s\S]*opacity:\s*0\.5/);
+  assert.match(css, /\.matrix-result__medal[\s\S]*width:\s*18px/);
+  assert.doesNotMatch(css, /rail-result__medal/);
 });
 
 test("ships one blue-red parchment token system", () => {

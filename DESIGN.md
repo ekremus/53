@@ -26,6 +26,11 @@ typography:
     fontSize: "32px"
     fontWeight: 700
     lineHeight: 1
+  score-label:
+    fontFamily: "Merriweather, Georgia, 'Times New Roman', serif"
+    fontSize: "10px"
+    fontWeight: 700
+    lineHeight: 1
   title:
     fontFamily: "Merriweather, Georgia, 'Times New Roman', serif"
     fontSize: "13px"
@@ -87,13 +92,13 @@ components:
     textColor: "#fff8e7"
     typography: "{typography.display}"
     rounded: "{rounded.square}"
-    height: "52px"
+    height: "68px"
   score-red:
     backgroundColor: "{colors.bakracogullari-red-deep}"
     textColor: "#fff8e7"
     typography: "{typography.display}"
     rounded: "{rounded.square}"
-    height: "52px"
+    height: "68px"
   matrix-player:
     backgroundColor: "rgb(229 205 157 / 55%)"
     textColor: "{colors.ink}"
@@ -122,14 +127,14 @@ The product is one compact, hand-kept AoE2 competition sheet translated directly
 
 The interface removes product theater and dashboard hierarchy. A 40px generated `Bu Ecof Empires` signature is the only branding; there is no introductory copy, hero, sidebar, footer, floating menu, bottom navigation, archive surface, or repeated version of the match data. The next row contains only the centered `Maçlar | Sıralama` switch and its contextual pencil or save/cancel actions.
 
-The exact product name `Bu Ecof Empires🏹🪓⚔️` remains in document metadata and durable documentation. The exact team names `Cortinyanlar` and `Bakracoğulları` remain visible in the matrix rails and editing controls.
+The exact product name `Bu Ecof Empires🏹🪓⚔️` remains in document metadata and durable documentation. The exact team names `Cortinyanlar` and `Bakracoğulları` remain visible in the score, match results, and editing controls.
 
 **Key Characteristics:**
 
 - one newest-first horizontal match matrix, with every match represented once;
 - a complete match visible inside the first 390 × 844 viewport;
 - one compact generated wordmark above the controls, never a promotional header;
-- fixed Cortinyanlar blue and Bakracoğulları red, paired with vertical named rails;
+- fixed Cortinyanlar blue and Bakracoğulları red, paired with slim sticky color rails;
 - Merriweather over a continuous local parchment texture with brown furniture, thin bronze rules, and a walnut team divider;
 - contextual editing that changes only the currently selected surface.
 
@@ -139,8 +144,8 @@ The palette is a materially restrained tournament set: parchment owns the page, 
 
 ### Primary
 
-- **Cortinyan Field Blue**: The standard blue identifies Cortinyanlar; its deep companion fills the score, vertical team rail, and winning result row, while its soft companion provides a quiet matrix-team tint.
-- **Bakracoğulları Field Red**: The standard red identifies Bakracoğulları; its deep companion fills the score, vertical team rail, and winning result row, while its soft companion provides the opposing matrix-team tint.
+- **Cortinyan Field Blue**: The standard blue identifies Cortinyanlar; its deep companion fills the score, slim team rail, and winning result row, while its soft companion provides a quiet matrix-team tint.
+- **Bakracoğulları Field Red**: The standard red identifies Bakracoğulları; its deep companion fills the score, slim team rail, and winning result row, while its soft companion provides the opposing matrix-team tint.
 
 ### Secondary
 
@@ -164,7 +169,7 @@ The palette is a materially restrained tournament set: parchment owns the page, 
 
 **The Fixed Rivalry Rule.** Cortinyanlar stays blue and Bakracoğulları stays red. Do not swap, theme, randomize, or introduce a third team color.
 
-**The Named Rail Rule.** Team color never carries identity by itself: the exact team names remain legible in the vertical rails, winner value, or accessible score labels.
+**The Named Team Rule.** Team color never carries identity by itself: the exact team names remain legible in the score strip, winner value, and accessible score labels.
 
 **The Bronze Is Structure Rule.** Bronze draws boundaries and selection detail; it never becomes a gradient, glow, or decorative wash.
 
@@ -177,7 +182,8 @@ The palette is a materially restrained tournament set: parchment owns the page, 
 ### Hierarchy
 
 - **Score display** (700, 32px, 1): The two fixed team win totals only.
-- **Control title** (700, 13px, 1.15): Segmented labels, vertical team names, player names, and compact actions.
+- **Control title** (700, 13px, 1.15): Segmented labels, player names, and compact actions.
+- **Score team label** (700, 10px, 1): Team names above aggregate scores at 50% opacity.
 - **Body** (400, 14px, 1.3): Default interface and form copy.
 - **Micro label** (400, 10.5px, 1.15): Civilization labels and inline editor selects.
 
@@ -189,13 +195,13 @@ Dates and table headers use compact 12–13px bold text. Statistics use tabular 
 
 ## Layout
 
-Phone geometry is canonical. A 40px brand row owns the top safe-area inset, then the top control uses three columns—88px, 196px, 88px—so the segmented switch stays mathematically centered at 390px while contextual actions occupy the right track. The control row is exactly one 44px touch track. The score beneath it is 52px high.
+Phone geometry is canonical. A 40px brand row owns the top safe-area inset, then the top control uses three columns—88px, 196px, 88px—so the segmented switch stays mathematically centered at 390px while contextual actions occupy the right track. The control row is exactly one 44px touch track. The score beneath it is 68px high.
 
-The match surface is one horizontal scroll owner. A sticky 31px rail remains at the left while newest-first 164px match columns move under the finger and snap to the rail edge. Each column uses a 34px date row, four 54px Cortinyanlar slots, four 54px Bakracoğulları slots, and a 38px result row: 504px total. Empty slots render as a quiet `-` and sort after real players. There are no P1–P4 labels, repeated team headers, result cards, or duplicate recent/archive sections. At 390 × 844, the 40px signature, 44px control, 52px score, and complete 504px match occupy 640px before the safe area.
+The match surface is one horizontal scroll owner. A sticky 8px color rail remains at the left while newest-first 164px match columns move under the finger and snap to the rail edge. Each column uses a 34px date row, four 54px Cortinyanlar slots, four 54px Bakracoğulları slots, and a 38px result row: 504px total. Empty slots render as a quiet `-` and sort after real players. There are no P1–P4 labels, repeated team headers, result cards, or duplicate recent/archive sections. At 390 × 844, the 40px signature, 44px control, 68px score, and complete 504px match occupy 656px before the safe area.
 
 Public match view locks document-level vertical overflow because the complete matrix already fits. The matrix alone may scroll horizontally. Editing adds a 44px toolbar and raises the result row to 44px while preserving the same column and player geometry. Standings replace the matrix in the same surface area; they are not a second page shell.
 
-At the only CSS breakpoint, 920px, the sticky rail grows to 48px and match columns grow to 232px. The application caps at 1440px and gains only a thin outer rule; content order and component grammar do not change. The minimum supported width is 320px, and 390px is the primary visual acceptance viewport.
+At the only CSS breakpoint, 920px, the sticky rail grows to 12px and match columns grow to 232px. The application caps at 1440px and gains only a thin outer rule; content order and component grammar do not change. The minimum supported width is 320px, and 390px is the primary visual acceptance viewport.
 
 Top safe-area padding belongs to the signature row. Notices begin below the signature and control rows. There is no fixed bottom control, so the browser home-indicator area remains visually open.
 
@@ -244,13 +250,13 @@ A 44 × 44px pencil occupies the right track in view mode. It first opens a squa
 
 ### Score Strip
 
-The score is a fixed 52px three-part strip: flexible deep-blue total, 24px deep-brown dash, and flexible deep-red total. It displays only the numeric rivalry state such as `2–0`; team names live in accessible labels and the matrix rails, so the strip stays maximally compact.
+The score is a fixed 68px three-part strip: flexible deep-blue total, 24px deep-brown dash, and flexible deep-red total. Each colored field places the exact 10px team name at 50% opacity above its dominant 32px total. Combined accessible labels announce each team name and score.
 
 ### Weekly Match Matrix
 
-The sticky rail is 31px on phones. Its two named team sections each span exactly four player rows and set the names vertically with bottom-to-top reading. The date rail cell is blank; the 38px result rail cell centers one 20px gold-filtered local medal. Slot labels are prohibited.
+The sticky rail is 8px on phones and 12px from 920px. Its two empty color sections each span exactly four player rows: Cortinyanlar blue above Bakracoğulları red. The date and result rail cells remain blank deep brown; the rail contains no text or medal. Slot labels are prohibited.
 
-Each mobile 164px match column contains a centered date, eight player cells, and one named winner result; it grows to 232px on desktop. A public player cell uses a 38px local civilization crest, a 13px bold player name, and a 10.5px muted civilization name. Real players are sorted by Turkish display name within each team, while empty slots stay at the end and render only `-`. Alternating translucent parchment rows keep dense lineups scannable; thin rules carry row separation. A 3px walnut line runs across the rail and match column between the fourth blue slot and first red slot. The result row uses the winning team's deep color plus the exact winning team name.
+Each mobile 164px match column contains a centered date, eight player cells, and one named winner result; it grows to 232px on desktop. A public player cell uses a 38px local civilization crest, a 13px bold player name, and a 10.5px muted civilization name. Real players are sorted by Turkish display name within each team, while empty slots stay at the end and render only `-`. Alternating translucent parchment rows keep dense lineups scannable; thin rules carry row separation. A 3px walnut line runs across the rail and match column between the fourth blue slot and first red slot. A valid public result centers one 18px local gold-filtered medal beside the exact winning team name; editable results retain only the winner select and delete action.
 
 ### Contextual Match Editor
 
@@ -274,7 +280,7 @@ Destructive confirmations use the platform confirmation flow. Temporary notices 
 
 There is no authored entrance, ambient, looping, or scroll-triggered motion. Matrix scrolling is direct native touch behavior with horizontal snapping. `prefers-reduced-motion: reduce` forces smooth scrolling off and collapses any incidental transition or animation duration to 0.01ms.
 
-All interactive targets are at least 44px in their containing row. Keyboard focus uses a 3px light-parchment outline drawn 3px inward so it remains visible on the viewport edge. Color is never the only winner or team cue: rails and result values carry exact names, and score totals have accessible labels.
+All interactive targets are at least 44px in their containing row. Keyboard focus uses a 3px light-parchment outline drawn 3px inward so it remains visible on the viewport edge. Color is never the only winner or team cue: score labels and result values carry exact names, and score totals have accessible labels.
 
 ### Asset Policy
 
@@ -285,7 +291,7 @@ Merriweather, `paper-continuous.jpg`, the generated transparent wordmark, Tabler
 ### Do:
 
 - **Do** keep branding limited to the 40px generated signature and keep the next row limited to the centered `Maçlar | Sıralama` switch and contextual edit actions.
-- **Do** preserve the 31/164/34/54/38px phone matrix geometry, the 48/232px desktop rail/column pair, and verify the first complete match at 390 × 844.
+- **Do** preserve the 8/164/34/54/38px phone matrix geometry, the 12/232px desktop rail/column pair, and verify the first complete match at 390 × 844.
 - **Do** keep Cortinyanlar blue and Bakracoğulları red, with exact names visible or available to assistive technology.
 - **Do** show every match once, newest first, in the one horizontal matrix.
 - **Do** keep `# / Oyuncu / O / G / M / %` intact at every supported width.

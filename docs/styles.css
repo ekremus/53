@@ -55,7 +55,8 @@
   --team-divider: #5c4326;
   --touch: 44px;
   --brand-row: 40px;
-  --rail: 31px;
+  --score-row: 68px;
+  --rail: 8px;
   --week: 164px;
   --date-row: 34px;
   --player-row: 54px;
@@ -260,19 +261,37 @@ select {
 .score-strip {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
-  height: 52px;
-  min-height: 52px;
+  height: var(--score-row);
+  min-height: var(--score-row);
   border-bottom: 1px solid var(--rule);
 }
 
 .score-number {
-  display: grid;
-  place-items: center;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
   color: #fff8e7;
+  text-shadow: 0 1px 0 rgb(0 0 0 / 45%);
+}
+
+.score-team-name {
+  max-width: calc(100% - 12px);
+  overflow: hidden;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.score-value {
   font-size: 32px;
   font-weight: 700;
   line-height: 1;
-  text-shadow: 0 1px 0 rgb(0 0 0 / 45%);
 }
 
 .score-number--blue {
@@ -300,7 +319,7 @@ select {
 
 body[data-view="matches"]:not([data-editing]) .surface-root::after {
   display: block;
-  min-height: max(0px, calc(100dvh - env(safe-area-inset-top) - var(--brand-row) - var(--touch) - 52px - 504px));
+  min-height: max(0px, calc(100dvh - env(safe-area-inset-top) - var(--brand-row) - var(--touch) - var(--score-row) - 504px));
   background-color: rgb(229 205 157 / 55%);
   content: "";
   pointer-events: none;
@@ -366,20 +385,9 @@ body[data-view="matches"]:not([data-editing]) .surface-root::after {
   border-top: 1px solid var(--rule);
 }
 
-.rail-result__medal {
-  display: block;
-  width: 20px;
-  height: 20px;
-  filter: invert(70%) sepia(54%) saturate(623%) hue-rotate(2deg) brightness(91%);
-}
-
 .rail-team {
-  display: grid;
   min-height: 0;
-  place-items: center;
   overflow: hidden;
-  color: #fff8e8;
-  text-shadow: 0 1px 0 rgb(0 0 0 / 50%);
 }
 
 .rail-team--blue {
@@ -389,14 +397,6 @@ body[data-view="matches"]:not([data-editing]) .surface-root::after {
 
 .rail-team--red {
   background: var(--red-deep);
-}
-
-.rail-team strong {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  font-size: 13px;
-  letter-spacing: 0.015em;
-  white-space: nowrap;
 }
 
 .matrix-weeks {
@@ -522,14 +522,24 @@ body[data-view="matches"]:not([data-editing]) .surface-root::after {
 }
 
 .matrix-result {
-  display: grid;
+  display: flex;
   min-width: 0;
   height: var(--result-row);
-  place-items: center;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   overflow: hidden;
   border-top: 1px solid var(--rule);
   color: #fff8e7;
   text-shadow: 0 1px 0 rgb(0 0 0 / 45%);
+}
+
+.matrix-result__medal {
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  filter: invert(70%) sepia(54%) saturate(623%) hue-rotate(2deg) brightness(91%);
 }
 
 .matrix-result--blue {
@@ -541,9 +551,8 @@ body[data-view="matches"]:not([data-editing]) .surface-root::after {
 }
 
 .matrix-result strong {
-  max-width: 100%;
+  max-width: calc(100% - 31px);
   overflow: hidden;
-  padding-inline: 8px;
   font-size: 11px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -624,6 +633,7 @@ body[data-editing] {
 }
 
 .matrix-result--editable {
+  display: grid;
   grid-template-columns: minmax(0, 1fr) var(--touch);
   background: var(--furniture);
 }
@@ -873,7 +883,7 @@ dialog::backdrop {
 
 @media (min-width: 920px) {
   :root {
-    --rail: 48px;
+    --rail: 12px;
     --week: 232px;
   }
 
