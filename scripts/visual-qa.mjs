@@ -34,6 +34,10 @@ async function createTarget(url) {
   return response.json();
 }
 
+async function closeTarget(targetId) {
+  await fetch(`${cdpRoot}/json/close/${encodeURIComponent(targetId)}`).catch(() => null);
+}
+
 function createSession(webSocketUrl) {
   const socket = new WebSocket(webSocketUrl);
   const pending = new Map();
@@ -80,7 +84,7 @@ async function waitForReady(session) {
       && !document.querySelector('[aria-busy="true"]');
     if (done()) return resolve(true);
     const timer = setInterval(() => { if (done()) { clearInterval(timer); resolve(true); } }, 50);
-    setTimeout(() => { clearInterval(timer); resolve(false); }, 6000);
+    setTimeout(() => { clearInterval(timer); resolve(false); }, 12000);
   })`);
   if (!ready) throw new Error("Uygulama QA süresi içinde hazır olmadı.");
   await evaluate(session, `Promise.all([...document.images].map((image) => image.complete ? true : new Promise((resolve) => {
@@ -131,31 +135,35 @@ async function metrics(session) {
 async function inspectPage({ route, width, height, name, action }) {
   const target = await createTarget("about:blank");
   const session = createSession(target.webSocketDebuggerUrl);
-  await session.ready;
-  await session.send("Page.enable");
-  await session.send("Runtime.enable");
-  await session.send("Page.addScriptToEvaluateOnNewDocument", {
-    source: `globalThis.__qaErrors = []; addEventListener('error', (event) => __qaErrors.push(event.message)); addEventListener('unhandledrejection', (event) => __qaErrors.push(String(event.reason)));`,
-  });
-  await session.send("Emulation.setDeviceMetricsOverride", {
-    width,
-    height,
-    deviceScaleFactor: 1,
-    mobile: width < 600,
-    screenWidth: width,
-    screenHeight: height,
-  });
-  await session.send("Page.navigate", { url: new URL(route, appUrl).href });
-  await waitForReady(session);
-  if (action) {
-    await evaluate(session, action);
+  try {
+    await session.ready;
+    await session.send("Page.enable");
+    await session.send("Runtime.enable");
+    await session.send("Page.addScriptToEvaluateOnNewDocument", {
+      source: `globalThis.__qaErrors = []; addEventListener('error', (event) => __qaErrors.push(event.message)); addEventListener('unhandledrejection', (event) => __qaErrors.push(String(event.reason)));`,
+    });
+    await session.send("Emulation.setDeviceMetricsOverride", {
+      width,
+      height,
+      deviceScaleFactor: 1,
+      mobile: width < 600,
+      screenWidth: width,
+      screenHeight: height,
+    });
+    await session.send("Page.navigate", { url: new URL(route, appUrl).href });
     await waitForReady(session);
-    await new Promise((resolve) => setTimeout(resolve, 120));
+    if (action) {
+      await evaluate(session, action);
+      await waitForReady(session);
+      await new Promise((resolve) => setTimeout(resolve, 120));
+    }
+    const result = await metrics(session);
+    await capture(session, name);
+    return result;
+  } finally {
+    session.close();
+    await closeTarget(target.id);
   }
-  const result = await metrics(session);
-  await capture(session, name);
-  session.close();
-  return result;
 }
 
 await mkdir(outputDirectory, { recursive: true });
@@ -170,8 +178,17 @@ const checks = [
   { route: "/", width: 390, height: 844, name: "edit-390", action: unlockEditAction() },
   { route: "/", width: 390, height: 844, name: "edit-new-blank-390", action: unlockEditAction("document.querySelector('[data-add-match]').click();") },
   { route: "/?view=standings", width: 390, height: 844, name: "standings-390" },
+  { route: "/?view=standings", width: 320, height: 700, name: "standings-edit-320", action: unlockEditAction() },
   { route: "/?view=standings", width: 390, height: 844, name: "standings-edit-390", action: unlockEditAction() },
 ];
 
-const results = await Promise.all(checks.map(async (check) => [check.name, await inspectPage(check)]));
+const requestedCheck = process.env.QA_CHECK;
+const selectedChecks = requestedCheck ? checks.filter((check) => check.name === requestedCheck) : checks;
+if (!selectedChecks.length) throw new Error(`Bilinmeyen QA_CHECK: ${requestedCheck}`);
+
+const results = [];
+for (let index = 0; index < selectedChecks.length; index += 4) {
+  const batch = selectedChecks.slice(index, index + 4);
+  results.push(...await Promise.all(batch.map(async (check) => [check.name, await inspectPage(check)])));
+}
 console.log(JSON.stringify(Object.fromEntries(results), null, 2));

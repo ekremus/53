@@ -255,7 +255,7 @@ Changes remain in a local draft until the top save action publishes the complete
 
 View mode is one full-width table with stable columns `#`, `Oyuncu`, `O`, `G`, `M`, `%`. Each nickname is preceded by the player's most frequently selected civilization crest; ties prefer the newest occurrence. Rows are at least 44px, the player column flexes, and the numeric columns remain fixed so every statistic survives at 320px.
 
-Edit mode replaces standings with the player manager in the same surface. A 52px add row precedes alternating 56px player rows. Names edit inline; apply, delete/deactivate, and reactivate actions stay at least 44px high. A used player becomes passive instead of disappearing from historical matches.
+Edit mode replaces standings with the player manager in the same surface. A 52px add row precedes alternating 56px player rows. Active and passive names both edit inline through a subtly tinted, underlined field and the explicit `İsmi kaydet` action; delete/deactivate and reactivate actions stay at least 44px high. A used player becomes passive instead of disappearing from historical matches. Every destructive action—including player deletion/deactivation, match deletion, and discarding a dirty draft—uses an explicit `Emin misin?` confirmation before changing the local draft.
 
 ### Dialog and Notices
 

@@ -24,7 +24,10 @@ test("one controller owns view switching and contextual editing", async () => {
     "data-civilization-select",
     "data-player-rename",
     "playerDialog.addEventListener(\"cancel\"",
-    "kaldırılsın mı?",
+    "confirmDestructive",
+    "Emin misin?",
+    "kalıcı olarak silinecek",
+    "geçmiş maçları korunacak",
     "pushState",
   ]) assert.ok(source.includes(contract), `missing controller contract: ${contract}`);
   assert.match(source, /latestCivilizationForPlayer\(state, input\.value, key\)/);

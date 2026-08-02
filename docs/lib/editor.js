@@ -38,8 +38,8 @@ export function renderPlayerManager(state, { includeAdd = false } = {}) {
   return `<div class="player-manager">${add}${players.map((player) => {
     const usage = playerUsage(state, player.id);
     return `<div class="player-row${player.active ? "" : " is-passive"}" data-player-id="${escapeHtml(player.id)}">
-      <div class="player-row__identity"><input type="text" value="${escapeHtml(player.name)}" maxlength="40" aria-label="${escapeHtml(player.name)} adını değiştir" data-player-name="${escapeHtml(player.id)}"${player.active ? "" : " disabled"}>${player.active ? "" : "<span>Pasif</span>"}</div>
-      <div class="player-row__actions">${player.active ? `<button type="button" data-player-rename="${escapeHtml(player.id)}">Uygula</button><button class="danger-action" type="button" data-player-remove="${escapeHtml(player.id)}">${usage ? "Pasif yap" : "Sil"}</button>` : `<button type="button" data-player-reactivate="${escapeHtml(player.id)}">Etkinleştir</button>`}</div>
+      <div class="player-row__identity"><input type="text" value="${escapeHtml(player.name)}" maxlength="40" aria-label="${escapeHtml(player.name)} adını değiştir" data-player-name="${escapeHtml(player.id)}">${player.active ? "" : "<span>Pasif</span>"}</div>
+      <div class="player-row__actions"><button type="button" data-player-rename="${escapeHtml(player.id)}">İsmi kaydet</button>${player.active ? `<button class="danger-action" type="button" data-player-remove="${escapeHtml(player.id)}">${usage ? "Pasif yap" : "Sil"}</button>` : `<button type="button" data-player-reactivate="${escapeHtml(player.id)}">Etkinleştir</button>`}</div>
     </div>`;
   }).join("")}</div>`;
 }

@@ -45,6 +45,11 @@ test("keeps the password dialog compact on phones", () => {
   assert.match(css, /\.dialog--compact\s*{[\s\S]*width:\s*min\(calc\(100% - 32px\),\s*280px\)/);
 });
 
+test("makes inline player-name editing visibly editable", () => {
+  assert.match(css, /\.player-row__identity input\s*{[\s\S]*background:\s*rgb\(239 219 177 \/ 46%\)/);
+  assert.match(css, /\.player-row__identity input\s*{[\s\S]*box-shadow:\s*inset 0 -1px 0/);
+});
+
 test("draws one inset walnut boundary between the teams", () => {
   assert.match(css, /--team-divider:\s*#5c4326/);
   assert.match(css, /\.rail-team--blue[\s\S]*inset 0 -3px 0 var\(--team-divider\)/);

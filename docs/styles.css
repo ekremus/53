@@ -752,8 +752,9 @@ body[data-editing] {
 
 .player-row__identity input {
   width: 100%;
-  background: transparent;
+  background: rgb(239 219 177 / 46%);
   font-weight: 700;
+  box-shadow: inset 0 -1px 0 rgb(59 40 20 / 58%);
 }
 
 .player-row__identity span {

@@ -29,9 +29,11 @@ test("renders active and passive player management actions", () => {
   state.players.find((player) => player.id === "zombi").active = false;
   const html = renderPlayerManager(state);
   assert.match(html, /data-player-rename="buyukekrem"/);
+  assert.match(html, /data-player-rename="zombi"/);
   assert.match(html, /data-player-remove="buyukekrem"/);
   assert.match(html, /data-player-reactivate="zombi"/);
-  assert.match(html, />Uygula</);
+  assert.equal((html.match(/>İsmi kaydet</g) ?? []).length, state.players.length);
+  assert.doesNotMatch(html, /data-player-name="zombi"[^>]*disabled/);
   assert.match(html, /Pasif yap/);
 });
 

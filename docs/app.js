@@ -137,8 +137,12 @@ export async function startApp(documentRoot = document, {
     render();
   }
 
+  function confirmDestructive(message) {
+    return confirmAction(`${message} Emin misin?`);
+  }
+
   function exitEdit() {
-    if (controller.getSnapshot().dirty && !confirmAction("Kaydedilmemiş değişiklikler silinsin mi?")) return;
+    if (controller.getSnapshot().dirty && !confirmDestructive("Kaydedilmemiş değişiklikler silinecek.")) return;
     controller.reset();
     route = { ...route, editing: false };
     syncUrl();
@@ -200,15 +204,20 @@ export async function startApp(documentRoot = document, {
       } else if (target.matches("[data-delete-match]")) {
         const id = target.dataset.deleteMatch;
         const match = controller.getState().matches.find((candidate) => candidate.id === id);
-        if (match && confirmAction(`${match.date} tarihli maç silinsin mi?`)) controller.deleteMatch(id);
+        if (match && confirmDestructive(`${match.date} tarihli maç kalıcı olarak silinecek.`)) controller.deleteMatch(id);
       } else if (target.matches("[data-player-rename]")) {
         const id = target.dataset.playerRename;
         const input = surfaceRoot.querySelector(`[data-player-name="${CSS.escape(id)}"]`);
         controller.renamePlayer(id, input.value);
       } else if (target.matches("[data-player-remove]")) {
         const id = target.dataset.playerRemove;
-        const player = controller.getState().players.find((candidate) => candidate.id === id);
-        if (player && confirmAction(`${player.name} kaldırılsın mı?`)) controller.removePlayer(id);
+        const state = controller.getState();
+        const player = state.players.find((candidate) => candidate.id === id);
+        const isUsed = state.matches.some((match) => Object.values(match.teams).flat().some((slot) => slot.playerId === id));
+        const message = isUsed
+          ? `${player?.name ?? "Oyuncu"} pasif yapılacak; geçmiş maçları korunacak.`
+          : `${player?.name ?? "Oyuncu"} kalıcı olarak silinecek.`;
+        if (player && confirmDestructive(message)) controller.removePlayer(id);
       } else if (target.matches("[data-player-reactivate]")) {
         controller.reactivatePlayer(target.dataset.playerReactivate);
       } else if (target.matches("[data-close-player-dialog]")) {
@@ -323,7 +332,7 @@ export async function startApp(documentRoot = document, {
   });
 
   globalThis.addEventListener?.("popstate", () => {
-    if (controller.getSnapshot().dirty && !confirmAction("Kaydedilmemiş değişiklikler silinsin mi?")) return;
+    if (controller.getSnapshot().dirty && !confirmDestructive("Kaydedilmemiş değişiklikler silinecek.")) return;
     controller.reset();
     const nextRoute = parseAppLocation(globalThis.location);
     route = { ...nextRoute, editing: nextRoute.editing && editAuthorized };
