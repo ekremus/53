@@ -13,22 +13,25 @@ test("renders every match once, newest first, with eight player cells and one re
   assert.equal((html.match(/data-match-column=/g) ?? []).length, 2);
   assert.ok(html.indexOf("2026-07-26") < html.indexOf("2026-07-19"));
   assert.equal((html.match(/class="matrix-player(?: |")/g) ?? []).length, 16);
-  assert.equal((html.match(/class="matrix-result/g) ?? []).length, 2);
+  assert.equal((html.match(/class="matrix-result(?: |")/g) ?? []).length, 2);
 });
 
-test("keeps only vertical team names in the rail", () => {
+test("keeps only empty colored team bands in the rail", () => {
   const html = renderMatchMatrix(fixture);
-  assert.match(html, /rail-team--blue/);
-  assert.match(html, /rail-team--red/);
-  assert.match(html, /Cortinyanlar/);
-  assert.match(html, /Bakracoğulları/);
+  const rail = html.match(/<aside class="matrix-rail"[\s\S]*?<\/aside>/)[0];
+  assert.match(rail, /rail-team--blue/);
+  assert.match(rail, /rail-team--red/);
+  assert.doesNotMatch(rail, /<strong|Cortinyanlar|Bakracoğulları|medal\.svg/);
   assert.doesNotMatch(html, />Takım<|>Slot<|>P1<|>P2<|>P3<|>P4<|>Kazanan</);
 });
 
-test("shows one local winner medal in the left result rail", () => {
-  const html = renderMatchMatrix(fixture);
-  assert.equal((html.match(/rail-result__medal/g) ?? []).length, 1);
-  assert.match(html, /assets\/icons\/medal\.svg/);
+test("shows one local winner medal beside every public result", () => {
+  const publicHtml = renderMatchMatrix(fixture);
+  const editHtml = renderEditableMatrix(fixture);
+  assert.equal((publicHtml.match(/matrix-result__medal/g) ?? []).length, fixture.matches.length);
+  assert.equal((publicHtml.match(/assets\/icons\/medal\.svg/g) ?? []).length, fixture.matches.length);
+  assert.match(publicHtml, /matrix-result__medal[\s\S]*Cortinyanlar|matrix-result__medal[\s\S]*Bakracoğulları/);
+  assert.doesNotMatch(editHtml, /matrix-result__medal/);
 });
 
 test("renders player names, civilization names, and local crests", () => {

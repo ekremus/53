@@ -29,8 +29,8 @@ export function orderedTeamSlots(state, slots) {
 function railMarkup(state) {
   return `<aside class="matrix-rail" aria-hidden="true">
     <div class="rail-date"></div>
-    ${state.teams.map((team, index) => `<div class="rail-team rail-team--${index === 0 ? "blue" : "red"}"><strong>${escapeHtml(team.name)}</strong></div>`).join("")}
-    <div class="rail-result"><img class="rail-result__medal" src="./assets/icons/medal.svg" alt="" width="20" height="20"></div>
+    ${state.teams.map((_, index) => `<div class="rail-team rail-team--${index === 0 ? "blue" : "red"}"></div>`).join("")}
+    <div class="rail-result"></div>
   </aside>`;
 }
 
@@ -48,10 +48,13 @@ function publicPlayerCell(players, slot, teamId, index) {
 function publicMatchColumn(state, match, players) {
   const winner = state.teams.find((team) => team.id === match.winner);
   const winnerIndex = state.teams.findIndex((team) => team.id === match.winner);
+  const result = winner
+    ? `<img class="matrix-result__medal" src="./assets/icons/medal.svg" alt="" width="18" height="18"><strong>${escapeHtml(winner.name)}</strong>`
+    : "";
   return `<article class="match-column" data-match-column="${escapeHtml(match.id)}">
     <div class="match-column__date"><time datetime="${escapeHtml(match.date)}" data-iso-date="${escapeHtml(match.date)}">${escapeHtml(formatMatchDate(match.date))}</time></div>
     ${state.teams.map((team, index) => `<section class="matrix-team matrix-team--${index === 0 ? "blue" : "red"}" aria-label="${escapeHtml(team.name)}">${orderedTeamSlots(state, match.teams[team.id]).map(({ slot, index: slotIndex }) => publicPlayerCell(players, slot, team.id, slotIndex)).join("")}</section>`).join("")}
-    <div class="matrix-result matrix-result--${winnerIndex === 0 ? "blue" : "red"}"><strong>${escapeHtml(winner?.name ?? "")}</strong></div>
+    <div class="matrix-result matrix-result--${winnerIndex === 0 ? "blue" : "red"}">${result}</div>
   </article>`;
 }
 
