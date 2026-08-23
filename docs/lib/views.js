@@ -1,4 +1,5 @@
 import { civilizationAssetName } from "./civilizations.js";
+import { sortPlayerStatistics } from "./model.js";
 
 const compactDateFormatter = new Intl.DateTimeFormat("tr-TR", {
   day: "2-digit",
@@ -52,7 +53,26 @@ export function renderTopControl({ view = "matches", editing = false, dirty = fa
   return `<div class="view-switch" role="tablist" aria-label="Görünüm">${viewButton("matches", "Maçlar")}${viewButton("standings", "Sıralama")}</div><div class="top-actions">${actions}</div>`;
 }
 
-export function renderStatsTable(stats) {
+const STANDINGS_SORT_COLUMNS = [
+  { key: "played", label: "O", name: "Oynanan maç" },
+  { key: "wins", label: "G", name: "Galibiyet" },
+  { key: "losses", label: "M", name: "Mağlubiyet" },
+  { key: "winRate", label: "%", name: "Galibiyet yüzdesi" },
+];
+
+function renderStandingsSortHeader(column, sort) {
+  const active = sort.key === column.key;
+  const ariaSort = active ? (sort.direction === "desc" ? "descending" : "ascending") : "none";
+  const nextDirection = active && sort.direction === "desc" ? "artan" : "azalan";
+  const direction = active
+    ? `<span class="stats-sort__direction" aria-hidden="true">${sort.direction === "desc" ? "↓" : "↑"}</span>`
+    : "";
+  const label = `${column.name}: ${nextDirection} sırala`;
+  return `<th class="stats-sort-cell" scope="col" aria-sort="${ariaSort}"><button class="stats-sort${active ? " is-active" : ""}" type="button" data-sort-standings="${column.key}" aria-label="${label}" title="${label}"><span class="stats-sort__label">${column.label}</span>${direction}</button></th>`;
+}
+
+export function renderStatsTable(stats, sort = { key: "wins", direction: "desc" }) {
   if (!stats.players.length) return `<div class="empty-state"><strong>Henüz oyuncu yok</strong></div>`;
-  return `<div class="table-scroller"><table class="stats-table"><colgroup><col class="stats-col-rank"><col class="stats-col-player"><col class="stats-col-number"><col class="stats-col-number"><col class="stats-col-number"><col class="stats-col-rate"></colgroup><thead><tr><th scope="col">#</th><th scope="col">Oyuncu</th><th scope="col" title="Oynanan maç">O</th><th scope="col" title="Galibiyet">G</th><th scope="col" title="Mağlubiyet">M</th><th scope="col">%</th></tr></thead><tbody>${stats.players.map((player) => `<tr><td class="rank-number">${player.rank}</td><th scope="row"><span class="stats-player"><img src="./assets/civs/${civilizationAssetName(player.favoriteCivilization)}" alt="" width="28" height="28"><span>${escapeHtml(player.name)}</span></span></th><td>${player.played}</td><td>${player.wins}</td><td>${player.losses}</td><td><strong>${player.winRate}%</strong></td></tr>`).join("")}</tbody></table></div>`;
+  const players = sortPlayerStatistics(stats.players, sort.key, sort.direction);
+  return `<div class="table-scroller"><table class="stats-table"><colgroup><col class="stats-col-rank"><col class="stats-col-player"><col class="stats-col-number"><col class="stats-col-number"><col class="stats-col-number"><col class="stats-col-rate"></colgroup><thead><tr><th scope="col">#</th><th scope="col">Oyuncu</th>${STANDINGS_SORT_COLUMNS.map((column) => renderStandingsSortHeader(column, sort)).join("")}</tr></thead><tbody>${players.map((player) => `<tr><td class="rank-number">${player.rank}</td><th scope="row"><span class="stats-player"><img src="./assets/civs/${civilizationAssetName(player.favoriteCivilization)}" alt="" width="28" height="28"><span>${escapeHtml(player.name)}</span></span></th><td>${player.played}</td><td>${player.wins}</td><td>${player.losses}</td><td><strong>${player.winRate}%</strong></td></tr>`).join("")}</tbody></table></div>`;
 }

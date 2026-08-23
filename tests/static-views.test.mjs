@@ -46,10 +46,22 @@ test("renders rank, records, and win rate", () => {
   assert.equal(general.favoriteCivilization, "Random");
   assert.match(html, /100%/);
   assert.match(html, /class="stats-player"[\s\S]*assets\/civs\/random\.svg[\s\S]*Alman General/);
-  assert.match(html, /<th[^>]*>O<\/th>/);
-  assert.match(html, /<th[^>]*>G<\/th>/);
-  assert.match(html, /<th[^>]*>M<\/th>/);
-  assert.match(html, /<th[^>]*>%<\/th>/);
+  assert.match(html, /class="stats-sort__label">O<\/span>/);
+  assert.match(html, /class="stats-sort__label">G<\/span>/);
+  assert.match(html, /class="stats-sort__label">M<\/span>/);
+  assert.match(html, /class="stats-sort__label">%<\/span>/);
+  assert.equal((html.match(/data-sort-standings=/g) ?? []).length, 4);
+  assert.match(html, /<th class="stats-sort-cell" scope="col" aria-sort="descending"><button[^>]*class="stats-sort is-active"[^>]*data-sort-standings="wins"[\s\S]*?↓/);
+  assert.match(html, /data-sort-standings="played"/);
+  assert.match(html, /data-sort-standings="losses"/);
+  assert.match(html, /data-sort-standings="winRate"/);
+
+  const rateHtml = renderStatsTable(stats, { key: "winRate", direction: "asc" });
+  assert.match(rateHtml, /<th class="stats-sort-cell" scope="col" aria-sort="ascending"><button[^>]*class="stats-sort is-active"[^>]*data-sort-standings="winRate"[\s\S]*?↑/);
+  assert.deepEqual(
+    [...rateHtml.matchAll(/class="rank-number">(\d+)</g)].map((match) => Number(match[1])),
+    stats.players.map((_, index) => index + 1),
+  );
 });
 
 test("escapes player-controlled text", () => {

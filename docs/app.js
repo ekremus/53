@@ -18,6 +18,15 @@ export function parseSlotKey(value) {
   return { matchId, teamId, index: Number(index) };
 }
 
+const STANDINGS_SORT_KEYS = new Set(["played", "wins", "losses", "winRate"]);
+
+export function nextStandingsSort(current, key) {
+  if (!STANDINGS_SORT_KEYS.has(key)) throw new Error("Sıralama ölçütü geçersiz.");
+  return current.key === key
+    ? { key, direction: current.direction === "desc" ? "asc" : "desc" }
+    : { key, direction: "desc" };
+}
+
 export function parseAppLocation(locationLike = globalThis.location) {
   const params = new URLSearchParams(locationLike?.search ?? "");
   return {
@@ -64,6 +73,7 @@ export async function startApp(documentRoot = document, {
   const initialRoute = parseAppLocation(locationLike);
   const requestedInitialEdit = initialRoute.editing;
   let route = { ...initialRoute, editing: false };
+  let standingsSort = { key: "wins", direction: "desc" };
   let controller;
   let saving = false;
   let editAuthorized = false;
@@ -93,7 +103,7 @@ export async function startApp(documentRoot = document, {
     scoreRoot.hidden = route.view !== "matches";
     if (route.view === "matches") scoreRoot.innerHTML = renderScoreStrip(state, stats);
     if (route.view === "matches") surfaceRoot.innerHTML = route.editing ? renderEditableMatrix(state) : renderMatchMatrix(state);
-    else surfaceRoot.innerHTML = route.editing ? renderPlayerManager(state, { includeAdd: true }) : renderStatsTable(stats);
+    else surfaceRoot.innerHTML = route.editing ? renderPlayerManager(state, { includeAdd: true }) : renderStatsTable(stats, standingsSort);
     scoreRoot.removeAttribute("aria-busy");
     surfaceRoot.removeAttribute("aria-busy");
     documentRoot.body?.toggleAttribute("data-editing", route.editing);
@@ -190,7 +200,11 @@ export async function startApp(documentRoot = document, {
     const target = event.target.closest("button,a");
     if (!target) return;
     try {
-      if (target.matches("[data-set-view]")) {
+      if (target.matches("[data-sort-standings]") && route.view === "standings" && !route.editing) {
+        const key = target.dataset.sortStandings;
+        standingsSort = nextStandingsSort(standingsSort, key);
+        render();
+      } else if (target.matches("[data-set-view]")) {
         route = { view: target.dataset.setView, editing: false };
         syncUrl();
         render();
