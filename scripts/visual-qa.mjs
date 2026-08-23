@@ -199,6 +199,7 @@ const checks = [
   { route: "/", width: 390, height: 844, name: "edit-390", action: unlockEditAction() },
   { route: "/", width: 390, height: 844, name: "edit-new-blank-390", action: unlockEditAction("document.querySelector('[data-add-match]').click();") },
   { route: "/?view=standings", width: 390, height: 844, name: "standings-390" },
+  { route: "/?view=standings", width: 320, height: 700, name: "standings-320" },
   { route: "/?view=standings", width: 390, height: 844, name: "standings-rate-390", action: `document.querySelector('[data-sort-standings="winRate"]').click()` },
   { route: "/?view=standings", width: 390, height: 844, name: "standings-rate-asc-390", action: `document.querySelector('[data-sort-standings="winRate"]').click(); document.querySelector('[data-sort-standings="winRate"]').click()` },
   { route: "/?view=standings", width: 320, height: 700, name: "standings-edit-320", action: unlockEditAction() },
