@@ -187,7 +187,7 @@ The palette is a materially restrained tournament set: parchment owns the page, 
 - **Body** (400, 14px, 1.3): Default interface and form copy.
 - **Micro label** (400, 10.5px, 1.15): Civilization labels and inline editor selects.
 
-Dates and table headers use compact 12–13px bold text. Statistics use tabular alignment through fixed columns rather than a second numeral font.
+Dates use compact 12–13px bold text. Sortable statistics headers use 14px bold text inside full-height touch controls; statistics use tabular alignment through fixed columns rather than a second numeral font.
 
 **The One-Voice Rule.** Do not reintroduce Alegreya, a sans-serif UI family, blackletter, novelty runes, an icon font, or monospace display copy.
 
@@ -268,7 +268,7 @@ Changes remain in a local draft until the top save action publishes the complete
 
 ### Standings and Player Editing
 
-View mode is one full-width table with stable columns `#`, `Oyuncu`, `O`, `G`, `M`, `%`. Every registered player appears, including passive or never-played players, with zeroed statistics when needed. Each nickname is preceded by the player's most frequently selected civilization crest; ties prefer the newest occurrence. Rank numbers are always unique and sequential from `#1`, even when records are tied. Rows are at least 44px, the player column flexes, and the numeric columns remain fixed so every statistic survives at 320px.
+View mode is one full-width table with stable columns `#`, `Oyuncu`, `O`, `G`, `M`, `%`. Every registered player appears, including passive or never-played players, with zeroed statistics when needed. Each nickname is preceded by the player's most frequently selected civilization crest; ties prefer the newest occurrence. The default order is total galibiyet (`G`) descending, with fewer losses and then Turkish player name resolving ties. `O`, `G`, `M`, and `%` are 44px-high sort buttons: selecting a new measure starts descending, selecting it again reverses direction, and the active measure carries a bronze underline plus a small direction arrow. Sorting is page-memory presentation state only. Rank numbers are recalculated as unique and sequential from `#1` after every sort. Rows are at least 44px, the player column flexes, and the four numeric columns stay at 44px so every statistic survives at 320px.
 
 Edit mode replaces standings with the player manager in the same surface. A 52px add row precedes alternating 56px player rows. Active and passive names both edit inline through a subtly tinted, underlined field and the explicit `İsmi kaydet` action; delete/deactivate and reactivate actions stay at least 44px high. A used player becomes passive instead of disappearing from historical matches. Every destructive action—including player deletion/deactivation, match deletion, and discarding a dirty draft—uses an explicit `Emin misin?` confirmation before changing the local draft.
 

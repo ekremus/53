@@ -41,6 +41,14 @@ test("keeps match sequence metadata compact inside the date row", () => {
   assert.match(css, /\.match-column__date time[\s\S]*white-space:\s*nowrap/);
 });
 
+test("makes standings measures large, touchable, and visibly sortable", () => {
+  assert.match(css, /\.stats-sort\s*{[\s\S]*width:\s*100%[\s\S]*min-height:\s*var\(--touch\)[\s\S]*font-size:\s*14px/);
+  assert.match(css, /\.stats-sort\.is-active\s*{[\s\S]*inset 0 -2px 0 var\(--bronze\)/);
+  assert.match(css, /\.stats-col-number\s*{[\s\S]*width:\s*44px/);
+  assert.match(css, /\.stats-col-rate\s*{[\s\S]*width:\s*44px/);
+  assert.match(css, /\.stats-col-rank\s*{[\s\S]*width:\s*32px/);
+});
+
 test("ships one blue-red parchment token system", () => {
   for (const token of ["--paper", "--ink", "--rule", "--bronze", "--blue", "--red"]) {
     assert.match(css, new RegExp(`${token}:`));
