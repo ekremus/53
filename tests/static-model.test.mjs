@@ -9,6 +9,7 @@ import {
   favoriteCivilizationForPlayer,
   latestCivilizationForPlayer,
   removeOrDeactivatePlayer,
+  sortPlayerStatistics,
   upsertPlayer,
   validateState,
 } from "../docs/lib/model.js";
@@ -85,6 +86,24 @@ test("derives team totals and player rankings from player identities", () => {
   assert.equal(statistics.players[0].rank, 1);
   assert.equal(statistics.players.length, fixtureState.players.length);
   assert.deepEqual(statistics.players.map((player) => player.rank), statistics.players.map((_, index) => index + 1));
+});
+
+test("ranks by total wins by default and sorts every standings measure without mutation", () => {
+  const records = [
+    { id: "perfect", name: "Az Maç", played: 1, wins: 1, losses: 0, winRate: 100, rank: 0 },
+    { id: "veteran", name: "Çok Galibiyet", played: 16, wins: 8, losses: 8, winRate: 50, rank: 0 },
+    { id: "steady", name: "Eşit Galibiyet", played: 10, wins: 8, losses: 2, winRate: 80, rank: 0 },
+  ];
+
+  assert.deepEqual(sortPlayerStatistics(records).map(({ id }) => id), ["steady", "veteran", "perfect"]);
+  assert.deepEqual(sortPlayerStatistics(records, "winRate", "desc").map(({ id }) => id), ["perfect", "steady", "veteran"]);
+  assert.deepEqual(sortPlayerStatistics(records, "played", "asc").map(({ id }) => id), ["perfect", "steady", "veteran"]);
+  assert.deepEqual(sortPlayerStatistics(records, "losses", "desc").map(({ id }) => id), ["veteran", "steady", "perfect"]);
+  assert.deepEqual(sortPlayerStatistics(records, "wins", "asc").map(({ id }) => id), ["perfect", "steady", "veteran"]);
+  assert.deepEqual(sortPlayerStatistics(records).map(({ rank }) => rank), [1, 2, 3]);
+  assert.deepEqual(records.map(({ rank }) => rank), [0, 0, 0]);
+  assert.throws(() => sortPlayerStatistics(records, "unknown"), /ölçütü/);
+  assert.throws(() => sortPlayerStatistics(records, "wins", "sideways"), /yönü/);
 });
 
 test("keeps every registered player while vacant slots do not affect statistics", () => {

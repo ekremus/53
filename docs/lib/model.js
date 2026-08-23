@@ -183,6 +183,25 @@ export function favoriteCivilizationForPlayer(state, playerId) {
   return favoriteFromHistory(civilizationHistoryMap(normalized).get(playerId));
 }
 
+const PLAYER_STAT_KEYS = new Set(["played", "wins", "losses", "winRate"]);
+
+export function sortPlayerStatistics(players, key = "wins", direction = "desc") {
+  if (!PLAYER_STAT_KEYS.has(key)) throw new Error("Sıralama ölçütü geçersiz.");
+  if (!["asc", "desc"].includes(direction)) throw new Error("Sıralama yönü geçersiz.");
+  const multiplier = direction === "desc" ? -1 : 1;
+  const ordered = players.map((player) => ({ ...player })).sort((a, b) => (
+    (a[key] - b[key]) * multiplier
+    || (key === "wins" ? a.losses - b.losses : b.wins - a.wins)
+    || a.losses - b.losses
+    || a.name.localeCompare(b.name, "tr-TR")
+  ));
+
+  ordered.forEach((player, index) => {
+    player.rank = index + 1;
+  });
+  return ordered;
+}
+
 export function calculateStatistics(state) {
   const normalized = validateState(state);
   const civilizationHistories = civilizationHistoryMap(normalized);
@@ -210,23 +229,13 @@ export function calculateStatistics(state) {
     }
   }
 
-  const players = [...statsByPlayer.values()]
+  const players = sortPlayerStatistics([...statsByPlayer.values()]
     .map((player) => ({
       ...player,
       favoriteCivilization: favoriteFromHistory(civilizationHistories.get(player.id)),
       winRate: player.played ? Math.round((player.wins / player.played) * 100) : 0,
       rank: 0,
-    }))
-    .sort((a, b) => (
-      b.winRate - a.winRate ||
-      b.wins - a.wins ||
-      b.played - a.played ||
-      a.name.localeCompare(b.name, "tr-TR")
-    ));
-
-  players.forEach((player, index) => {
-    player.rank = index + 1;
-  });
+    })), "wins", "desc");
 
   return {
     totalMatches: normalized.matches.length,
