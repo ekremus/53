@@ -181,7 +181,7 @@ select {
 
 .top-control {
   display: grid;
-  grid-template-columns: 88px minmax(0, 196px) 88px;
+  grid-template-columns: minmax(var(--touch), 1fr) minmax(0, 196px) minmax(var(--touch), 1fr);
   justify-content: center;
   min-height: var(--touch);
   background: var(--furniture-deep);

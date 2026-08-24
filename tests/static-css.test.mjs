@@ -69,6 +69,7 @@ test("keeps the password dialog compact on phones", () => {
 });
 
 test("keeps player detail triggers and dialog mobile safe", () => {
+  assert.match(css, /\.top-control[\s\S]*grid-template-columns:\s*minmax\(var\(--touch\),\s*1fr\) minmax\(0,\s*196px\) minmax\(var\(--touch\),\s*1fr\)/);
   assert.match(css, /button\.matrix-player[\s\S]*min-height:\s*var\(--player-row\)/);
   assert.match(css, /\.stats-player[\s\S]*min-height:\s*var\(--touch\)/);
   assert.match(css, /\.player-details-dialog\s*{[\s\S]*width:\s*min\(calc\(100% - 24px\),\s*420px\)/);
