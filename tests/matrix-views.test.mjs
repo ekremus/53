@@ -82,6 +82,17 @@ test("renders player names, civilization names, and local crests", () => {
   assert.match(html, /assets\/civs\/random\.svg/);
 });
 
+test("makes only filled public match players detail buttons", () => {
+  const state = structuredClone(fixture);
+  state.matches = [state.matches[0]];
+  state.matches[0].teams.cortinyanlar[0] = { playerId: "", civilization: "Random" };
+  const publicHtml = renderMatchMatrix(state);
+  const editHtml = renderEditableMatrix(state);
+  assert.equal((publicHtml.match(/data-player-details=/g) ?? []).length, 7);
+  assert.match(publicHtml, /<button[^>]*class="matrix-player"[^>]*data-player-details=/);
+  assert.doesNotMatch(editHtml, /data-player-details=/);
+});
+
 test("editable matrix keeps one column per match and exposes complete controls", () => {
   const html = renderEditableMatrix(fixture);
   assert.equal((html.match(/data-edit-match=/g) ?? []).length, 2);

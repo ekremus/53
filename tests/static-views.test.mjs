@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { calculateStatistics, validateState } from "../docs/lib/model.js";
+import { calculatePlayerDetails, calculateStatistics, validateState } from "../docs/lib/model.js";
 import {
   escapeHtml,
   formatMatchDate,
   formatMatchDateLong,
+  renderPlayerDetails,
   renderScoreStrip,
   renderStatsTable,
   renderTopControl,
@@ -32,8 +33,8 @@ test("renders labeled blue-red scores without redundant copy", () => {
 
 test("renders one contextual top control", () => {
   const html = renderTopControl({ view: "matches", editing: false });
-  assert.match(html, />Maçlar</);
-  assert.match(html, />Sıralama</);
+  assert.match(html, />Matches</);
+  assert.match(html, />Standings</);
   assert.match(html, /data-enter-edit/);
   assert.doesNotMatch(html, /53|Haftalık|Görüntüle/);
 });
@@ -46,15 +47,18 @@ test("renders rank, records, and win rate", () => {
   assert.equal(general.favoriteCivilization, "Random");
   assert.match(html, /100%/);
   assert.match(html, /class="stats-player"[\s\S]*assets\/civs\/random\.svg[\s\S]*Alman General/);
-  assert.match(html, /class="stats-sort__label">O<\/span>/);
-  assert.match(html, /class="stats-sort__label">G<\/span>/);
-  assert.match(html, /class="stats-sort__label">M<\/span>/);
+  assert.match(html, /<th scope="col">Player<\/th>/);
+  assert.match(html, /class="stats-sort__label">P<\/span>/);
+  assert.match(html, /class="stats-sort__label">W<\/span>/);
+  assert.match(html, /class="stats-sort__label">L<\/span>/);
   assert.match(html, /class="stats-sort__label">%<\/span>/);
   assert.equal((html.match(/data-sort-standings=/g) ?? []).length, 4);
   assert.match(html, /<th class="stats-sort-cell" scope="col" aria-sort="descending"><button[^>]*class="stats-sort is-active"[^>]*data-sort-standings="wins"[\s\S]*?↓/);
   assert.match(html, /data-sort-standings="played"/);
   assert.match(html, /data-sort-standings="losses"/);
   assert.match(html, /data-sort-standings="winRate"/);
+  assert.equal((html.match(/data-player-details=/g) ?? []).length, stats.players.length);
+  assert.match(html, /class="stats-player"[^>]*data-player-details="buyukekrem"/);
 
   const rateHtml = renderStatsTable(stats, { key: "winRate", direction: "asc" });
   assert.match(rateHtml, /<th class="stats-sort-cell" scope="col" aria-sort="ascending"><button[^>]*class="stats-sort is-active"[^>]*data-sort-standings="winRate"[\s\S]*?↑/);
@@ -62,6 +66,33 @@ test("renders rank, records, and win rate", () => {
     [...rateHtml.matchAll(/class="rank-number">(\d+)</g)].map((match) => Number(match[1])),
     stats.players.map((_, index) => index + 1),
   );
+});
+
+test("renders English public navigation and accessible standings measures", () => {
+  const controls = renderTopControl({ view: "matches", editing: false });
+  const table = renderStatsTable(stats);
+  assert.match(controls, /aria-label="View"/);
+  for (const label of ["Matches", "Standings"]) assert.match(controls, new RegExp(`>${label}<`));
+  for (const name of ["Played", "Wins", "Losses", "Win rate"]) assert.match(table, new RegExp(name));
+});
+
+test("renders compact player details with form, streak, civilization, and duo", () => {
+  const html = renderPlayerDetails(calculatePlayerDetails(state, "buyukekrem"));
+  assert.match(html, /id="player-details-title"/);
+  assert.match(html, /Last 5/);
+  assert.match(html, /Win Streak/);
+  assert.match(html, /Best Civilization/);
+  assert.match(html, /Best Duo/);
+  assert.match(html, /data-close-player-details/);
+  assert.match(html, /assets\/civs\//);
+});
+
+test("renders explicit no-data player details", () => {
+  const emptyState = structuredClone(state);
+  emptyState.matches = [];
+  const html = renderPlayerDetails(calculatePlayerDetails(emptyState, "buyukekrem"));
+  assert.match(html, /player-form__empty">—/);
+  assert.equal((html.match(/>No data</g) ?? []).length, 2);
 });
 
 test("escapes player-controlled text", () => {

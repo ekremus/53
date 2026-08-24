@@ -50,29 +50,57 @@ export function renderTopControl({ view = "matches", editing = false, dirty = fa
   const actions = editing
     ? `<button class="icon-button icon-button--save${dirty ? " is-ready" : ""}" type="button" data-save aria-label="Kaydet"${!dirty || saving ? " disabled" : ""}><img src="./assets/icons/check.svg" alt="" width="20" height="20"></button><button class="icon-button" type="button" data-exit-edit aria-label="Düzenlemeyi kapat"${saving ? " disabled" : ""}><img src="./assets/icons/x.svg" alt="" width="20" height="20"></button>`
     : `<button class="icon-button" type="button" data-enter-edit aria-label="Düzenle"><img src="./assets/icons/pencil.svg" alt="" width="20" height="20"></button>`;
-  return `<div class="view-switch" role="tablist" aria-label="Görünüm">${viewButton("matches", "Maçlar")}${viewButton("standings", "Sıralama")}</div><div class="top-actions">${actions}</div>`;
+  return `<div class="view-switch" role="tablist" aria-label="View">${viewButton("matches", "Matches")}${viewButton("standings", "Standings")}</div><div class="top-actions">${actions}</div>`;
 }
 
 const STANDINGS_SORT_COLUMNS = [
-  { key: "played", label: "O", name: "Oynanan maç" },
-  { key: "wins", label: "G", name: "Galibiyet" },
-  { key: "losses", label: "M", name: "Mağlubiyet" },
-  { key: "winRate", label: "%", name: "Galibiyet yüzdesi" },
+  { key: "played", label: "P", name: "Played" },
+  { key: "wins", label: "W", name: "Wins" },
+  { key: "losses", label: "L", name: "Losses" },
+  { key: "winRate", label: "%", name: "Win rate" },
 ];
 
 function renderStandingsSortHeader(column, sort) {
   const active = sort.key === column.key;
   const ariaSort = active ? (sort.direction === "desc" ? "descending" : "ascending") : "none";
-  const nextDirection = active && sort.direction === "desc" ? "artan" : "azalan";
+  const nextDirection = active && sort.direction === "desc" ? "sort ascending" : "sort descending";
   const direction = active
     ? `<span class="stats-sort__direction" aria-hidden="true">${sort.direction === "desc" ? "↓" : "↑"}</span>`
     : "";
-  const label = `${column.name}: ${nextDirection} sırala`;
+  const label = `${column.name}: ${nextDirection}`;
   return `<th class="stats-sort-cell" scope="col" aria-sort="${ariaSort}"><button class="stats-sort${active ? " is-active" : ""}" type="button" data-sort-standings="${column.key}" aria-label="${label}" title="${label}"><span class="stats-sort__label">${column.label}</span>${direction}</button></th>`;
 }
 
 export function renderStatsTable(stats, sort = { key: "wins", direction: "desc" }) {
   if (!stats.players.length) return `<div class="empty-state"><strong>Henüz oyuncu yok</strong></div>`;
   const players = sortPlayerStatistics(stats.players, sort.key, sort.direction);
-  return `<div class="table-scroller"><table class="stats-table"><colgroup><col class="stats-col-rank"><col class="stats-col-player"><col class="stats-col-number"><col class="stats-col-number"><col class="stats-col-number"><col class="stats-col-rate"></colgroup><thead><tr><th scope="col">#</th><th scope="col">Oyuncu</th>${STANDINGS_SORT_COLUMNS.map((column) => renderStandingsSortHeader(column, sort)).join("")}</tr></thead><tbody>${players.map((player) => `<tr><td class="rank-number">${player.rank}</td><th scope="row"><span class="stats-player"><img src="./assets/civs/${civilizationAssetName(player.favoriteCivilization)}" alt="" width="28" height="28"><span>${escapeHtml(player.name)}</span></span></th><td>${player.played}</td><td>${player.wins}</td><td>${player.losses}</td><td><strong>${player.winRate}%</strong></td></tr>`).join("")}</tbody></table></div>`;
+  return `<div class="table-scroller"><table class="stats-table"><colgroup><col class="stats-col-rank"><col class="stats-col-player"><col class="stats-col-number"><col class="stats-col-number"><col class="stats-col-number"><col class="stats-col-rate"></colgroup><thead><tr><th scope="col">#</th><th scope="col">Player</th>${STANDINGS_SORT_COLUMNS.map((column) => renderStandingsSortHeader(column, sort)).join("")}</tr></thead><tbody>${players.map((player) => `<tr><td class="rank-number">${player.rank}</td><th scope="row"><button class="stats-player" type="button" data-player-details="${escapeHtml(player.id)}" aria-label="View ${escapeHtml(player.name)} statistics"><img src="./assets/civs/${civilizationAssetName(player.favoriteCivilization)}" alt="" width="28" height="28"><span>${escapeHtml(player.name)}</span></button></th><td>${player.played}</td><td>${player.wins}</td><td>${player.losses}</td><td><strong>${player.winRate}%</strong></td></tr>`).join("")}</tbody></table></div>`;
+}
+
+function resultSeals(lastFive) {
+  if (!lastFive.length) return `<span class="player-form__empty">—</span>`;
+  return lastFive.map((result) => `<span class="player-form__result player-form__result--${result.toLowerCase()}">${result}</span>`).join("");
+}
+
+function sampleLabel(record) {
+  return record?.smallSample ? `<small class="sample-note">Small sample</small>` : "";
+}
+
+export function renderPlayerDetails(details) {
+  const civilization = details.bestCivilization;
+  const crest = civilization?.name ?? "Random";
+  const civilizationContent = civilization
+    ? `<div class="player-detail-record"><img src="./assets/civs/${civilizationAssetName(civilization.name)}" alt="" width="42" height="42"><span><strong>${escapeHtml(civilization.name)}</strong><small>${civilization.wins}/${civilization.played} · ${civilization.winRate}%</small></span>${sampleLabel(civilization)}</div>`
+    : `<span class="player-detail-empty">No data</span>`;
+  const duo = details.bestDuo;
+  const duoContent = duo
+    ? `<div class="player-detail-record player-detail-record--duo"><span><strong>${escapeHtml(duo.name)}</strong><small>${duo.wins}/${duo.played} · ${duo.winRate}%</small></span>${sampleLabel(duo)}</div>`
+    : `<span class="player-detail-empty">No data</span>`;
+  return `<article class="player-details">
+    <header class="player-details__header"><img src="./assets/civs/${civilizationAssetName(crest)}" alt="" width="48" height="48"><h2 id="player-details-title">${escapeHtml(details.player.name)}</h2><button class="icon-button" type="button" data-close-player-details aria-label="Close"><img src="./assets/icons/x.svg" alt="" width="20" height="20"></button></header>
+    <section class="player-details__section"><h3>Last 5</h3><div class="player-form">${resultSeals(details.lastFive)}</div></section>
+    <section class="player-details__section"><h3>Win Streak</h3><dl class="streak-record"><div><dt>Current</dt><dd>${details.currentWinStreak}</dd></div><div><dt>Best</dt><dd>${details.longestWinStreak}</dd></div></dl></section>
+    <section class="player-details__section"><h3>Best Civilization</h3>${civilizationContent}</section>
+    <section class="player-details__section"><h3>Best Duo</h3>${duoContent}</section>
+  </article>`;
 }

@@ -47,10 +47,10 @@ function publicPlayerCell(players, slot, teamId, index) {
     return `<div class="matrix-player matrix-player--empty" data-team="${escapeHtml(teamId)}" data-slot="${index}">-</div>`;
   }
   const player = players.get(slot.playerId);
-  return `<div class="matrix-player" data-team="${escapeHtml(teamId)}" data-slot="${index}">
+  return `<button class="matrix-player" type="button" data-team="${escapeHtml(teamId)}" data-slot="${index}" data-player-details="${escapeHtml(slot.playerId)}" aria-label="View ${escapeHtml(player?.name ?? "Unknown")} statistics">
     <img src="./assets/civs/${civilizationAssetName(slot.civilization)}" alt="" width="42" height="42">
-    <span><strong>${escapeHtml(player?.name ?? "Bilinmeyen")}</strong><small>${escapeHtml(slot.civilization)}</small></span>
-  </div>`;
+    <span><strong>${escapeHtml(player?.name ?? "Unknown")}</strong><small>${escapeHtml(slot.civilization)}</small></span>
+  </button>`;
 }
 
 function publicMatchColumn(state, { match, sequence }, players) {
