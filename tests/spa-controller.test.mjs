@@ -47,3 +47,17 @@ test("one controller owns view switching and contextual editing", async () => {
   assert.doesNotMatch(source, /localStorage|sessionStorage/);
   assert.doesNotMatch(source, /params\.set\(["']sort/);
 });
+
+test("one read-only controller path owns player detail dialog behavior", async () => {
+  const source = await readFile(new URL("../docs/app.js", import.meta.url), "utf8");
+  for (const contract of [
+    "data-player-details",
+    "calculatePlayerDetails",
+    "renderPlayerDetails",
+    "playerDetailsDialog",
+    "data-close-player-details",
+    "event.target === playerDetailsDialog",
+    "detailsOpener?.isConnected",
+  ]) assert.ok(source.includes(contract), `missing player details contract: ${contract}`);
+  assert.doesNotMatch(source, /setItem\(|params\.set\(["']player/);
+});

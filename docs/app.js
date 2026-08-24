@@ -1,9 +1,9 @@
 import { civilizationAssetName } from "./lib/civilizations.js";
 import { createDraftController, renderPlayerManager } from "./lib/editor.js";
 import { renderEditableMatrix, renderMatchMatrix } from "./lib/matrix.js";
-import { calculateStatistics, latestCivilizationForPlayer } from "./lib/model.js";
+import { calculatePlayerDetails, calculateStatistics, latestCivilizationForPlayer } from "./lib/model.js";
 import { createStateClient } from "./lib/state-api.js";
-import { escapeHtml, renderScoreStrip, renderStatsTable, renderTopControl } from "./lib/views.js";
+import { escapeHtml, renderPlayerDetails, renderScoreStrip, renderStatsTable, renderTopControl } from "./lib/views.js";
 
 function todayIso() {
   const date = new Date();
@@ -70,6 +70,8 @@ export async function startApp(documentRoot = document, {
   const dialogPlayerForm = documentRoot.querySelector("#dialog-player-form");
   const editAuthDialog = documentRoot.querySelector("#edit-auth-dialog");
   const editAuthForm = documentRoot.querySelector("#edit-auth-form");
+  const playerDetailsDialog = documentRoot.querySelector("#player-details-dialog");
+  const playerDetailsContent = documentRoot.querySelector("#player-details-content");
   const initialRoute = parseAppLocation(locationLike);
   const requestedInitialEdit = initialRoute.editing;
   let route = { ...initialRoute, editing: false };
@@ -81,6 +83,7 @@ export async function startApp(documentRoot = document, {
   let authReplaceUrl = false;
   let authResetDraft = true;
   let pendingPlayerSlot = null;
+  let detailsOpener = null;
   let noticeTimer;
 
   function notify(message, tone = "error") {
@@ -151,6 +154,18 @@ export async function startApp(documentRoot = document, {
     return confirmAction(`${message} Emin misin?`);
   }
 
+  function showPlayerDetails(playerId, opener) {
+    if (route.editing) return;
+    const details = calculatePlayerDetails(controller.getState(), playerId);
+    playerDetailsContent.innerHTML = renderPlayerDetails(details);
+    detailsOpener = opener;
+    openDialog(playerDetailsDialog);
+  }
+
+  function hidePlayerDetails() {
+    closeDialog(playerDetailsDialog);
+  }
+
   function exitEdit() {
     if (controller.getSnapshot().dirty && !confirmDestructive("Kaydedilmemiş değişiklikler silinecek.")) return;
     controller.reset();
@@ -200,7 +215,11 @@ export async function startApp(documentRoot = document, {
     const target = event.target.closest("button,a");
     if (!target) return;
     try {
-      if (target.matches("[data-sort-standings]") && route.view === "standings" && !route.editing) {
+      if (target.matches("[data-player-details]") && !route.editing) {
+        showPlayerDetails(target.dataset.playerDetails, target);
+      } else if (target.matches("[data-close-player-details]")) {
+        hidePlayerDetails();
+      } else if (target.matches("[data-sort-standings]") && route.view === "standings" && !route.editing) {
         const key = target.dataset.sortStandings;
         standingsSort = nextStandingsSort(standingsSort, key);
         render();
@@ -343,6 +362,16 @@ export async function startApp(documentRoot = document, {
   editAuthDialog.addEventListener("cancel", (event) => {
     event.preventDefault();
     cancelEditAuth();
+  });
+
+  playerDetailsDialog.addEventListener("click", (event) => {
+    if (event.target === playerDetailsDialog) hidePlayerDetails();
+  });
+
+  playerDetailsDialog.addEventListener("close", () => {
+    playerDetailsContent.innerHTML = "";
+    if (detailsOpener?.isConnected) detailsOpener.focus();
+    detailsOpener = null;
   });
 
   globalThis.addEventListener?.("popstate", () => {

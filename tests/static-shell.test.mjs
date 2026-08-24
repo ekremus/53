@@ -19,6 +19,9 @@ test("ships one minimal mobile SPA shell", () => {
   assert.match(html, /id="surface-root"/);
   assert.match(html, /id="edit-auth-dialog"/);
   assert.match(html, /id="edit-auth-form"/);
+  assert.match(html, /id="player-details-dialog"/);
+  assert.match(html, /id="player-details-content"/);
+  assert.match(html, /aria-labelledby="player-details-title"/);
   assert.match(html, /type="password"/);
   assert.match(html, /type="module" src="\.\/app\.js"/);
   assert.doesNotMatch(html, /tracker-identity|matrix-title-row|action-menu|action-seal|publish-seal/);

@@ -68,6 +68,15 @@ test("keeps the password dialog compact on phones", () => {
   assert.match(css, /\.dialog-surface input\s*{[\s\S]*font-size:\s*16px/);
 });
 
+test("keeps player detail triggers and dialog mobile safe", () => {
+  assert.match(css, /button\.matrix-player[\s\S]*min-height:\s*var\(--player-row\)/);
+  assert.match(css, /\.stats-player[\s\S]*min-height:\s*var\(--touch\)/);
+  assert.match(css, /\.player-details-dialog\s*{[\s\S]*width:\s*min\(calc\(100% - 24px\),\s*420px\)/);
+  assert.match(css, /\.player-details-dialog\s*{[\s\S]*max-height:\s*calc\(100dvh - 24px - env\(safe-area-inset-top\) - env\(safe-area-inset-bottom\)\)/);
+  assert.match(css, /\.player-details\s*{[\s\S]*overflow-y:\s*auto/);
+  assert.match(css, /\.player-form__result[\s\S]*min-width:\s*28px/);
+});
+
 test("makes inline player-name editing visibly editable", () => {
   assert.match(css, /\.player-row__identity input\s*{[\s\S]*background:\s*rgb\(239 219 177 \/ 46%\)/);
   assert.match(css, /\.player-row__identity input\s*{[\s\S]*box-shadow:\s*inset 0 -1px 0/);
