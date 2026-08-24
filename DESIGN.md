@@ -125,7 +125,7 @@ components:
 
 The product is one compact, hand-kept AoE2 competition sheet translated directly to a phone. Brown furniture frames a seamless parchment surface; one compact heraldic signature, a fixed blue–red score, and one horizontally moving 3v3/4v4 matrix carry the entire match story. The result should feel like an old tournament ledger that happens to be fast, touchable, and precise.
 
-The interface removes product theater and dashboard hierarchy. A 40px generated `Bu Ecof Empires` signature is the only branding; there is no introductory copy, hero, sidebar, footer, floating menu, bottom navigation, archive surface, or repeated version of the match data. The next row contains only the centered `Maçlar | Sıralama` switch and its contextual pencil or save/cancel actions.
+The interface removes product theater and dashboard hierarchy. A 40px generated `Bu Ecof Empires` signature is the only branding; there is no introductory copy, hero, sidebar, footer, floating menu, bottom navigation, archive surface, or repeated version of the match data. The next row contains only the centered `Matches | Standings` switch and its contextual pencil or save/cancel actions.
 
 The exact product name `Bu Ecof Empires🏹🪓⚔️` remains in document metadata and durable documentation. The exact team names `Cortinyanlar` and `Bakracoğulları` remain visible in the score, match results, and editing controls.
 
@@ -195,7 +195,7 @@ Dates use compact 12–13px bold text. Sortable statistics headers use 14px bold
 
 ## Layout
 
-Phone geometry is canonical. A 40px brand row owns the top safe-area inset, then the top control uses three columns—88px, 196px, 88px—so the segmented switch stays mathematically centered at 390px while contextual actions occupy the right track. The control row is exactly one 44px touch track. The score beneath it is 68px high.
+Phone geometry is canonical. A 40px brand row owns the top safe-area inset, then the top control uses one fixed 196px center column between equal flexible side tracks with a 44px floor. The segmented switch therefore stays mathematically centered from 320px upward while contextual actions occupy the right track. The control row is exactly one 44px touch track. The score beneath it is 68px high.
 
 The match surface is one horizontal scroll owner. A sticky 8px color rail remains at the left while newest-first 164px match columns move under the finger and snap to the rail edge. Each column uses a 34px date row, four 54px Cortinyanlar slots, four 54px Bakracoğulları slots, and a 38px result row: 504px total. Empty slots render as a quiet `-` and sort after real players. There are no P1–P4 labels, repeated team headers, result cards, or duplicate recent/archive sections. At 390 × 844, the 40px signature, 44px control, 68px score, and complete 504px match occupy 656px before the safe area.
 
@@ -219,7 +219,7 @@ The ledger is flat. Real parchment texture, opaque furniture fields, alternating
 
 ### Shadow Vocabulary
 
-- **Dialog lift** (`10px 14px 34px rgb(0 0 0 / 42%)`): The new-player dialog only.
+- **Dialog lift** (`10px 14px 34px rgb(0 0 0 / 42%)`): Temporary password, new-player, and player-detail dialogs only.
 - **Notice lift** (`5px 7px 16px rgb(0 0 0 / 32%)`): Temporary save, success, and error notices only.
 - **Selected inset** (`inset 0 2px 0 #efe0b3, inset 0 -2px 0 var(--bronze)`): The active half of the two-option switch.
 - **Team divider inset** (`inset 0 -3px 0 #5c4326`): The fixed boundary after the Cortinyanlar block; it is structural, not elevation.
@@ -244,7 +244,7 @@ The first row is a 40px deep-brown field plus the device top safe-area inset. A 
 
 ### Top View Control
 
-The control row contains only a 196 × 34px `Maçlar | Sıralama` segmented switch centered independently of the actions. Each option is at least 32px high inside a 44px touch row. The active option uses raised parchment, ink, and a restrained bronze inset. The inactive option stays dark brown with light parchment text.
+The control row contains only a 196 × 34px `Matches | Standings` segmented switch centered independently of the actions. Each option is at least 32px high inside a 44px touch row. The active option uses raised parchment, ink, and a restrained bronze inset. The inactive option stays dark brown with light parchment text.
 
 A 44 × 44px pencil occupies the right track in view mode. It first opens a square shared-password dialog; successful authentication changes the same surface into edit mode. The password lives only in the JavaScript client closure for that page session and accompanies state writes in a request header. In edit mode the view switch is disabled and the pencil becomes 44px save and cancel controls. The save action remains disabled until the local draft is dirty. Icons are local Tabler SVGs with text alternatives; no emoji or text glyph substitutes are used.
 
@@ -268,13 +268,21 @@ Changes remain in a local draft until the top save action publishes the complete
 
 ### Standings and Player Editing
 
-View mode is one full-width table with stable columns `#`, `Oyuncu`, `O`, `G`, `M`, `%`. Every registered player appears, including passive or never-played players, with zeroed statistics when needed. Each nickname is preceded by the player's most frequently selected civilization crest; ties prefer the newest occurrence. The default order is total galibiyet (`G`) descending, with fewer losses and then Turkish player name resolving ties. `O`, `G`, `M`, and `%` are 44px-high sort buttons: selecting a new measure starts descending, selecting it again reverses direction, and the active measure carries a bronze underline plus a small direction arrow. Sorting is page-memory presentation state only. Rank numbers are recalculated as unique and sequential from `#1` after every sort. Rows are at least 44px, the player column flexes, and the four numeric columns stay at 44px so every statistic survives at 320px.
+View mode is one full-width table with stable columns `#`, `Player`, `P`, `W`, `L`, `%`. Every registered player appears, including passive or never-played players, with zeroed statistics when needed. Each nickname is preceded by the player's most frequently selected civilization crest; ties prefer the newest occurrence. The default order is total wins (`W`) descending, with fewer losses and then Turkish player name resolving ties. `P`, `W`, `L`, and `%` are 44px-high sort buttons: selecting a new measure starts descending, selecting it again reverses direction, and the active measure carries a bronze underline plus a small direction arrow. Sorting is page-memory presentation state only. Rank numbers are recalculated as unique and sequential from `#1` after every sort. Rows are at least 44px, the player column flexes, and the four numeric columns stay at 44px so every statistic survives at 320px.
 
 Edit mode replaces standings with the player manager in the same surface. A 52px add row precedes alternating 56px player rows. Active and passive names both edit inline through a subtly tinted, underlined field and the explicit `İsmi kaydet` action; delete/deactivate and reactivate actions stay at least 44px high. A used player becomes passive instead of disappearing from historical matches. Every destructive action—including player deletion/deactivation, match deletion, and discarding a dirty draft—uses an explicit `Emin misin?` confirmation before changing the local draft.
 
+### Player Details
+
+Public match and standings player identities are 44px-or-taller semantic buttons. Both surfaces open the same native dialog; edit controls never open it. Opening and closing the dialog does not render either source surface again, so the standings sort and horizontal match scroll position remain intact. Close, backdrop tap, and Escape all return focus to the player control that opened it.
+
+The dialog uses the existing continuous parchment, ink, bronze, blue, and red tokens. It has at least 12px mobile viewport gutters, stays inside the safe dynamic viewport, and scrolls internally only when its content exceeds that height. Its compact sections are `Last 5`, current and record `Win Streak`, `Best Civilization`, and `Best Duo`. Recent results appear newest-first as blue `W` and red `L` seals.
+
+Civilization rates require three appearances and exclude `Random`; duo rates require five shared same-team games. If no candidate reaches its threshold, the best available record remains visible with `Small sample`. Derived details never persist to state, storage, URL, or API.
+
 ### Dialog and Notices
 
-The custom modal surfaces are the square, continuous-texture-backed shared-password and new-player dialogs. The single-purpose password dialog is capped at a compact 280px with a 16px phone inset; the new-player dialog remains capped at 440px with a 12px inset. Each uses one walnut perimeter rule, a deep-brown heading, a 44px close action, and one flat inline form. Dialog text inputs stay at 16px so iPhone Safari never magnifies the page on focus. Closing or canceling the new-player dialog clears the pending matrix selection; closing password authentication returns to public view.
+The custom modal surfaces are the square, continuous-texture-backed shared-password, new-player, and player-detail dialogs. The single-purpose password dialog is capped at a compact 280px with a 16px phone inset; the new-player dialog remains capped at 440px with a 12px inset; player details cap at 420px with a 12px inset and safe-viewport height. Each uses one walnut perimeter rule, a deep-brown heading, and a 44px close action. Form dialogs use one flat inline form, while player details use four rule-separated read-only rows. Dialog text inputs stay at 16px so iPhone Safari never magnifies the page on focus. Closing or canceling the new-player dialog clears the pending matrix selection; closing password authentication returns to public view; closing player details restores focus to its opener.
 
 Destructive confirmations use the platform confirmation flow. Temporary notices sit below the safe-area-aware top control, announce status through the live region, and disappear after a short interval.
 
@@ -292,11 +300,11 @@ Merriweather, `paper-continuous.jpg`, the generated transparent wordmark, Tabler
 
 ### Do:
 
-- **Do** keep branding limited to the 40px generated signature and keep the next row limited to the centered `Maçlar | Sıralama` switch and contextual edit actions.
+- **Do** keep branding limited to the 40px generated signature and keep the next row limited to the centered `Matches | Standings` switch and contextual edit actions.
 - **Do** preserve the 8/164/34/54/38px phone matrix geometry, the 12/232px desktop rail/column pair, and verify the first complete match at 390 × 844.
 - **Do** keep Cortinyanlar blue and Bakracoğulları red, with exact names visible or available to assistive technology.
 - **Do** show every match once, newest first, in the one horizontal matrix.
-- **Do** keep `# / Oyuncu / O / G / M / %` intact at every supported width.
+- **Do** keep `# / Player / P / W / L / %` intact at every supported width.
 - **Do** preserve 44px touch targets, visible focus, reduced motion, native scrolling, and top safe-area padding.
 - **Do** use and license local parchment, Merriweather, interface icons, and civilization crests.
 

@@ -100,6 +100,8 @@ async function metrics(session) {
     const firstMatch = document.querySelector('.match-column');
     const scoreStrip = document.querySelector('.score-strip');
     const editAuthDialog = document.querySelector('#edit-auth-dialog');
+    const playerDetailsDialog = document.querySelector('#player-details-dialog');
+    const playerDetailsRect = playerDetailsDialog?.open ? playerDetailsDialog.getBoundingClientRect() : null;
     const almanGeneral = [...document.querySelectorAll('.matrix-player strong')].find((element) => element.textContent.trim() === 'Alman General');
     const railText = rail?.textContent.trim() ?? "";
     const resultMedals = document.querySelectorAll('.matrix-result__medal').length;
@@ -146,6 +148,20 @@ async function metrics(session) {
         width: element.getBoundingClientRect().width,
         height: element.getBoundingClientRect().height,
       })),
+      playerDetailsOpen: Boolean(playerDetailsDialog?.open),
+      playerDetailsWidth: playerDetailsRect?.width ?? null,
+      playerDetailsHeight: playerDetailsRect?.height ?? null,
+      playerDetailsLeft: playerDetailsRect?.left ?? null,
+      playerDetailsRight: playerDetailsRect?.right ?? null,
+      playerDetailsTop: playerDetailsRect?.top ?? null,
+      playerDetailsBottom: playerDetailsRect?.bottom ?? null,
+      playerDetailsSections: [...document.querySelectorAll('.player-details__section h3')].map((element) => element.textContent.trim()),
+      playerDetailTriggers: document.querySelectorAll('[data-player-details]').length,
+      playerDetailTriggerSizes: [...document.querySelectorAll('[data-player-details]')].slice(0, 3).map((element) => ({
+        width: element.getBoundingClientRect().width,
+        height: element.getBoundingClientRect().height,
+      })),
+      focusedPlayerId: document.activeElement?.dataset?.playerDetails ?? null,
       failedImages: [...document.images].filter((image) => !image.complete || image.naturalWidth === 0).map((image) => image.src),
       openDialogs: [...document.querySelectorAll('dialog[open]')].map((dialog) => dialog.id),
       runtimeErrors: globalThis.__qaErrors ?? [],
@@ -160,6 +176,8 @@ async function inspectPage({ route, width, height, name, action }) {
     await session.ready;
     await session.send("Page.enable");
     await session.send("Runtime.enable");
+    await session.send("Network.enable");
+    await session.send("Network.setCacheDisabled", { cacheDisabled: true });
     await session.send("Page.addScriptToEvaluateOnNewDocument", {
       source: `globalThis.__qaErrors = []; addEventListener('error', (event) => __qaErrors.push(event.message)); addEventListener('unhandledrejection', (event) => __qaErrors.push(String(event.reason)));`,
     });
@@ -204,6 +222,12 @@ const checks = [
   { route: "/?view=standings", width: 390, height: 844, name: "standings-rate-asc-390", action: `document.querySelector('[data-sort-standings="winRate"]').click(); document.querySelector('[data-sort-standings="winRate"]').click()` },
   { route: "/?view=standings", width: 320, height: 700, name: "standings-edit-320", action: unlockEditAction() },
   { route: "/?view=standings", width: 390, height: 844, name: "standings-edit-390", action: unlockEditAction() },
+  { route: "/", width: 320, height: 700, name: "player-details-match-320", action: `document.querySelector('[data-player-details]').click()` },
+  { route: "/", width: 390, height: 844, name: "player-details-match-scrolled-390", action: `document.querySelector('.match-matrix').scrollLeft = 260; document.querySelector('[data-player-details]').click()` },
+  { route: "/?view=standings", width: 390, height: 844, name: "player-details-standings-390", action: `document.querySelector('[data-player-details]').click()` },
+  { route: "/?view=standings", width: 1440, height: 1000, name: "player-details-standings-1440", action: `document.querySelector('[data-player-details]').click()` },
+  { route: "/", width: 390, height: 844, name: "player-details-close-focus-390", action: `(() => { const matrix = document.querySelector('.match-matrix'); matrix.scrollLeft = 328; const trigger = document.querySelectorAll('[data-match-column]')[2].querySelector('[data-player-details]'); trigger.focus({ preventScroll: true }); trigger.click(); document.querySelector('[data-close-player-details]').click(); })()` },
+  { route: "/?view=standings", width: 390, height: 844, name: "player-details-backdrop-390", action: `(() => { document.querySelector('[data-player-details]').click(); document.querySelector('#player-details-dialog').dispatchEvent(new MouseEvent('click', { bubbles: true })); })()` },
 ];
 
 const requestedCheck = process.env.QA_CHECK;
