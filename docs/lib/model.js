@@ -164,17 +164,30 @@ function roundedRate(wins, played) {
   return played ? Math.round((wins / played) * 100) : 0;
 }
 
-function rankedDetailRecord(records, minimumPlayed, labelKey) {
-  const values = [...records.values()];
-  const qualified = values.filter(({ played }) => played >= minimumPlayed);
-  const pool = qualified.length ? qualified : values;
-  const best = pool.sort((a, b) => (
-    b.winRate - a.winRate
+function compareDetailRate(a, b, labelKey) {
+  return (b.wins * a.played) - (a.wins * b.played)
     || b.wins - a.wins
     || b.played - a.played
-    || a[labelKey].localeCompare(b[labelKey], "tr-TR")
-  ))[0];
-  return best ? { ...best, smallSample: qualified.length === 0 } : null;
+    || a[labelKey].localeCompare(b[labelKey], "tr-TR");
+}
+
+function compareDetailWins(a, b, labelKey) {
+  return b.wins - a.wins
+    || compareDetailRate(a, b, labelKey);
+}
+
+function rankedDistinctDetailRecords(records, minimumPlayed, labelKey) {
+  const qualified = [...records.values()]
+    .filter(({ played }) => played >= minimumPlayed);
+  const mostWins = [...qualified]
+    .sort((a, b) => compareDetailWins(a, b, labelKey))[0] ?? null;
+  const bestRate = [...qualified]
+    .filter((candidate) => candidate !== mostWins)
+    .sort((a, b) => compareDetailRate(a, b, labelKey))[0] ?? null;
+  return {
+    mostWins: mostWins ? { ...mostWins } : null,
+    bestRate: bestRate ? { ...bestRate } : null,
+  };
 }
 
 function playerMatchResult(match, playerId) {
@@ -262,11 +275,14 @@ export function calculatePlayerDetails(state, playerId) {
 
   return {
     player: { ...player },
+    favoriteCivilization: favoriteFromHistory(
+      civilizationHistoryMap(normalized).get(playerId),
+    ),
     lastFive: outcomes.slice(0, 5),
     currentWinStreak,
     longestWinStreak,
-    bestCivilization: rankedDetailRecord(civilizations, 3, "name"),
-    bestDuo: rankedDetailRecord(duos, 5, "name"),
+    bestCivilizations: rankedDistinctDetailRecords(civilizations, 3, "name"),
+    bestDuos: rankedDistinctDetailRecords(duos, 3, "name"),
   };
 }
 
