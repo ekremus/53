@@ -82,25 +82,40 @@ function resultSeals(lastFive) {
   return lastFive.map((result) => `<span class="player-form__result player-form__result--${result.toLowerCase()}">${result}</span>`).join("");
 }
 
-function sampleLabel(record) {
-  return record?.smallSample ? `<small class="sample-note">Small sample</small>` : "";
+function detailSectionLabel(first, second) {
+  return `<h3><span class="player-details__label-line">${first}</span><span class="player-details__label-line">${second}</span></h3>`;
+}
+
+function detailStat(record) {
+  return `${record.wins}/${record.played} · ${record.winRate}%`;
+}
+
+function civilizationDetailRecord(kind, record) {
+  if (!record) return "";
+  return `<div class="player-detail-record"><img src="./assets/civs/${civilizationAssetName(record.name)}" alt="" width="36" height="36"><span class="player-detail-record__copy"><small class="player-detail-record__kind">${kind}</small><strong>${escapeHtml(record.name)}</strong></span><small class="player-detail-record__stat">${detailStat(record)}</small></div>`;
+}
+
+function duoDetailRecord(kind, record) {
+  if (!record) return "";
+  return `<div class="player-detail-record player-detail-record--duo"><span class="player-detail-record__copy"><small class="player-detail-record__kind">${kind}</small><strong>${escapeHtml(record.name)}</strong></span><small class="player-detail-record__stat">${detailStat(record)}</small></div>`;
+}
+
+function detailRecordList(records, renderer) {
+  const content = [
+    renderer("Most Wins", records.mostWins),
+    renderer("Best Rate", records.bestRate),
+  ].filter(Boolean).join("");
+  return content
+    ? `<div class="player-detail-list">${content}</div>`
+    : `<span class="player-detail-empty">No data</span>`;
 }
 
 export function renderPlayerDetails(details) {
-  const civilization = details.bestCivilization;
-  const crest = civilization?.name ?? "Random";
-  const civilizationContent = civilization
-    ? `<div class="player-detail-record"><img src="./assets/civs/${civilizationAssetName(civilization.name)}" alt="" width="42" height="42"><span><strong>${escapeHtml(civilization.name)}</strong><small>${civilization.wins}/${civilization.played} · ${civilization.winRate}%</small></span>${sampleLabel(civilization)}</div>`
-    : `<span class="player-detail-empty">No data</span>`;
-  const duo = details.bestDuo;
-  const duoContent = duo
-    ? `<div class="player-detail-record player-detail-record--duo"><span><strong>${escapeHtml(duo.name)}</strong><small>${duo.wins}/${duo.played} · ${duo.winRate}%</small></span>${sampleLabel(duo)}</div>`
-    : `<span class="player-detail-empty">No data</span>`;
   return `<article class="player-details">
-    <header class="player-details__header"><img src="./assets/civs/${civilizationAssetName(crest)}" alt="" width="48" height="48"><h2 id="player-details-title">${escapeHtml(details.player.name)}</h2><button class="icon-button" type="button" data-close-player-details aria-label="Close"><img src="./assets/icons/x.svg" alt="" width="20" height="20"></button></header>
-    <section class="player-details__section"><h3>Last 5</h3><div class="player-form">${resultSeals(details.lastFive)}</div></section>
-    <section class="player-details__section"><h3>Win Streak</h3><dl class="streak-record"><div><dt>Current</dt><dd>${details.currentWinStreak}</dd></div><div><dt>Best</dt><dd>${details.longestWinStreak}</dd></div></dl></section>
-    <section class="player-details__section"><h3>Best Civilization</h3>${civilizationContent}</section>
-    <section class="player-details__section"><h3>Best Duo</h3>${duoContent}</section>
+    <header class="player-details__header"><img src="./assets/civs/${civilizationAssetName(details.favoriteCivilization)}" alt="" width="48" height="48"><h2 id="player-details-title">${escapeHtml(details.player.name)}</h2><button class="icon-button" type="button" data-close-player-details aria-label="Close"><img src="./assets/icons/x.svg" alt="" width="20" height="20"></button></header>
+    <section class="player-details__section">${detailSectionLabel("Last", "5")}<div class="player-form">${resultSeals(details.lastFive)}</div></section>
+    <section class="player-details__section">${detailSectionLabel("Win", "Streak")}<dl class="streak-record"><div><dt>Current Streak</dt><dd>${details.currentWinStreak}</dd></div><div><dt>Best Streak</dt><dd>${details.longestWinStreak}</dd></div></dl></section>
+    <section class="player-details__section player-details__section--records">${detailSectionLabel("Best", "Civ")}${detailRecordList(details.bestCivilizations, civilizationDetailRecord)}</section>
+    <section class="player-details__section player-details__section--records">${detailSectionLabel("Best", "Duo")}${detailRecordList(details.bestDuos, duoDetailRecord)}</section>
   </article>`;
 }

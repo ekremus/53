@@ -76,15 +76,36 @@ test("renders English public navigation and accessible standings measures", () =
   for (const name of ["Played", "Wins", "Losses", "Win rate"]) assert.match(table, new RegExp(name));
 });
 
-test("renders compact player details with form, streak, civilization, and duo", () => {
-  const html = renderPlayerDetails(calculatePlayerDetails(state, "buyukekrem"));
+test("renders the polished player detail hierarchy and favorite crest", () => {
+  const details = {
+    player: { id: "buyukekrem", name: "BuyukEkrem", active: true },
+    favoriteCivilization: "Huns",
+    lastFive: ["W", "L", "W"],
+    currentWinStreak: 2,
+    longestWinStreak: 7,
+    bestCivilizations: {
+      mostWins: { name: "Huns", played: 7, wins: 4, winRate: 57 },
+      bestRate: { name: "Franks", played: 3, wins: 3, winRate: 100 },
+    },
+    bestDuos: {
+      mostWins: { playerId: "emre", name: "Emre", played: 8, wins: 5, winRate: 63 },
+      bestRate: { playerId: "neudzulab", name: "Neudzulab", played: 3, wins: 3, winRate: 100 },
+    },
+  };
+  const html = renderPlayerDetails(details);
   assert.match(html, /id="player-details-title"/);
-  assert.match(html, /Last 5/);
-  assert.match(html, /Win Streak/);
-  assert.match(html, /Best Civilization/);
-  assert.match(html, /Best Duo/);
+  assert.match(html, /assets\/civs\/huns\.png/);
+  for (const label of ["Last", "Win", "Best", "Civ", "Duo", "Current Streak", "Best Streak", "Most Wins", "Best Rate"]) {
+    assert.match(html, new RegExp(label));
+  }
+  assert.doesNotMatch(html, /Best Civilization/);
+  assert.equal((html.match(/player-detail-record__kind">Most Wins/g) ?? []).length, 2);
+  assert.equal((html.match(/player-detail-record__kind">Best Rate/g) ?? []).length, 2);
+  assert.match(html, /4\/7 · 57%/);
+  assert.match(html, /3\/3 · 100%/);
+  assert.match(html, />Emre</);
+  assert.match(html, />Neudzulab</);
   assert.match(html, /data-close-player-details/);
-  assert.match(html, /assets\/civs\//);
 });
 
 test("renders explicit no-data player details", () => {
