@@ -895,9 +895,23 @@ dialog {
 }
 
 .player-details-dialog {
+  position: relative;
   width: min(calc(100% - 24px), 420px);
   max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   overflow: hidden;
+  background-color: var(--paper-light);
+  background-image: none;
+  isolation: isolate;
+}
+
+.player-details-dialog::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: url("./assets/paper-continuous.jpg") center / cover;
+  content: "";
+  opacity: 0.14;
+  pointer-events: none;
 }
 
 dialog::backdrop {
@@ -922,6 +936,8 @@ dialog::backdrop {
 }
 
 #player-details-content {
+  position: relative;
+  z-index: 1;
   max-height: inherit;
 }
 
@@ -964,12 +980,16 @@ dialog::backdrop {
 
 .player-details__section {
   display: grid;
-  grid-template-columns: 92px minmax(0, 1fr);
-  min-height: 58px;
+  grid-template-columns: 56px minmax(0, 1fr);
+  min-height: 72px;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 10px;
+  padding: 10px 12px;
   border-bottom: 1px solid rgb(59 40 20 / 48%);
+}
+
+.player-details__section--records {
+  min-height: 124px;
 }
 
 .player-details__section:last-child {
@@ -983,6 +1003,10 @@ dialog::backdrop {
   letter-spacing: 0.04em;
   line-height: 1.25;
   text-transform: uppercase;
+}
+
+.player-details__label-line {
+  display: block;
 }
 
 .player-form {
@@ -1009,31 +1033,43 @@ dialog::backdrop {
 .streak-record {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
   margin: 0;
 }
 
 .streak-record div {
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 6px;
-  padding-right: 10px;
+  gap: 3px;
+  min-width: 0;
 }
 
 .streak-record dt,
-.player-detail-record small,
-.sample-note {
+.player-detail-record__kind {
   color: var(--ink-muted);
-  font-size: 10px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  text-transform: uppercase;
 }
 
 .streak-record dd {
   margin: 0;
+  color: var(--ink);
+  font-size: 26px;
   font-weight: 700;
+  line-height: 1;
+}
+
+.player-detail-list {
+  display: grid;
+  gap: 6px;
 }
 
 .player-detail-record {
   display: grid;
-  grid-template-columns: 42px minmax(0, 1fr) auto;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  min-height: 40px;
   align-items: center;
   gap: 8px;
 }
@@ -1043,25 +1079,30 @@ dialog::backdrop {
 }
 
 .player-detail-record > img {
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
 }
 
-.player-detail-record > span {
+.player-detail-record__copy {
   display: grid;
   min-width: 0;
+  gap: 1px;
 }
 
-.player-detail-record strong {
+.player-detail-record__copy strong {
   overflow: hidden;
+  font-size: 13px;
+  line-height: 1.15;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.sample-note {
-  max-width: 48px;
-  text-align: right;
+.player-detail-record__stat {
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .player-detail-empty,
@@ -1112,17 +1153,6 @@ dialog::backdrop {
 
   .stats-table {
     font-size: 13px;
-  }
-}
-
-@media (max-width: 359px) {
-  .player-details__section {
-    grid-template-columns: 78px minmax(0, 1fr);
-    padding-inline: 10px;
-  }
-
-  .player-form__result {
-    min-width: 26px;
   }
 }
 

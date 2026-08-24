@@ -74,8 +74,16 @@ test("keeps player detail triggers and dialog mobile safe", () => {
   assert.match(css, /\.stats-player[\s\S]*min-height:\s*var\(--touch\)/);
   assert.match(css, /\.player-details-dialog\s*{[\s\S]*width:\s*min\(calc\(100% - 24px\),\s*420px\)/);
   assert.match(css, /\.player-details-dialog\s*{[\s\S]*max-height:\s*calc\(100dvh - 24px - env\(safe-area-inset-top\) - env\(safe-area-inset-bottom\)\)/);
+  assert.match(css, /\.player-details-dialog\s*{[\s\S]*background-image:\s*none/);
+  assert.match(css, /\.player-details-dialog::before\s*{[\s\S]*opacity:\s*0\.14/);
   assert.match(css, /\.player-details\s*{[\s\S]*overflow-y:\s*auto/);
+  assert.match(css, /\.player-details__section\s*{[\s\S]*grid-template-columns:\s*56px minmax\(0,\s*1fr\)/);
+  assert.match(css, /\.player-details__label-line\s*{[\s\S]*display:\s*block/);
+  assert.match(css, /\.streak-record dd\s*{[\s\S]*font-size:\s*26px/);
+  assert.match(css, /\.player-detail-record__stat\s*{[\s\S]*font-size:\s*12px[\s\S]*font-weight:\s*700/);
+  assert.match(css, /\.player-details__section--records\s*{[\s\S]*min-height:\s*124px/);
   assert.match(css, /\.player-form__result[\s\S]*min-width:\s*28px/);
+  assert.doesNotMatch(css, /@media\s*\(max-width:\s*359px\)/);
 });
 
 test("makes inline player-name editing visibly editable", () => {
