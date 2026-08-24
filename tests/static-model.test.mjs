@@ -4,6 +4,7 @@ import test from "node:test";
 import { CIVILIZATIONS } from "../docs/lib/civilizations.js";
 import {
   activeRoster,
+  calculatePlayerDetails,
   calculateStatistics,
   createEmptyMatch,
   favoriteCivilizationForPlayer,
@@ -18,6 +19,37 @@ const fixtureState = JSON.parse(await readFile(
   new URL("../docs/data/state.json", import.meta.url),
   "utf8",
 ));
+
+function playerDetailState(results) {
+  const state = structuredClone(fixtureState);
+  const template = structuredClone(state.matches[0]);
+  state.matches = results.map(({
+    date,
+    won,
+    civilization = "Huns",
+    teammate = "italyan-aygiri",
+    extraTeammate = "",
+  }, index) => {
+    const match = structuredClone(template);
+    match.id = `detail-${index}`;
+    match.date = date;
+    match.winner = won ? "cortinyanlar" : "bakracogullari";
+    match.teams.cortinyanlar = [
+      { playerId: "buyukekrem", civilization },
+      { playerId: teammate, civilization: "Random" },
+      { playerId: extraTeammate, civilization: "Random" },
+      { playerId: "", civilization: "Random" },
+    ];
+    match.teams.bakracogullari = [
+      { playerId: "alman-general", civilization: "Random" },
+      { playerId: "emre", civilization: "Random" },
+      { playerId: "", civilization: "Random" },
+      { playerId: "", civilization: "Random" },
+    ];
+    return match;
+  });
+  return validateState(state);
+}
 
 test("ships every AoE2 DE civilization used by saved matches", () => {
   assert.equal(CIVILIZATIONS.length, 56);
@@ -104,6 +136,83 @@ test("ranks by total wins by default and sorts every standings measure without m
   assert.deepEqual(records.map(({ rank }) => rank), [0, 0, 0]);
   assert.throws(() => sortPlayerStatistics(records, "unknown"), /ölçütü/);
   assert.throws(() => sortPlayerStatistics(records, "wins", "sideways"), /yönü/);
+});
+
+test("derives newest-first last five and current and record win streaks", () => {
+  const state = playerDetailState([
+    { date: "2026-08-01", won: true },
+    { date: "2026-08-01", won: true },
+    { date: "2026-08-08", won: false },
+    { date: "2026-08-15", won: true },
+    { date: "2026-08-15", won: true },
+    { date: "2026-08-22", won: true },
+  ]);
+  const details = calculatePlayerDetails(state, "buyukekrem");
+  assert.deepEqual(details.lastFive, ["W", "W", "W", "L", "W"]);
+  assert.equal(details.currentWinStreak, 3);
+  assert.equal(details.longestWinStreak, 3);
+});
+
+test("returns explicit empty detail values and rejects an unknown player", () => {
+  const state = playerDetailState([]);
+  const details = calculatePlayerDetails(state, "buyukekrem");
+  assert.deepEqual(details.lastFive, []);
+  assert.equal(details.currentWinStreak, 0);
+  assert.equal(details.longestWinStreak, 0);
+  assert.equal(details.bestCivilization, null);
+  assert.equal(details.bestDuo, null);
+  assert.throws(() => calculatePlayerDetails(state, "unknown"), /Oyuncu bulunamadı/);
+});
+
+test("selects best civilization by qualified win rate and excludes Random", () => {
+  const state = playerDetailState([
+    { date: "2026-07-04", won: true, civilization: "Huns" },
+    { date: "2026-07-11", won: true, civilization: "Huns" },
+    { date: "2026-07-18", won: false, civilization: "Huns" },
+    { date: "2026-07-25", won: true, civilization: "Franks" },
+    { date: "2026-08-01", won: true, civilization: "Franks" },
+    { date: "2026-08-08", won: true, civilization: "Random" },
+  ]);
+  assert.deepEqual(calculatePlayerDetails(state, "buyukekrem").bestCivilization, {
+    name: "Huns", played: 3, wins: 2, winRate: 67, smallSample: false,
+  });
+});
+
+test("marks civilization and duo fallbacks as small samples", () => {
+  const state = playerDetailState([
+    { date: "2026-08-01", won: true, civilization: "Franks", teammate: "italyan-aygiri" },
+    { date: "2026-08-08", won: false, civilization: "Franks", teammate: "italyan-aygiri" },
+  ]);
+  const details = calculatePlayerDetails(state, "buyukekrem");
+  assert.equal(details.bestCivilization.smallSample, true);
+  assert.deepEqual(details.bestDuo, {
+    playerId: "italyan-aygiri", name: "Italyan Aygiri", played: 2, wins: 1, winRate: 50, smallSample: true,
+  });
+});
+
+test("selects a qualified duo from same-team games only", () => {
+  const state = playerDetailState(Array.from({ length: 5 }, (_, index) => ({
+    date: `2026-08-${String(index + 1).padStart(2, "0")}`,
+    won: index < 4,
+    teammate: "italyan-aygiri",
+  })));
+  assert.deepEqual(calculatePlayerDetails(state, "buyukekrem").bestDuo, {
+    playerId: "italyan-aygiri", name: "Italyan Aygiri", played: 5, wins: 4, winRate: 80, smallSample: false,
+  });
+});
+
+test("uses wins, games, and localized names as deterministic detail tie-breaks", () => {
+  const civilizations = ["Huns", "Huns", "Huns", "Franks", "Franks", "Franks"];
+  const state = playerDetailState(civilizations.map((civilization, index) => ({
+    date: `2026-07-${String(index + 1).padStart(2, "0")}`,
+    won: index % 3 !== 2,
+    civilization,
+    teammate: "italyan-aygiri",
+    extraTeammate: "neudzulab",
+  })));
+  const details = calculatePlayerDetails(state, "buyukekrem");
+  assert.equal(details.bestCivilization.name, "Franks");
+  assert.equal(details.bestDuo.name, "Italyan Aygiri");
 });
 
 test("keeps every registered player while vacant slots do not affect statistics", () => {

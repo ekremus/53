@@ -160,6 +160,31 @@ function assertKnownPlayer(state, playerId) {
   if (!state.players.some((player) => player.id === playerId)) throw new Error("Oyuncu bulunamadı.");
 }
 
+function roundedRate(wins, played) {
+  return played ? Math.round((wins / played) * 100) : 0;
+}
+
+function rankedDetailRecord(records, minimumPlayed, labelKey) {
+  const values = [...records.values()];
+  const qualified = values.filter(({ played }) => played >= minimumPlayed);
+  const pool = qualified.length ? qualified : values;
+  const best = pool.sort((a, b) => (
+    b.winRate - a.winRate
+    || b.wins - a.wins
+    || b.played - a.played
+    || a[labelKey].localeCompare(b[labelKey], "tr-TR")
+  ))[0];
+  return best ? { ...best, smallSample: qualified.length === 0 } : null;
+}
+
+function playerMatchResult(match, playerId) {
+  for (const teamId of TEAM_IDS) {
+    const slot = match.teams[teamId].find((candidate) => candidate.playerId === playerId);
+    if (slot) return { teamId, slot, won: match.winner === teamId };
+  }
+  return null;
+}
+
 export function latestCivilizationForPlayer(state, playerId, excludedSlot = {}) {
   const normalized = validateState(state);
   if (!playerId) return "Random";
@@ -181,6 +206,68 @@ export function favoriteCivilizationForPlayer(state, playerId) {
   const normalized = validateState(state);
   assertKnownPlayer(normalized, playerId);
   return favoriteFromHistory(civilizationHistoryMap(normalized).get(playerId));
+}
+
+export function calculatePlayerDetails(state, playerId) {
+  const normalized = validateState(state);
+  assertKnownPlayer(normalized, playerId);
+  const player = normalized.players.find((candidate) => candidate.id === playerId);
+  const players = new Map(normalized.players.map((candidate) => [candidate.id, candidate]));
+  const records = newestFirstMatchRecords(normalized.matches)
+    .map(({ match }) => ({ match, result: playerMatchResult(match, playerId) }))
+    .filter(({ result }) => result);
+  const outcomes = records.map(({ result }) => result.won ? "W" : "L");
+
+  let currentWinStreak = 0;
+  while (outcomes[currentWinStreak] === "W") currentWinStreak += 1;
+  let longestWinStreak = 0;
+  let runningWinStreak = 0;
+  for (const outcome of [...outcomes].reverse()) {
+    runningWinStreak = outcome === "W" ? runningWinStreak + 1 : 0;
+    longestWinStreak = Math.max(longestWinStreak, runningWinStreak);
+  }
+
+  const civilizations = new Map();
+  const duos = new Map();
+  for (const { match, result } of records) {
+    if (result.slot.civilization !== "Random") {
+      const civilization = civilizations.get(result.slot.civilization) ?? {
+        name: result.slot.civilization,
+        played: 0,
+        wins: 0,
+        winRate: 0,
+      };
+      civilization.played += 1;
+      civilization.wins += Number(result.won);
+      civilization.winRate = roundedRate(civilization.wins, civilization.played);
+      civilizations.set(civilization.name, civilization);
+    }
+
+    for (const teammate of match.teams[result.teamId]) {
+      if (!teammate.playerId || teammate.playerId === playerId) continue;
+      const teammatePlayer = players.get(teammate.playerId);
+      const duo = duos.get(teammate.playerId) ?? {
+        playerId: teammate.playerId,
+        name: teammatePlayer.name,
+        played: 0,
+        wins: 0,
+        winRate: 0,
+      };
+      duo.played += 1;
+      duo.wins += Number(result.won);
+      duo.winRate = roundedRate(duo.wins, duo.played);
+      duos.set(duo.playerId, duo);
+    }
+  }
+
+  return {
+    player: { ...player },
+    lastFive: outcomes.slice(0, 5),
+    currentWinStreak,
+    longestWinStreak,
+    bestCivilization: rankedDetailRecord(civilizations, 3, "name"),
+    bestDuo: rankedDetailRecord(duos, 5, "name"),
+  };
 }
 
 const PLAYER_STAT_KEYS = new Set(["played", "wins", "losses", "winRate"]);
